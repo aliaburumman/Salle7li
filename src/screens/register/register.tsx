@@ -6,8 +6,6 @@ import PasswordInput from '../../inputs/passwordInput';
 import TextModifiedInput from '../../inputs/textInput';
 import {initialValues, validationSchema} from '../login/type/registerType';
 import PhoneInput from '../../inputs/phoneInput';
-import RNPickerSelect from 'react-native-picker-select';
-import Dropdown from '../../inputs/dropDown';
 import {Box, CheckIcon, Checkbox, HStack, Select,Button} from 'native-base';
 
 const Register = () => {

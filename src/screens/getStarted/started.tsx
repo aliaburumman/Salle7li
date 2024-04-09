@@ -11,6 +11,14 @@ import {
 } from 'react-native';
 export const salle7liLogo = require('../../assets/Salle7liLogo.png');
 export const jordanFlag = require('../../assets/jordanFlag.png');
+export const homeImage = require('../../assets/Maintenance2.jpg');
+export const landscape = require('../../assets/landscaping.jpg');
+export const cleaning = require('../../assets/cleaning.jpeg');
+export const blacksmith = require('../../assets/blacksmith.jpeg');
+export const renovation = require('../../assets/renovation.jpg');
+export const carpenter = require('../../assets/carpenter.jpg');
+export const profilePicture = require('../../assets/Ali.jpg');
+
 export const bgColorMain = '#0b104a';
 
 const Started = ({navigation}:any) => {
