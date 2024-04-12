@@ -8,6 +8,9 @@ export type Iprops = {
   error?:string;
   width:DimensionValue;
   marginRight?:DimensionValue;
+  height?:DimensionValue;
+  multiLine?:boolean;
+  max?:number;
 };
 
 const TextModifiedInput = (props: Iprops) => {
@@ -22,7 +25,7 @@ const TextModifiedInput = (props: Iprops) => {
             backgroundColor:'white',
             borderRadius:10,
             marginRight:props.marginRight? props.marginRight:0,
-            height:60
+            height:props.height?props.height:60
            
           }}
           onChangeText={props.handleChange}
@@ -30,6 +33,9 @@ const TextModifiedInput = (props: Iprops) => {
           placeholder={props.placeholder}
           keyboardType={props.keyboardType}
           placeholderTextColor="grey"
+          multiline={props.multiLine?true:false}
+          maxLength={props.max?props.max:undefined}
+        
         />
         <Text style={{color:'red',fontSize:12}}>{props.error}</Text>
     </View>

@@ -10,56 +10,7 @@ import {Box, CheckIcon, Checkbox, HStack, Select,Button} from 'native-base';
 
 const Register = () => {
   const [checked, setIsChecked] = useState<boolean>(false);
-  const options = [
-    {
-      label: 'Amman',
-      value: 'amman',
-    },
-    {
-      label: 'Zarqa',
-      value: 'zarqa',
-    },
-    {
-      label: 'Irbid',
-      value: 'irbid',
-    },
-    {
-      label: 'Salt',
-      value: 'salt',
-    },
-    {
-      label: 'Madaba',
-      value: 'madaba',
-    },
-    {
-      label: 'Aqaba',
-      value: 'aqaba',
-    },
-    {
-      label: 'Karak',
-      value: 'karak',
-    },
-    {
-      label: 'Maan',
-      value: 'maan',
-    },
-    {
-      label: 'Jerash',
-      value: 'jerash',
-    },
-    {
-      label: 'Tafeleh',
-      value: 'tafeleh',
-    },
-    {
-      label: 'Maadaba',
-      value: 'maadaba',
-    },
-    {
-      label: 'Mafraq',
-      value: 'mafraq',
-    },
-  ];
+ 
 
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -157,6 +108,7 @@ const Register = () => {
                 placeholder="Choose a city"
                 padding={'4'}
                 onValueChange={value => handleChange('city')(value)}
+                selectedValue={values.city}
                 _selectedItem={{
                   bg: 'teal.600',
                   endIcon: <CheckIcon size={5} />,
