@@ -96,6 +96,6 @@ interface VisaInfo {
 }
 
 interface Coords {
-  longitude: number;
-  latitude: number;
+  longitude?: number;
+  latitude?: number;
 }

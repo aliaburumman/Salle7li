@@ -7,8 +7,12 @@ import TextModifiedInput from '../../inputs/textInput';
 import {initialValues, validationSchema} from '../login/type/registerType';
 import PhoneInput from '../../inputs/phoneInput';
 import {Box, CheckIcon, Checkbox, HStack, Select,Button} from 'native-base';
+import { useTranslation } from 'react-i18next';
+import '../../i18n/i18n.ts';
+
 
 const Register = () => {
+  const { t } = useTranslation();
   const [checked, setIsChecked] = useState<boolean>(false);
  
 
@@ -41,7 +45,7 @@ const Register = () => {
                   color: 'white',
                   fontSize: 25,
                 }}>
-                Salle7li Registration Form
+        {t('signup:title')}
               </Text>
 
               <Text
@@ -51,7 +55,7 @@ const Register = () => {
                   marginTop: 30,
                   color: 'white',
                 }}>
-                Please fill out the form below to register
+                  {t('signup:description')}
               </Text>
             </View>
             <View style={{flexDirection: 'row'}}>
@@ -113,18 +117,17 @@ const Register = () => {
                   bg: 'teal.600',
                   endIcon: <CheckIcon size={5} />,
                 }}>
-                <Select.Item label="Amman" value="amman" />
-                <Select.Item label="Zarqa" value="zarqa" />
-                <Select.Item label="Irbid" value="irbid" />
-                <Select.Item label="Salt" value="salt" />
-                <Select.Item label="Madaba" value="madaba" />
-                <Select.Item label="Aqaba" value="aqaba" />
-                <Select.Item label="Karak" value="karak" />
-                <Select.Item label="Maan" value="maan" />
-                <Select.Item label="Jerash" value="jerash" />
-                <Select.Item label="Tafeleh" value="tafeleh" />
-                <Select.Item label="Maadaba" value="maadaba" />
-                <Select.Item label="Mafraq" value="mafraq" />
+                <Select.Item label= {t('signup:amman')} value="amman" />
+                <Select.Item label= {t('signup:zarqa')} value="zarqa" />
+                <Select.Item label= {t('signup:irbid')} value="irbid" />
+                <Select.Item label= {t('signup:salt')} value="salt" />
+                <Select.Item label=  {t('signup:madaba')} value="madaba" />
+                <Select.Item label=  {t('signup:aqaba')} value="aqaba" />
+                <Select.Item label=  {t('signup:karak')} value="karak" />
+                <Select.Item label=  {t('signup:maan')} value="maan" />
+                <Select.Item label=  {t('signup:jerash')} value="jerash" />
+                <Select.Item label=  {t('signup:tafeleh')} value="tafeleh" />
+                <Select.Item label=  {t('signup:mafraq')} value="mafraq" />
               </Select>
               <Text style={{color: 'red'}}>{errors.city}</Text>
             </View>
@@ -135,7 +138,7 @@ const Register = () => {
                 accessibilityLabel="Agreement"
                 colorScheme="danger"
                 onChange={() => setIsChecked(!checked)}>
-                <Text> Agree on terms and permissions of Salle7li </Text>
+                <Text> {t('signup:checkBox')} </Text>
               </Checkbox>
             </HStack>
 
@@ -148,7 +151,7 @@ const Register = () => {
                   borderRadius={"lg"}
                   
                 >
-                  <Text style={{color:"darkblue"}}>  Create Account </Text>
+                  <Text style={{color:"darkblue"}}>   {t('signup:button')} </Text>
                   </Button>
                 </Box>
               
