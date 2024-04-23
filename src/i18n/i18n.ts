@@ -13,7 +13,7 @@ i18n
       ar: arabic,
     },
     lowerCaseLng: true,
-    ns: ['translations', 'registerPage'],
+    ns: ['translations','registerPage'],
     defaultNS: 'common',
     keySeparator: false,
     load: 'currentOnly',

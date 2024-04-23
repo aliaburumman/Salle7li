@@ -17,12 +17,15 @@ import {
   validationSchemaForReservation,
 } from '../login/type/orderServiceType';
 import TextModifiedInput from '../../inputs/textInput';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import MapScreen from '../location/setLocation';
+import { useTranslation } from 'react-i18next';
+import '../../i18n/i18n.ts';
+import i18n from '../../i18n/i18n.ts';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -31,13 +34,11 @@ export interface CurrentLocationCoords {
   latitude: number;
 }
 
-const OrderService = ({navigation, route}: any) => {
-  const {longitude, latitude} = route.params;
+const OrderService = ({navigation}: any) => {
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const [openTimePicker2, setOpenTimePicker2] = useState(false);
 
-  console.log('asdasdas', longitude, '   ', latitude);
   const openPickerDate = () => {
     setOpenDatePicker(true);
   };
@@ -60,7 +61,7 @@ const OrderService = ({navigation, route}: any) => {
     setOpenTimePicker2(false);
   };
 
-  
+  useEffect(()=>{i18n.changeLanguage('ar')})
 
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 7);
@@ -69,19 +70,14 @@ const OrderService = ({navigation, route}: any) => {
   const now = new Date();
   const minSelectableTime = new Date(now);
   minSelectableTime.setHours(now.getHours());
-
+  const { t } = useTranslation();
   return (
     <View flex={1} bgColor={bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Formik
-            initialValues={{
-              ...initialValuesForReservation,
-              location: {
-                longitude: longitude || null,
-                latitude: latitude || null,
-              },
-             
-            }}
+            initialValues={
+              initialValuesForReservation
+            }
             onSubmit={values => navigation.navigate('ChooseWorker')}
           validateOnChange={false}
           validationSchema={validationSchemaForReservation}
@@ -90,18 +86,18 @@ const OrderService = ({navigation, route}: any) => {
             <Stack space={2}>
               <View alignItems={'center'}>
                 <Text color={'white'} fontSize={'4xl'}>
-                  Order service
+                  {t('order:title')}
                 </Text>
               </View>
               <View>
-                <Text color={'white'}>Select your service:</Text>
+                <Text color={'white'}> {t('order:selectService')}</Text>
                 <View alignItems={'center'}>
                   <Select
                     width="5/6"
                     bgColor={'white'}
                     borderRadius={'lg'}
                     accessibilityLabel="Choose"
-                    placeholder="Choose"
+                    placeholder={t('order:selectService')}
                     padding={'4'}
                     onValueChange={value => handleChange('service')(value)}
                     selectedValue={values.service}
@@ -109,11 +105,11 @@ const OrderService = ({navigation, route}: any) => {
                       bg: 'blue.200',
                       endIcon: <CheckIcon size={5} />,
                     }}>
-                    <Select.Item label="Blacksmith" value="blacksmith" />
-                    <Select.Item label="Cleaning" value="cleaning" />
-                    <Select.Item label="Landscaping" value="landscaping" />
-                    <Select.Item label="Maintenance" value="maintenance" />
-                    <Select.Item label="Renovation" value="renovation" />
+                    <Select.Item label={t('blacksmiths')} value="blacksmith" />
+                    <Select.Item label={t('plumber')} value="plumber" />
+                    <Select.Item label={t('electrician')} value="electrician" />
+                    <Select.Item label={t('carpenter')} value="carpenter" />
+                   
                   </Select>
                   {errors.service && (
                     <Text color={'red.500'}>{errors.service}</Text>
@@ -122,7 +118,7 @@ const OrderService = ({navigation, route}: any) => {
               </View>
 
               <View>
-                <Text color={'white'}>Select date:</Text>
+                <Text color={'white'}>{t('order:selectDate')}</Text>
                 <Button
                   onPress={openPickerDate}
                   width={'5/6'}
@@ -131,9 +127,9 @@ const OrderService = ({navigation, route}: any) => {
                   bgColor={'white'}
                   borderRadius={'lg'}>
                   <Text color={'darkBlue.700'}>
-                    {values.date
-                      ? dayjs(values.date).format('YYYY-MM-DD')
-                      : 'Date'}
+                  <Text color={'darkBlue.700'}>
+                  {values.date ? dayjs(values.date).format('YYYY-MM-DD') : t('order:selectDate')}
+                  </Text>
                   </Text>
                 </Button>
                 {openDatePicker && (
@@ -157,7 +153,7 @@ const OrderService = ({navigation, route}: any) => {
                 )}
               </View>
               <View>
-                <Text color={'white'}>Select your Availability Time:</Text>
+                <Text color={'white'}>{t('order:selectTime')}</Text>
                 <View flexDirection={'row'} justifyContent={'space-evenly'}>
                   <Button
                     onPress={openPickerTime}
@@ -168,7 +164,7 @@ const OrderService = ({navigation, route}: any) => {
                     <Text color={'darkBlue.700'}>
                       {values.startTime
                         ? dayjs.utc(values.startTime).local().format('hh:mm A')
-                        : 'Start time'}
+                        : t('order:start')}
                     </Text>
                   </Button>
                   {openTimePicker && (
@@ -194,7 +190,7 @@ const OrderService = ({navigation, route}: any) => {
                            .utc(selectedTime)
                              .local()
                             .toISOString();
-                          handleChange('startTime')(time);
+                          handleChange(t('order:start'))(time);
                           closePickerTime();
                         } else {
                           closePickerTime();
@@ -212,7 +208,7 @@ const OrderService = ({navigation, route}: any) => {
                     <Text color={'darkBlue.700'}>
                       {values.endTime
                         ? dayjs.utc(values.endTime).local().format('hh:mm A')
-                        : 'End time'}
+                        : t('order:end')}
                     </Text>
                   </Button>
                   {openTimePicker2 && (
@@ -229,7 +225,7 @@ const OrderService = ({navigation, route}: any) => {
                             .utc(selectedTime) 
                             .local()
                             .toISOString();
-                          handleChange('endTime')(time);
+                          handleChange(t('order:end'))(time);
                           closePickerTime2();
                         } else {
                           closePickerTime2();
@@ -248,7 +244,7 @@ const OrderService = ({navigation, route}: any) => {
                 </View>
               </View>
               <View>
-                <Text color={'white'}>Select your Worker Gender:</Text>
+                <Text color={'white'}>{t('order:selectWorker')}</Text>
                 <Radio.Group
                   name="myRadioGroup"
                   accessibilityLabel="favorite number"
@@ -259,20 +255,20 @@ const OrderService = ({navigation, route}: any) => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                      <Text color={'white'}> Male </Text>
+                      <Text color={'white'}> {t('male')} </Text>
                     </Radio>
                     <Radio value="female" colorScheme={'pink'} my={1}>
-                      <Text color={'white'}> Female </Text>
+                      <Text color={'white'}> {t('female')}</Text>
                     </Radio>
                     <Radio value="any" colorScheme={'yellow'} my={1}>
-                      <Text color={'white'}> Any </Text>
+                      <Text color={'white'}> {t('any')} </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
 
               <View>
-                <Text color={'white'}>Select Payment Method:</Text>
+                <Text color={'white'}>{t('order:selectPayement')}</Text>
                 <Radio.Group
   name="paymentMethod"
   accessibilityLabel="paymentMethod"
@@ -283,17 +279,17 @@ const OrderService = ({navigation, route}: any) => {
   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="cash" colorScheme={'darkBlue'} my={1}>
-                      <Text color={'white'}> Cash </Text>
+                      <Text color={'white'}> {t('cash')} </Text>
                     </Radio>
                     <Radio value="visa" colorScheme={'pink'} my={1}>
-                      <Text color={'white'}> Visa </Text>
+                      <Text color={'white'}> {t('visa')} </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
               {values.paymentMethod === 'visa' && (
                 <View>
-                  <Text color={'white'}>Visa Card Details:</Text>
+                  <Text color={'white'}>{t('order:cardOpt')}</Text>
                   <View
                     borderWidth={'2'}
                     borderColor={'white'}
@@ -306,7 +302,7 @@ const OrderService = ({navigation, route}: any) => {
                         marginBottom: 10,
                       }}>
                       <Text color={'white'} style={{marginBottom: 5}}>
-                        Card Number:
+                      {t('order:cardNum')}
                       </Text>
                       <TextModifiedInput
                         handleChange={handleChange('visaDetails.cardNumber')}
@@ -324,7 +320,7 @@ const OrderService = ({navigation, route}: any) => {
                       }}>
                       <View style={{flex: 1, marginRight: 10}}>
                         <Text color={'white'} style={{marginBottom: 5}}>
-                          Cardholder Name
+                        {t('order:cardName')}
                         </Text>
                         <TextModifiedInput
                           handleChange={handleChange(
@@ -337,7 +333,7 @@ const OrderService = ({navigation, route}: any) => {
                       </View>
                       <View style={{flex: 1}}>
                         <Text color={'white'} style={{marginBottom: 5}}>
-                          CVV
+                        {t('order:cvv')}
                         </Text>
                         <TextModifiedInput
                           handleChange={handleChange('visaDetails.cvv')}
@@ -365,7 +361,7 @@ const OrderService = ({navigation, route}: any) => {
               )}
 
               <View>
-                <Text color={'white'}>Problem Details:</Text>
+                <Text color={'white'}>{t('order:probDet')}</Text>
                 <View alignSelf={'center'}>
                   <TextModifiedInput
                     handleChange={handleChange('problemDetails')}
@@ -382,7 +378,7 @@ const OrderService = ({navigation, route}: any) => {
                   backgroundColor={'white'}
                   padding={4}
                   borderRadius={'lg'}>
-                  <Text style={{color: 'darkblue'}}> Next </Text>
+                  <Text style={{color: 'darkblue'}}> {t('order:button')} </Text>
                 </Button>
               </Box>
             </Stack>

@@ -5,8 +5,12 @@ import {Formik} from 'formik';
 import PasswordInput from '../../inputs/passwordInput';
 import TextModifiedInput from '../../inputs/textInput';
 import {LoginRequest, validationSchema} from './type/loginType';
+import { ScrollView } from 'native-base';
+import { useTranslation } from 'react-i18next';
+import '../../i18n/i18n.ts';
 
 const Login = ({navigation}: any) => {
+  const { t } = useTranslation();
   return (
     <Formik
       initialValues={LoginRequest}
@@ -14,6 +18,7 @@ const Login = ({navigation}: any) => {
       validateOnChange={false}
       validationSchema={validationSchema}>
       {({handleChange, handleBlur, handleSubmit, values,errors}) => (
+        <ScrollView>
         <View
           style={{
             flex: 1,
@@ -35,7 +40,7 @@ const Login = ({navigation}: any) => {
                 color: 'white',
                 fontSize: 25,
               }}>
-              Log into Customer Panel
+              {t('login:title')}
             </Text>
 
             <Text
@@ -45,18 +50,18 @@ const Login = ({navigation}: any) => {
                 marginTop: 30,
                 color: 'white',
               }}>
-              Please enter your email address to create an account or to log in
+               {t('login:description')}
             </Text>
           </View>
           <TextModifiedInput
-            handleChange={handleChange('email')}
+            handleChange={handleChange('Email')}
             placeholder="Email"
             value={values.email}
             error={errors.email}
             width={330}
           />
           <PasswordInput
-            handleChange={handleChange('password')}
+            handleChange={handleChange('Password')}
             placeholder="Password"
             value={values.password}
             error={errors.password}
@@ -71,7 +76,7 @@ const Login = ({navigation}: any) => {
                 color: 'white',
                 fontSize: 18,
               }}>
-              Can’t Remember Your Current Password?
+              {t('login:forgotPass')}
             </Text>
             <Pressable>
               <Text
@@ -81,7 +86,7 @@ const Login = ({navigation}: any) => {
                   color: 'grey',
                   fontSize: 18,
                 }}>
-                Reset Password
+                 {t('login:resetPass')}
               </Text>
             </Pressable>
           </View>
@@ -101,7 +106,7 @@ const Login = ({navigation}: any) => {
                   color: 'darkblue',
                   fontSize: 18,
                 }}>
-                Join Salle7li
+                 {t('login:buttonText')}
               </Text>
             </Pressable>
           </View>
@@ -114,11 +119,12 @@ const Login = ({navigation}: any) => {
                   color: 'white',
                   fontSize: 15,
                 }}>
-                Don't Have An Account? Signup instead
+                {t('login:noAccount')}
               </Text>
             </Pressable>
           </View>
         </View>
+        </ScrollView>
       )}
     </Formik>
   );

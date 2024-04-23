@@ -21,10 +21,10 @@ const App = () => {
     <NavigationContainer>
       <NativeBaseProvider>
         <I18nextProvider i18n={i18n}>
-          <Stack.Navigator initialRouteName="Started">
+          <Stack.Navigator initialRouteName="Profile">
             <Stack.Screen
               name="started"
-              component={MapScreen}
+              component={Started}
               options={{headerShown: false}}
             />
             <Stack.Screen
@@ -40,6 +40,11 @@ const App = () => {
             <Stack.Screen
               name="HomeScreen"
               component={HomeScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
               options={{headerShown: false}}
             />
             <Stack.Screen

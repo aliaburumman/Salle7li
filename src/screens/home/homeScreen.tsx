@@ -14,16 +14,19 @@ import {
   bgColorMain,
   blacksmith,
   carpenter,
-  cleaning,
+  electrician,
   homeImage,
-  landscape,
-  renovation,
+  plumber,
   salle7liLogo,
 } from '../getStarted/started';
 import {ImageBackground} from 'react-native';
 import CardComp from '../../components/card';
+import { useTranslation } from 'react-i18next';
+import '../../i18n/i18n.ts';
+import i18n from '../../i18n/i18n.ts';
 
 const HomeScreen = () => {
+  const { t } = useTranslation();
   return (
     <View bgColor={bgColorMain} flex={1}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -42,7 +45,7 @@ const HomeScreen = () => {
                 <View style={{borderRadius: 20}}>
                   <Image source={salle7liLogo} width={60} height={95} />
                 </View>
-                <Button bgColor={'white'} borderRadius={'full'}>
+                <Button bgColor={'white'} borderRadius={'full'}onPress={()=>i18n.changeLanguage('ar')}>
                   <ThreeDotsIcon />
                 </Button>
               </View>
@@ -53,7 +56,7 @@ const HomeScreen = () => {
                   alignItems: 'center',
                 }}>
                 <Text fontSize={'4xl'} color={'white'} fontWeight={'bold'}>
-                  Welcome Ali
+                  {t('homeScreen:welcome')}
                 </Text>
               </View>
             </ImageBackground>
@@ -65,7 +68,7 @@ const HomeScreen = () => {
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
               <Text color={'white'} fontSize={'2xl'}>
-                Service Category
+              {t('homeScreen:services')}
               </Text>
               <View
                 bgColor={'white'}
@@ -78,11 +81,10 @@ const HomeScreen = () => {
             </View>
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <CardComp text={'Cleaning'} imageSrc={cleaning} />
-                <CardComp text={'Landscape'} imageSrc={landscape} />
-                <CardComp text={'Renovation'} imageSrc={renovation} />
-                <CardComp text={'Carpenter'} imageSrc={carpenter} />
-                <CardComp text={'Blacksmith'} imageSrc={blacksmith} />
+                <CardComp text={t('plumber')} imageSrc={plumber} />
+                <CardComp text={t('electrician')} imageSrc={electrician}/>
+                <CardComp text={t('blacksmiths')} imageSrc={blacksmith} />
+                <CardComp text={t('carpenter')} imageSrc={carpenter} />
               </ScrollView>
             </View>
           </View>
@@ -106,11 +108,8 @@ const HomeScreen = () => {
             </View>
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <CardComp text={'Cleaning'} imageSrc={cleaning} />
-                <CardComp text={'Landscape'} imageSrc={landscape} />
-                <CardComp text={'Renovation'} imageSrc={renovation} />
-                <CardComp text={'Carpenter'} imageSrc={carpenter} />
-                <CardComp text={'Blacksmith'} imageSrc={blacksmith} />
+                <CardComp text={t('homeScreen:carpenter')} imageSrc={carpenter} />
+                <CardComp text={t('homeScreen:blacksmith')} imageSrc={blacksmith} />
               </ScrollView>
             </View>
           </View>
