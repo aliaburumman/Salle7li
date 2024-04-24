@@ -63,7 +63,7 @@ const Started = ({navigation}:any) => {
         backgroundColor: bgColorMain,
       }}>
       <View>
-        <Image source={salle7liLogo} style={{width: 300, height: 400}} />
+        <Image source={salle7liLogo} style={{width: 300, height: 400}} alt='salle7li' />
       </View>
 
       <View>

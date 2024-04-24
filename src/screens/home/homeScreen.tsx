@@ -21,14 +21,22 @@ import {
 } from '../getStarted/started';
 import {ImageBackground} from 'react-native';
 import CardComp from '../../components/card';
+import BottomTabBar from '../../navigation/BottomTabBar';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
+
 import { useTranslation } from 'react-i18next';
 import '../../i18n/i18n.ts';
 import i18n from '../../i18n/i18n.ts';
+import { useAppSelector } from '../../app/hooks.ts';
 
 const HomeScreen = () => {
+  const themeCheck = useAppSelector(state=>state.theme.lightMode)
+
   const { t } = useTranslation();
   return (
-    <View bgColor={bgColorMain} flex={1}>
+    <View bgColor={themeCheck?'white':bgColorMain} flex={1}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View flex={1} flexDirection={'column'}>
           <View>
@@ -43,10 +51,10 @@ const HomeScreen = () => {
                 marginLeft={'2'}
                 marginRight={'2'}>
                 <View style={{borderRadius: 20}}>
-                  <Image source={salle7liLogo} width={60} height={95} />
+                  <Image source={salle7liLogo} width={60} height={95}  />
                 </View>
                 <Button bgColor={'white'} borderRadius={'full'}onPress={()=>i18n.changeLanguage('ar')}>
-                  <ThreeDotsIcon />
+                <Icon name="home" size={30} color="#900" />
                 </Button>
               </View>
               <View
@@ -67,11 +75,11 @@ const HomeScreen = () => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={'white'} fontSize={'2xl'}>
+              <Text color={themeCheck?bgColorMain:'white'} fontSize={'2xl'}>
               {t('homeScreen:services')}
               </Text>
               <View
-                bgColor={'white'}
+                bgColor={themeCheck?bgColorMain:'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -94,11 +102,11 @@ const HomeScreen = () => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={'white'} fontSize={'2xl'}>
+              <Text color={themeCheck?bgColorMain:'white'} fontSize={'2xl'}>
                 Our Workers
               </Text>
               <View
-                bgColor={'white'}
+                bgColor={themeCheck?bgColorMain:'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -115,6 +123,7 @@ const HomeScreen = () => {
           </View>
         </View>
       </ScrollView>
+      <BottomTabBar />
     </View>
   );
 };

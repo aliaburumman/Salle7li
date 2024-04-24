@@ -23,7 +23,7 @@ const PhoneInput = (props:Iprops) => {
         
         
       }}>
-<Image source={jordanFlag} style={{width: 30, height: 15,marginLeft:10}} />
+<Image source={jordanFlag} style={{width: 30, height: 15,marginLeft:10}} alt='jordanFlag'/>
 <View style={{ width: 2, height: 25, backgroundColor: 'black',marginLeft:10,marginRight: 10 }} />
 <Text style={{color:'red'}}>+962</Text>
 <TextInput

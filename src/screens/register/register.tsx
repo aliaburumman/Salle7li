@@ -33,7 +33,7 @@ const Register = () => {
               backgroundColor: bgColorMain,
             }}>
             <View>
-              <Image source={salle7liLogo} style={{width: 200, height: 400}} />
+              <Image source={salle7liLogo} style={{width: 200, height: 400}} alt='salle7li' />
             </View>
 
             <View>

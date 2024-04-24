@@ -26,6 +26,7 @@ import MapScreen from '../location/setLocation';
 import { useTranslation } from 'react-i18next';
 import '../../i18n/i18n.ts';
 import i18n from '../../i18n/i18n.ts';
+import { useAppSelector } from '../../app/hooks.ts';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -61,8 +62,6 @@ const OrderService = ({navigation}: any) => {
     setOpenTimePicker2(false);
   };
 
-  useEffect(()=>{i18n.changeLanguage('ar')})
-
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 7);
   const minSelectableDate = new Date();
@@ -71,8 +70,10 @@ const OrderService = ({navigation}: any) => {
   const minSelectableTime = new Date(now);
   minSelectableTime.setHours(now.getHours());
   const { t } = useTranslation();
+  const themeCheck = useAppSelector(state=>state.theme.lightMode)
+
   return (
-    <View flex={1} bgColor={bgColorMain}>
+    <View flex={1} bgColor={themeCheck?'white':bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Formik
             initialValues={
@@ -85,19 +86,20 @@ const OrderService = ({navigation}: any) => {
           {({handleChange, handleSubmit, values, errors}) => (
             <Stack space={2}>
               <View alignItems={'center'}>
-                <Text color={'white'} fontSize={'4xl'}>
+                <Text color={!themeCheck?'white':bgColorMain} fontSize={'4xl'}>
                   {t('order:title')}
                 </Text>
               </View>
               <View>
-                <Text color={'white'}> {t('order:selectService')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}> {t('order:selectService')}</Text>
                 <View alignItems={'center'}>
                   <Select
                     width="5/6"
-                    bgColor={'white'}
+                    bgColor={!themeCheck?'white':bgColorMain}
                     borderRadius={'lg'}
                     accessibilityLabel="Choose"
                     placeholder={t('order:selectService')}
+                    placeholderTextColor={themeCheck?'white':bgColorMain}
                     padding={'4'}
                     onValueChange={value => handleChange('service')(value)}
                     selectedValue={values.service}
@@ -118,18 +120,16 @@ const OrderService = ({navigation}: any) => {
               </View>
 
               <View>
-                <Text color={'white'}>{t('order:selectDate')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectDate')}</Text>
                 <Button
                   onPress={openPickerDate}
                   width={'5/6'}
                   alignSelf={'center'}
                   padding={'5'}
-                  bgColor={'white'}
+                  bgColor={!themeCheck?'white':bgColorMain}
                   borderRadius={'lg'}>
-                  <Text color={'darkBlue.700'}>
-                  <Text color={'darkBlue.700'}>
+                  <Text color={themeCheck?'white':bgColorMain}>
                   {values.date ? dayjs(values.date).format('YYYY-MM-DD') : t('order:selectDate')}
-                  </Text>
                   </Text>
                 </Button>
                 {openDatePicker && (
@@ -153,15 +153,15 @@ const OrderService = ({navigation}: any) => {
                 )}
               </View>
               <View>
-                <Text color={'white'}>{t('order:selectTime')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectTime')}</Text>
                 <View flexDirection={'row'} justifyContent={'space-evenly'}>
                   <Button
                     onPress={openPickerTime}
                     width={'2/6'}
                     padding={'5'}
-                    bgColor={'white'}
+                    bgColor={!themeCheck?'white':bgColorMain}
                     borderRadius={'lg'}>
-                    <Text color={'darkBlue.700'}>
+                    <Text color={themeCheck?'white':bgColorMain}>
                       {values.startTime
                         ? dayjs.utc(values.startTime).local().format('hh:mm A')
                         : t('order:start')}
@@ -203,9 +203,9 @@ const OrderService = ({navigation}: any) => {
                     onPress={openPickerTime2}
                     width={'2/6'}
                     padding={'5'}
-                    bgColor={'white'}
+                    bgColor={!themeCheck?'white':bgColorMain}
                     borderRadius={'lg'}>
-                    <Text color={'darkBlue.700'}>
+                    <Text color={themeCheck?'white':bgColorMain}>
                       {values.endTime
                         ? dayjs.utc(values.endTime).local().format('hh:mm A')
                         : t('order:end')}
@@ -244,7 +244,7 @@ const OrderService = ({navigation}: any) => {
                 </View>
               </View>
               <View>
-                <Text color={'white'}>{t('order:selectWorker')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectWorker')}</Text>
                 <Radio.Group
                   name="myRadioGroup"
                   accessibilityLabel="favorite number"
@@ -255,20 +255,20 @@ const OrderService = ({navigation}: any) => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                      <Text color={'white'}> {t('male')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('male')} </Text>
                     </Radio>
                     <Radio value="female" colorScheme={'pink'} my={1}>
-                      <Text color={'white'}> {t('female')}</Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('female')}</Text>
                     </Radio>
                     <Radio value="any" colorScheme={'yellow'} my={1}>
-                      <Text color={'white'}> {t('any')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('any')} </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
 
               <View>
-                <Text color={'white'}>{t('order:selectPayement')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectPayement')}</Text>
                 <Radio.Group
   name="paymentMethod"
   accessibilityLabel="paymentMethod"
@@ -279,20 +279,20 @@ const OrderService = ({navigation}: any) => {
   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="cash" colorScheme={'darkBlue'} my={1}>
-                      <Text color={'white'}> {t('cash')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('cash')} </Text>
                     </Radio>
                     <Radio value="visa" colorScheme={'pink'} my={1}>
-                      <Text color={'white'}> {t('visa')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('visa')} </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
               {values.paymentMethod === 'visa' && (
                 <View>
-                  <Text color={'white'}>{t('order:cardOpt')}</Text>
+                  <Text color={!themeCheck?'white':bgColorMain}>{t('order:cardOpt')}</Text>
                   <View
                     borderWidth={'2'}
-                    borderColor={'white'}
+                    borderColor={!themeCheck?'white':bgColorMain}
                     borderRadius={'2xl'}
                     padding={'4'}>
                     <View
@@ -301,7 +301,7 @@ const OrderService = ({navigation}: any) => {
                         justifyContent: 'space-between',
                         marginBottom: 10,
                       }}>
-                      <Text color={'white'} style={{marginBottom: 5}}>
+                      <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
                       {t('order:cardNum')}
                       </Text>
                       <TextModifiedInput
@@ -319,7 +319,7 @@ const OrderService = ({navigation}: any) => {
                         justifyContent: 'space-between',
                       }}>
                       <View style={{flex: 1, marginRight: 10}}>
-                        <Text color={'white'} style={{marginBottom: 5}}>
+                        <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
                         {t('order:cardName')}
                         </Text>
                         <TextModifiedInput
@@ -332,7 +332,7 @@ const OrderService = ({navigation}: any) => {
                         />
                       </View>
                       <View style={{flex: 1}}>
-                        <Text color={'white'} style={{marginBottom: 5}}>
+                        <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
                         {t('order:cvv')}
                         </Text>
                         <TextModifiedInput
@@ -361,7 +361,7 @@ const OrderService = ({navigation}: any) => {
               )}
 
               <View>
-                <Text color={'white'}>{t('order:probDet')}</Text>
+                <Text color={!themeCheck?'white':bgColorMain}>{t('order:probDet')}</Text>
                 <View alignSelf={'center'}>
                   <TextModifiedInput
                     handleChange={handleChange('problemDetails')}
@@ -375,10 +375,10 @@ const OrderService = ({navigation}: any) => {
               <Box alignItems="center">
                 <Button
                   onPress={()=>handleSubmit()}
-                  backgroundColor={'white'}
+                  backgroundColor={!themeCheck?'white':bgColorMain}
                   padding={4}
                   borderRadius={'lg'}>
-                  <Text style={{color: 'darkblue'}}> {t('order:button')} </Text>
+                  <Text style={{color: themeCheck?'white':bgColorMain}}> {t('order:button')} </Text>
                 </Button>
               </Box>
             </Stack>
