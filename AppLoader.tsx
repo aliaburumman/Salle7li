@@ -16,10 +16,13 @@ import {useAppSelector} from './src/app/hooks';
 import {Provider} from 'react-redux';
 import regist from './src/app/regist';
 import { bgColorMain } from './src/screens/getStarted/started';
+import Notifications from './src/screens/home/notifications';
 
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
@@ -53,9 +56,24 @@ const ReserveStackScreen = () => (
   </ReserveStack.Navigator>
 );
 
+const HomeStackScreen = () => (
+  <HomeStack.Navigator>
+    <HomeStack.Screen
+      name="HomeScreen"
+      component={HomeScreen}
+      options={{headerShown: false}}
+    />
+    <HomeStack.Screen
+      name="Notifications"
+      component={Notifications}
+      options={{headerShown: true}}
+    />
+    {/* Add more screens to Reserve stack as needed */}
+  </HomeStack.Navigator>
+);
 const AppLoader = () => {
   const LanguageCheck = useAppSelector(state => state.language.isArabic);
-  const LightModeCheck =useAppSelector(state=> state.theme.lightMode)
+  const LightModeCheck =useAppSelector(state=> state.theme.lightMode);
   if (LanguageCheck) {
     i18n.changeLanguage('ar');
   } else {
@@ -88,7 +106,7 @@ const AppLoader = () => {
               })}>
               <Tab.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomeStackScreen}
                 options={{headerShown: false,tabBarActiveTintColor:LightModeCheck?'white':bgColorMain}}
               />
               <Tab.Screen

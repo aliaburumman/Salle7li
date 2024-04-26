@@ -23,22 +23,23 @@ const CardComp = (props:Iprops) => {
           borderColor: 'gray',
           borderRadius: 15,
           padding: 15,
-          backgroundColor: themeCheck?bgColorMain:'#f9f9f9',
+          backgroundColor: themeCheck?bgColorMain:'white',
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.5,
           shadowRadius: 2,
           elevation: 5,
+          width:130
         }}>
-        <View borderRadius={'15'} overflow={'hidden'} marginBottom={'10'}>
+        <View borderRadius={'15'} overflow={'hidden'} marginBottom={'10'} width={'full'}>
           <Image
             source={props.imageSrc}
-            width={'3/3'}
+            width={'5/6'}
             height={'90'}
             borderRadius={'15'}
           />
         </View>
-        <Text color={themeCheck?'white':bgColorMain} fontWeight={'bold'} textAlign={'center'}>
+        <Text color={themeCheck?'white':bgColorMain} fontWeight={'bold'} textAlign={'center'} width={'full'}>
           {props.text}
         </Text>
       </View>

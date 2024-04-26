@@ -225,7 +225,7 @@ const OrderService = ({navigation}: any) => {
                             .utc(selectedTime) 
                             .local()
                             .toISOString();
-                          handleChange(t('order:end'))(time);
+                          handleChange('endTime')(time);
                           closePickerTime2();
                         } else {
                           closePickerTime2();

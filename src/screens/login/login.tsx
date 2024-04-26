@@ -54,14 +54,14 @@ const Login = ({navigation}: any) => {
             </Text>
           </View>
           <TextModifiedInput
-            handleChange={handleChange('Email')}
+            handleChange={(value)=>handleChange('email')(value)}
             placeholder="Email"
             value={values.email}
             error={errors.email}
             width={330}
           />
           <PasswordInput
-            handleChange={handleChange('Password')}
+            handleChange={(value)=>handleChange('password')(value)}
             placeholder="Password"
             value={values.password}
             error={errors.password}
