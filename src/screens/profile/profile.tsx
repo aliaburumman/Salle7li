@@ -92,7 +92,7 @@ function Profile({navigation}:any) {
             <Button borderRadius={'3xl'} bgColor={!themeCheck?'white':bgColorMain} onPress={() => navigation.navigate('AppearanceSettings')}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
-                  <Text color={themeCheck?'white':bgColorMain} alignSelf={'center'} paddingLeft={'10'}>{t('profile:appearenceSettings')}</Text>
+                  <Text color={themeCheck?'white':bgColorMain} alignSelf={'center'} paddingLeft={'10'}>{t('appsett')}</Text>
                 </View>
                 <View justifyContent={'center'} alignItems={'flex-end'} width={'1/6'}>
                   <ThreeDotsIcon />

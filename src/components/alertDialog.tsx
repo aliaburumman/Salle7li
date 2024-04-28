@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import {Box, Button, Text, AlertDialog, useTheme} from 'native-base';
 import {bgColorMain} from '../screens/getStarted/started';
 import { useAppSelector } from '../app/hooks';
+import { useTranslation } from 'react-i18next';
+
 
 interface Props {
   closeAlertDialog: () => void;
@@ -22,7 +24,7 @@ const AlertDialogComponent: React.FC<Props> = ({
 }) => {
   const cancelRef = useRef(null);
   const themeCheck = useAppSelector(state => state.theme.lightMode);
-
+  const { t ,i18n} = useTranslation();
   return (
     <AlertDialog
       isOpen={isAlertDialogVisible}
@@ -62,14 +64,14 @@ const AlertDialogComponent: React.FC<Props> = ({
           flexDirection="row"
           justifyContent="flex-end"
           marginRight={'5'}>
-            <Text color={'green.400'}>10 JOD </Text>
-          <Text color={!themeCheck ? 'white' : bgColorMain}>/ hr</Text>
+            <Text color={'green.400'}>{t('price')} </Text>
+          <Text color={!themeCheck ? 'white' : bgColorMain}>{t('time')}</Text>
           
         </Box>
         <Box width={'100%'}>
             
           <Button alignSelf={'center'} width={'5/6'} bgColor={!themeCheck ? 'white' : bgColorMain} onPress={closeAlertDialog}>
-            <Text color={'red.400'}>Close</Text>
+            <Text color={'red.400'}>{t('close')}</Text>
           </Button>
         </Box>
       </AlertDialog.Content>

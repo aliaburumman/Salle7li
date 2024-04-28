@@ -209,7 +209,7 @@ const HomeScreen = ({navigation}:any) => {
           setAlertIsDialogPlumberVisible(false);
         }}
         title={t('plumber')}
-        bodyTitle="alo"
+        bodyTitle={t('plumdesc')}
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogElectricianVisible}
@@ -217,7 +217,7 @@ const HomeScreen = ({navigation}:any) => {
           setAlertIsDialogElectricianVisible(false);
         }}
         title={t('electrician')}
-        bodyTitle="alo"
+        bodyTitle={t('electdesc')}
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogBlackSmithVisible}
@@ -225,7 +225,7 @@ const HomeScreen = ({navigation}:any) => {
           setAlertIsDialogBlackSmithVisible(false);
         }}
         title={t('blacksmiths')}
-        bodyTitle="alo"
+        bodyTitle={t('blacksmithsdesc')}
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogCarpenterVisible}
@@ -233,7 +233,7 @@ const HomeScreen = ({navigation}:any) => {
           setAlertIsDialogCarpenterVisible(false);
         }}
         title={t('carpenter')}
-        bodyTitle="alo"
+        bodyTitle={t('carpdesc')}
       />
     </View>
   );

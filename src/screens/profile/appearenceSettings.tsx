@@ -19,7 +19,7 @@ const AppearenceSettings = () => {
     <View bgColor={themeCheck?'white':bgColorMain} flex={1} flexDirection={'column'}>
       <View>
         
-          <Text color={!themeCheck?'white':bgColorMain}>alo</Text>
+          <Text color={!themeCheck?'white':bgColorMain}>{t('language')}</Text>
         
         <Radio.Group
                   name="myRadioGroup"
@@ -30,10 +30,10 @@ const AppearenceSettings = () => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="English" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('English')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('english')} </Text>
                     </Radio>
                     <Radio value="Arabic" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('Arabic')}</Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('arabic')}</Text>
                     </Radio>
                     
                   </Stack>
@@ -41,7 +41,7 @@ const AppearenceSettings = () => {
       </View>
       <View>
         
-          <Text color={!themeCheck?'white':bgColorMain}>aloooo</Text>
+          <Text color={!themeCheck?'white':bgColorMain}>{t('appearance')}</Text>
         
         <Radio.Group
                   name="myRadioGroup2"
@@ -52,10 +52,10 @@ const AppearenceSettings = () => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="Dark" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('Dark')} </Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('dark')} </Text>
                     </Radio> 
                     <Radio value="Light" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('Light')}</Text>
+                      <Text color={!themeCheck?'white':bgColorMain}> {t('light')}</Text>
                     </Radio>
                     
                   </Stack>
