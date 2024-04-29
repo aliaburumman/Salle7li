@@ -15,14 +15,16 @@ import AppearenceSettings from './src/screens/profile/appearenceSettings';
 import {useAppSelector} from './src/app/hooks';
 import {Provider} from 'react-redux';
 import regist from './src/app/regist';
-import { bgColorMain } from './src/screens/getStarted/started';
+import {bgColorMain} from './src/screens/getStarted/started';
 import Notifications from './src/screens/home/notifications';
+import ChangePassword from './src/screens/profile/changePassword';
+import PersonalInformation from './src/screens/profile/personalInformation';
+import ApplyToBeWorker from './src/screens/profile/applyToBeWorker';
 
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
-
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
@@ -34,7 +36,24 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen
       name="AppearanceSettings"
       component={AppearenceSettings}
-      options={{headerShown: true}}
+      options={{headerShown: true, title:"3abbi hoon"}}
+    />
+
+    <ProfileStack.Screen
+      name="changePassword"
+      component={ChangePassword}
+      options={{headerShown: true, title:"3abbi hoon"}}
+    />
+
+    <ProfileStack.Screen
+      name="personalInformation"
+      component={PersonalInformation}
+      options={{headerShown: true, title:"3abbi hoon"}}
+    />
+    <ProfileStack.Screen
+      name="applyToBeWorker"
+      component={ApplyToBeWorker}
+      options={{headerShown: true, title:"3abbi hoon"}}
     />
     {/* Add more screens to Profile stack as needed */}
   </ProfileStack.Navigator>
@@ -73,55 +92,63 @@ const HomeStackScreen = () => (
 );
 const AppLoader = () => {
   const LanguageCheck = useAppSelector(state => state.language.isArabic);
-  const LightModeCheck =useAppSelector(state=> state.theme.lightMode);
+  const LightModeCheck = useAppSelector(state => state.theme.lightMode);
   if (LanguageCheck) {
     i18n.changeLanguage('ar');
   } else {
     i18n.changeLanguage('en');
   }
   return (
-                  <Tab.Navigator
-              initialRouteName="Home"
-              screenOptions={({route}) => ({
-                tabBarIcon: ({focused, color, size}) => {
-                  let iconName;
-                  if (route.name === 'Home') {
-                    iconName = 'home';
-                  } else if (route.name === 'Profile') {
-                    iconName = focused ? 'user-circle' : 'user-circle-o';
-                  } else if (route.name === 'Reserve') {
-                    iconName = focused ? 'plus-square' : 'plus-square-o';
-                  }
-                  return (
-                    <Icon
-                      name={iconName ? iconName : ''}
-                      size={size}
-                      color={LightModeCheck?'white':color}
-                    />
-                  );
-                },
-                tabBarStyle:{backgroundColor:LightModeCheck?bgColorMain:'white'}
-                  
-                
-              })}>
-              <Tab.Screen
-                name="Home"
-                component={HomeStackScreen}
-                options={{headerShown: false,tabBarActiveTintColor:LightModeCheck?'white':bgColorMain}}
-              />
-              <Tab.Screen
-                name="Reserve"
-                component={ReserveStackScreen}
-                options={{headerShown: false,tabBarActiveTintColor:LightModeCheck?'white':bgColorMain}}
-              />
-              <Tab.Screen
-                name="Profile"
-                component={ProfileStackScreen}
-                options={{headerShown: false,tabBarActiveTintColor:LightModeCheck?'white':bgColorMain}}
-              />
-            </Tab.Navigator>
-          
-      
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'user-circle' : 'user-circle-o';
+          } else if (route.name === 'Reserve') {
+            iconName = focused ? 'plus-square' : 'plus-square-o';
+          }
+          return (
+            <Icon
+              name={iconName ? iconName : ''}
+              size={size}
+              color={LightModeCheck ? 'white' : color}
+            />
+          );
+        },
+        tabBarStyle: {backgroundColor: LightModeCheck ? bgColorMain : 'white'},
+      })}>
+      <Tab.Screen
+        name="Home"
+        component={HomeStackScreen}
+        options={{
+          headerShown: false,
+          title:"3abbi this",
+          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+        }}
+      />
+      <Tab.Screen
+        name="Reserve"
+        component={ReserveStackScreen}
+        options={{
+          headerShown: false,
+          title:"3abbi this",
+          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackScreen}
+        options={{
+          headerShown: false,
+          title:"3abbi this",
+          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 

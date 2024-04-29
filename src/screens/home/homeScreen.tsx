@@ -30,7 +30,7 @@ import i18n from '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
 
-const HomeScreen = ({navigation}:any) => {
+const HomeScreen = ({navigation}: any) => {
   const themeCheck = useAppSelector(state => state.theme.lightMode);
   const [isAlertDialogPlumberVisible, setAlertIsDialogPlumberVisible] =
     useState(false);
@@ -40,6 +40,13 @@ const HomeScreen = ({navigation}:any) => {
     useState(false);
   const [isAlertDialogElectricianVisible, setAlertIsDialogElectricianVisible] =
     useState(false);
+
+  const [isAlertDialogForWorker1, setIsDialogForWorker1] = useState(false);
+  const [isAlertDialogForWorker2, setIsDialogForWorker2] = useState(false);
+  const [isAlertDialogForWorker3, setIsDialogForWorker3] = useState(false);
+  const [isAlertDialogForWorker4, setIsDialogForWorker4] = useState(false);
+  const [isAlertDialogForWorker5, setIsDialogForWorker5] = useState(false);
+
   const [isNewNotifications, setIsNewNotifications] = useState(true);
   const [notificationColor, setNotificationColor] = useState('#900');
   const [flashing, setFlashing] = useState(true);
@@ -89,20 +96,20 @@ const HomeScreen = ({navigation}:any) => {
                 </View>
 
                 <Button
-                  bgColor={notificationColor} 
+                  bgColor={notificationColor}
                   borderRadius={'full'}
                   onPress={() => {
-                    setIsNewNotifications(false); 
-                    setFlashing(false); 
+                    setIsNewNotifications(false);
+                    setFlashing(false);
                     if (flashInterval.current) {
-                      clearInterval(flashInterval.current); 
+                      clearInterval(flashInterval.current);
                     }
-                    navigation.navigate('Notifications')
+                    navigation.navigate('Notifications');
                   }}>
                   <Icon
                     name="notifications"
                     size={30}
-                    color={notificationColor=='white'?'#900':'white'}
+                    color={notificationColor == 'white' ? '#900' : 'white'}
                   />
                 </Button>
               </View>
@@ -176,7 +183,7 @@ const HomeScreen = ({navigation}:any) => {
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
               <Text color={themeCheck ? bgColorMain : 'white'} fontSize={'2xl'}>
-                Our Workers
+                Our Top Rated Workers
               </Text>
               <View
                 bgColor={themeCheck ? bgColorMain : 'white'}
@@ -189,14 +196,41 @@ const HomeScreen = ({navigation}:any) => {
             </View>
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <CardComp
-                  text={t('homeScreen:carpenter')}
-                  imageSrc={carpenter}
-                />
-                <CardComp
-                  text={t('homeScreen:blacksmith')}
-                  imageSrc={blacksmith}
-                />
+                <Button
+                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  onPress={() => {
+                    setIsDialogForWorker1(true);
+                  }}>
+                  <CardComp text={'Sweilem'} imageSrc={carpenter} />
+                </Button>
+                <Button
+                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  onPress={() => {
+                    setIsDialogForWorker2(true);
+                  }}>
+                  <CardComp text={t('Nawwaf')} imageSrc={blacksmith} />
+                </Button>
+                <Button
+                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  onPress={() => {
+                    setIsDialogForWorker3(true);
+                  }}>
+                  <CardComp text={t('Saleem')} imageSrc={blacksmith} />
+                </Button>
+                <Button
+                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  onPress={() => {
+                    setIsDialogForWorker4(true);
+                  }}>
+                  <CardComp text={t('Yasmine')} imageSrc={blacksmith} />
+                </Button>
+                <Button
+                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  onPress={() => {
+                    setIsDialogForWorker5(true);
+                  }}>
+                  <CardComp text={t('Leen')} imageSrc={blacksmith} />
+                </Button>
               </ScrollView>
             </View>
           </View>
@@ -210,6 +244,9 @@ const HomeScreen = ({navigation}:any) => {
         }}
         title={t('plumber')}
         bodyTitle={t('plumdesc')}
+        price={t('price')}
+        time={t('time')}
+
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogElectricianVisible}
@@ -218,6 +255,9 @@ const HomeScreen = ({navigation}:any) => {
         }}
         title={t('electrician')}
         bodyTitle={t('electdesc')}
+        price={t('price')}
+        time={t('time')}
+
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogBlackSmithVisible}
@@ -226,6 +266,9 @@ const HomeScreen = ({navigation}:any) => {
         }}
         title={t('blacksmiths')}
         bodyTitle={t('blacksmithsdesc')}
+        price={t('price')}
+        time={t('time')}
+
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogCarpenterVisible}
@@ -234,6 +277,17 @@ const HomeScreen = ({navigation}:any) => {
         }}
         title={t('carpenter')}
         bodyTitle={t('carpdesc')}
+        time={t('time')}
+        price={t('price')}
+      />
+      <AlertDialogComponent
+        isAlertDialogVisible={isAlertDialogForWorker1}
+        closeAlertDialog={() => {
+          setIsDialogForWorker1(false);
+        }}
+        title={"etrokeh fadi"}
+        bodyTitle={"etrokeh fadi"}
+        rating='Rating: 4.8'
       />
     </View>
   );

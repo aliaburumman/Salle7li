@@ -1,30 +1,40 @@
 import React, {useRef, useState} from 'react';
-import {Box, Button, Text, AlertDialog, useTheme} from 'native-base';
+import {
+  Box,
+  Button,
+  Text,
+  AlertDialog,
+  useTheme,
+  ScrollView,
+} from 'native-base';
 import {bgColorMain} from '../screens/getStarted/started';
-import { useAppSelector } from '../app/hooks';
-import { useTranslation } from 'react-i18next';
-
+import {useAppSelector} from '../app/hooks';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   closeAlertDialog: () => void;
   title: string;
   bodyTitle: string;
   isAlertDialogVisible: boolean;
+  price?: string;
+  time?: string;
+  rating?: string;
 }
 const getIcon: (icon: (props: any) => JSX.Element) => JSX.Element = Icon => {
   return <Icon alignItems={'center'} alignSelf={'center'} color={'red'} />;
 };
 const AlertDialogComponent: React.FC<Props> = ({
-
   bodyTitle,
   isAlertDialogVisible,
-
+  price,
   closeAlertDialog,
+  time,
+  rating,
   title,
 }) => {
   const cancelRef = useRef(null);
   const themeCheck = useAppSelector(state => state.theme.lightMode);
-  const { t ,i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
   return (
     <AlertDialog
       isOpen={isAlertDialogVisible}
@@ -32,15 +42,17 @@ const AlertDialogComponent: React.FC<Props> = ({
       leastDestructiveRef={cancelRef}>
       <AlertDialog.Content
         backgroundColor={themeCheck ? 'white' : bgColorMain}
-        width={300}
-        height={300}
+        width={350}
+        height={350}
         borderRadius={16}
         justifyContent="space-around"
         alignItems="center"
         marginRight={5}
         marginLeft={5}
         paddingTop={5}
-        paddingBottom={5}>
+        paddingBottom={5}
+        paddingLeft={3}
+        paddingRight={3}>
         <Text
           marginBottom={3}
           marginRight={10}
@@ -57,20 +69,23 @@ const AlertDialogComponent: React.FC<Props> = ({
           justifyContent="space-around"
           marginBottom={26}>
           <Text color={!themeCheck ? 'white' : bgColorMain}>{bodyTitle}</Text>
-          
         </Box>
         <Box
           width="100%"
           flexDirection="row"
           justifyContent="flex-end"
           marginRight={'5'}>
-            <Text color={'green.400'}>{t('price')} </Text>
-          <Text color={!themeCheck ? 'white' : bgColorMain}>{t('time')}</Text>
-          
+          <Text color={'green.400'}>{price}</Text>
+          <Text color={!themeCheck ? 'white' : bgColorMain}>
+            {time ? time : rating}
+          </Text>
         </Box>
         <Box width={'100%'}>
-            
-          <Button alignSelf={'center'} width={'5/6'} bgColor={!themeCheck ? 'white' : bgColorMain} onPress={closeAlertDialog}>
+          <Button
+            alignSelf={'center'}
+            width={'5/6'}
+            bgColor={!themeCheck ? 'white' : bgColorMain}
+            onPress={closeAlertDialog}>
             <Text color={'red.400'}>{t('close')}</Text>
           </Button>
         </Box>

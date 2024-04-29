@@ -1,68 +1,69 @@
-import {Radio, Stack, Switch, Text, View} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {bgColorMain} from '../getStarted/started';
-import {t} from 'i18next';
-import i18n from '../../i18n/i18n';
-import {useDispatch} from 'react-redux';
-import {implementLanguage} from '../../app/slices/languageSlice';
-import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
-import { useAppSelector } from '../../app/hooks';
+import React from 'react';
+import { Radio, Stack, Text, Heading, Box } from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome.js';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { t } from 'i18next';
+import { bgColorMain } from '../getStarted/started';
+import { implementLanguage } from '../../app/slices/languageSlice';
 import { implementTheme } from '../../app/slices/themeSlice';
 
-const AppearenceSettings = () => {
+const AppearanceSettings = () => {
     const LanguageCheck = useAppSelector(state => state.language.isArabic);
-    const themeCheck = useAppSelector(state=>state.theme.lightMode)
-    const dispatch = useDispatch();
+    const themeCheck = useAppSelector(state => state.theme.lightMode);
+    const dispatch = useAppDispatch();
 
+    const bgColor = themeCheck ? 'white' : bgColorMain;
+    const textColor = themeCheck ? bgColorMain : 'white';
 
-  return (
-    <View bgColor={themeCheck?'white':bgColorMain} flex={1} flexDirection={'column'}>
-      <View>
-        
-          <Text color={!themeCheck?'white':bgColorMain}>{t('language')}</Text>
-        
-        <Radio.Group
-                  name="myRadioGroup"
-                  accessibilityLabel="favorite number"
-                  defaultValue={LanguageCheck?"Arabic":"English"}
-                  onChange={() => {
-                    dispatch(implementLanguage(!LanguageCheck))
-                  }}>
-                  <Stack direction="row" alignSelf={'center'} space={4}>
-                    <Radio value="English" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('english')} </Text>
-                    </Radio>
-                    <Radio value="Arabic" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('arabic')}</Text>
-                    </Radio>
-                    
-                  </Stack>
+    return (
+        <Stack space={4} bgColor={bgColor} flex={1} px="4" py="3">
+            
+            <Box borderBottomWidth="1" borderColor="coolGray.200" pb="3">
+                <Heading color={textColor} fontSize="md">
+                    {t('language')}
+                </Heading>
+                <Radio.Group
+                    name="languageGroup"
+                    accessibilityLabel="language selection"
+                    defaultValue={LanguageCheck ? "Arabic" : "English"}
+                    onChange={(value) => {
+                        dispatch(implementLanguage(!LanguageCheck))
+                    }}
+                >
+                    <Stack direction="row" space={6} alignItems="center">
+                        <Radio value="English" colorScheme="blue">
+                            <Text color={!themeCheck?'white':bgColorMain}>{t('english')} </Text>
+                        </Radio>
+                        <Radio value="Arabic" colorScheme="blue">
+                           <Text color={!themeCheck?'white':bgColorMain}> {t('arabic')}</Text>
+                        </Radio>
+                    </Stack>
                 </Radio.Group>
-      </View>
-      <View>
-        
-          <Text color={!themeCheck?'white':bgColorMain}>{t('appearance')}</Text>
-        
-        <Radio.Group
-                  name="myRadioGroup2"
-                  accessibilityLabel="favorite number"
-                  defaultValue={themeCheck?"Light":"Dark"}
-                  onChange={() => {
-                    dispatch(implementTheme(!themeCheck))
-                  }}>
-                  <Stack direction="row" alignSelf={'center'} space={4}>
-                    <Radio value="Dark" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('dark')} </Text>
-                    </Radio> 
-                    <Radio value="Light" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('light')}</Text>
-                    </Radio>
-                    
-                  </Stack>
+            </Box>
+            <Box>
+                <Heading color={!themeCheck?'white':bgColorMain} fontSize="md">
+                    {t('appearance')}
+                </Heading>
+                <Radio.Group
+                    name="themeGroup"
+                    accessibilityLabel="theme selection"
+                    defaultValue={themeCheck ? "Light" : "Dark"}
+                    onChange={(value) => {
+                        dispatch(implementTheme(!themeCheck))
+                    }}
+                >
+                    <Stack direction="row" space={6} alignItems="center">
+                        <Radio value="Dark" colorScheme="blue">
+                           <Text color={!themeCheck?'white':bgColorMain}> {t('dark')}</Text>
+                        </Radio>
+                        <Radio value="Light" colorScheme="blue">
+                            <Text color={!themeCheck?'white':bgColorMain}>{t('light')}</Text>
+                        </Radio>
+                    </Stack>
                 </Radio.Group>
-      </View>
-    </View>
-  );
+            </Box>
+        </Stack>
+    );
 };
 
-export default AppearenceSettings;
+export default AppearanceSettings;

@@ -13,7 +13,7 @@ const en = {
       blacksmiths:'Blacksmiths',
       carpenter:'Carpenter',
       plumdesc:'A plumber is a tradesperson who specializes in installing and maintaining systems used for potable (drinking) water, hot-water production, sewage and drainage in plumbing systems.',
-      electdesc:'An electrician is a tradesperson specializing in electrical wiring of buildings, transmission lines, stationary machines, and related equipment. Electricians may be employed in the installation of new electrical components or the maintenance and repair of existing electrical infrastructure. Electricians may also specialize in alarm systems, other mobile platforms as well as data and cable lines.',
+      electdesc:'An electrician specializes in the electrical wiring of buildings, transmission lines, and equipment. They install new components and maintain existing infrastructure, often working on alarm systems, mobile platforms, and data cables.',
       blacksmithsdesc:'A blacksmith is a craftsman who works with metals. He melts iron and shapes it according to customer requests. They can create artistic or decorative pieces, in addition to making doors, windows, gates, etc., using a range of hand and power tools.',
       carpdesc:'Carpenters are responsible for sizing, trimming, and forming materials such as wood. They build and put in place structural components like walls, floors, and doorframes. They also assess and refurbish compromised frameworks and various structural elements. ',
       female:'Female',
