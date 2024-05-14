@@ -54,8 +54,8 @@ const MapScreen = ({navigation}: any) => {
           },
           {
             enableHighAccuracy: false,
-            timeout: 5000,
-            maximumAge: 10000,
+            timeout: 500000,
+            maximumAge: 1000000,
           },
         );
       }

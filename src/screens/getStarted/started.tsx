@@ -9,6 +9,7 @@ import {
   Animated,
   SafeAreaView,
 } from 'react-native';
+import Loading from '../../components/Loading/Loading';
 export const salle7liLogo = require('../../assets/Salle7liLogo.png');
 export const jordanFlag = require('../../assets/jordanFlag.png');
 export const homeImage = require('../../assets/Maintenance2.jpg');
@@ -63,7 +64,7 @@ const Started = ({navigation}:any) => {
         backgroundColor: bgColorMain,
       }}>
       <View>
-        <Image source={salle7liLogo} style={{width: 300, height: 400}} />
+        <Image source={salle7liLogo} style={{width: 300, height: 400}} alt='salle7li' />
       </View>
 
       <View>

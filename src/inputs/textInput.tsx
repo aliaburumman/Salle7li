@@ -1,5 +1,7 @@
 import React from "react";
 import { DimensionValue, KeyboardTypeOptions, Text, TextInput, View } from "react-native";
+import { useAppSelector } from "../app/hooks";
+import { bgColorMain } from "../screens/getStarted/started";
 export type Iprops = {
   handleChange: (text: string) => void;
   value?: string;
@@ -14,6 +16,8 @@ export type Iprops = {
 };
 
 const TextModifiedInput = (props: Iprops) => {
+  const themeCheck = useAppSelector(state=>state.theme.lightMode)
+
   return (
     <View>
       <TextInput
@@ -21,8 +25,8 @@ const TextModifiedInput = (props: Iprops) => {
           style={{
             width: props.width,
             padding: 10,
-            color:'darkblue',
-            backgroundColor:'white',
+            color:themeCheck?'white':bgColorMain,
+            backgroundColor:!themeCheck?'white':bgColorMain,
             borderRadius:10,
             marginRight:props.marginRight? props.marginRight:0,
             height:props.height?props.height:60

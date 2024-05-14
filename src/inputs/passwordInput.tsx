@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { KeyboardTypeOptions, Pressable, Text, TextInput, View } from "react-native";
-
+import Icon from 'react-native-vector-icons/Ionicons.js';
+import { bgColorMain } from "../screens/getStarted/started";
 export type Iprops = {
   handleChange: (text: string) => void;
   value?: string;
@@ -46,7 +47,7 @@ const PasswordInput = (props: Iprops) => {
         }}
         style={{ position: "absolute", top: 20, right: 7, zIndex: 10 }}
       >
-        <Text style={{color:'darkblue'}}>{visible ? "Hide" : "Show"}</Text>
+        <Icon name={!visible?"eye":"eye-off"} color={bgColorMain} size={25}/>
       </Pressable>
       <Text style={{color:'red',fontSize:12}}>{props.error}</Text>
     </View>

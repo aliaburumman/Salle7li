@@ -14,13 +14,16 @@ export type RestaurantRegistrationRequest = {
   email: string;
 
   phoneNumber: string;
+  gender:string;
+  Rating:Number,
+  submit?: string;
 };
 
 
 
 export const initialValues: RestaurantRegistrationRequest = {
   firstName: '',
-
+Rating:0,
   lastName: '',
 
   password: '',
@@ -29,6 +32,7 @@ export const initialValues: RestaurantRegistrationRequest = {
   city: '',
   email: '',
   phoneNumber: '',
+  gender:''
 };
 
 
@@ -58,4 +62,5 @@ export const validationSchema = Yup.object().shape({
     .email('Invalid email address'),
 
   city: Yup.string().required('Please complete this field'),
+  gender: Yup.string().required('Please complete this field'),
 });
