@@ -20,16 +20,30 @@ import {
   profilePicture,
   salle7liLogo,
 } from '../getStarted/started.tsx';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import Icon from 'react-native-vector-icons/FontAwesome.js';
+import AlertDialogComponent from '../../components/alertDialog.tsx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '../../components/Loading/Loading.tsx';
+import {navigate} from '../../../AppLoader.tsx';
+import {useGetUserProfileQuery} from '../../data/profile/profile.ts';
+import { logout } from '../../app/slices/slice.ts';
+import { useAppDispatch } from '../../app/regist.ts';
 
 function Profile({navigation}: any) {
   const themeCheck = useAppSelector(state => state.theme.lightMode);
-
+  const user = useAppSelector(state => state.user.userId);
+  const [isAlertDialog, setIsAlertDialog] = useState(false);
+  const [ifLoading, setIfLoading] = useState(false);
+  const {data, isLoading} = useGetUserProfileQuery({userId: user});
+  const dispatch =useAppDispatch();
   const {t, i18n} = useTranslation();
+  if (isLoading || ifLoading) {
+    return <Loading />;
+  }
   return (
     <View
       bgColor={themeCheck ? 'white' : bgColorMain}
@@ -67,39 +81,22 @@ function Profile({navigation}: any) {
             </View>
             <View justifyContent={'space-evenly'}>
               <Text color={themeCheck ? 'white' : bgColorMain}>
-                Ali Aburumman
+                {data?.firstName} {data?.lastName}
               </Text>
               <View flexDirection={'row'}>
-                <View marginRight={'0.5'}>
-                  <Icon
-                    name="star"
-                    color={themeCheck ? 'white' : bgColorMain}
-                  />
-                </View>
-                <View marginRight={'0.5'}>
-                  <Icon
-                    name="star"
-                    color={themeCheck ? 'white' : bgColorMain}
-                  />
-                </View>
-                <View marginRight={'0.5'}>
-                  <Icon
-                    name="star"
-                    color={themeCheck ? 'white' : bgColorMain}
-                  />
-                </View>
-                <View marginRight={'0.5'}>
-                  <Icon
-                    name="star"
-                    color={themeCheck ? 'white' : bgColorMain}
-                  />
-                </View>
-                <View marginRight={'0.5'}>
-                  <Icon
-                    name="star"
-                    color={themeCheck ? 'white' : bgColorMain}
-                  />
-                </View>
+                {Array.from(
+                  {
+                    length: data?.rating ?? 0,
+                  },
+                  (_, i) => (
+                    <Icon
+                      key={i}
+                      name="star"
+                      color={themeCheck ? 'white' : bgColorMain}
+                      style={{marginRight: 6}}
+                    />
+                  ),
+                )}
               </View>
             </View>
           </View>
@@ -234,7 +231,9 @@ function Profile({navigation}: any) {
             <Button
               borderRadius={'3xl'}
               bgColor={!themeCheck ? 'white' : bgColorMain}
-              onPress={()=>{navigation.navigate('applyToBeWorker')}}>
+              onPress={() => {
+                navigation.navigate('applyToBeWorker');
+              }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
@@ -258,7 +257,10 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}>
+              bgColor={!themeCheck ? 'white' : bgColorMain}
+              onPress={() => {
+                setIsAlertDialog(true);
+              }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
@@ -286,6 +288,22 @@ function Profile({navigation}: any) {
           <Image source={salle7liLogo} width={20} height={90} />
         </View>
       </ScrollView>
+      <AlertDialogComponent
+        isAlertDialogVisible={isAlertDialog}
+        approveAlertDialog={async () => {
+          setIfLoading(true);
+          setIsAlertDialog(false);
+          dispatch(logout())
+          setIfLoading(false);
+          
+          
+        }}
+        closeAlertDialog={() => {
+          setIsAlertDialog(false);
+        }}
+        title={'Log out'}
+        bodyTitle={'Are you sure you want to log out?'}
+      />
     </View>
   );
 }

@@ -6,6 +6,7 @@ import {
   AlertDialog,
   useTheme,
   ScrollView,
+  Stack,
 } from 'native-base';
 import {bgColorMain} from '../screens/getStarted/started';
 import {useAppSelector} from '../app/hooks';
@@ -13,6 +14,7 @@ import {useTranslation} from 'react-i18next';
 
 interface Props {
   closeAlertDialog: () => void;
+  approveAlertDialog?: () => void;
   title: string;
   bodyTitle: string;
   isAlertDialogVisible: boolean;
@@ -28,6 +30,7 @@ const AlertDialogComponent: React.FC<Props> = ({
   isAlertDialogVisible,
   price,
   closeAlertDialog,
+  approveAlertDialog,
   time,
   rating,
   title,
@@ -41,7 +44,7 @@ const AlertDialogComponent: React.FC<Props> = ({
       onClose={closeAlertDialog}
       leastDestructiveRef={cancelRef}>
       <AlertDialog.Content
-        backgroundColor={themeCheck ? 'white' : bgColorMain}
+        backgroundColor={!themeCheck ? 'white' : bgColorMain}
         width={350}
         height={350}
         borderRadius={16}
@@ -68,7 +71,7 @@ const AlertDialogComponent: React.FC<Props> = ({
           flexDirection="row"
           justifyContent="space-around"
           marginBottom={26}>
-          <Text color={!themeCheck ? 'white' : bgColorMain}>{bodyTitle}</Text>
+          <Text color={themeCheck ? 'white' : bgColorMain}>{bodyTitle}</Text>
         </Box>
         <Box
           width="100%"
@@ -76,18 +79,27 @@ const AlertDialogComponent: React.FC<Props> = ({
           justifyContent="flex-end"
           marginRight={'5'}>
           <Text color={'green.400'}>{price}</Text>
-          <Text color={!themeCheck ? 'white' : bgColorMain}>
+          <Text color={themeCheck ? 'white' : bgColorMain}>
             {time ? time : rating}
           </Text>
         </Box>
         <Box width={'100%'}>
+          <Stack space={5}>
           <Button
             alignSelf={'center'}
             width={'5/6'}
-            bgColor={!themeCheck ? 'white' : bgColorMain}
+            bgColor={themeCheck ? 'white' : bgColorMain}
             onPress={closeAlertDialog}>
             <Text color={'red.400'}>{t('close')}</Text>
           </Button>
+          {approveAlertDialog&&<Button
+            alignSelf={'center'}
+            width={'5/6'}
+            bgColor={'red.400'}
+            onPress={approveAlertDialog}>
+            <Text color={'white'}>{t('3abbi hon')}</Text>
+          </Button>}
+          </Stack>
         </Box>
       </AlertDialog.Content>
     </AlertDialog>

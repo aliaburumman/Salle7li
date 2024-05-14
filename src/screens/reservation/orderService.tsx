@@ -17,15 +17,13 @@ import {
   validationSchemaForReservation,
 } from '../login/type/orderServiceType';
 import TextModifiedInput from '../../inputs/textInput';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import MapScreen from '../location/setLocation';
 import { useTranslation } from 'react-i18next';
 import '../../i18n/i18n.ts';
-import i18n from '../../i18n/i18n.ts';
 import { useAppSelector } from '../../app/hooks.ts';
 
 dayjs.extend(utc);
@@ -35,7 +33,8 @@ export interface CurrentLocationCoords {
   latitude: number;
 }
 
-const OrderService = ({navigation}: any) => {
+const OrderService = ({navigation, route}: any) => {
+  const {longitude, latitude} = route.params;
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const [openTimePicker2, setOpenTimePicker2] = useState(false);
@@ -76,9 +75,14 @@ const OrderService = ({navigation}: any) => {
     <View flex={1} bgColor={themeCheck?'white':bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Formik
-            initialValues={
-              initialValuesForReservation
-            }
+            initialValues={{
+              ...initialValuesForReservation,
+              location: {
+                longitude: longitude || null,
+                latitude: latitude || null,
+              },
+
+            }}
             onSubmit={values => navigation.navigate('ChooseWorker')}
           validateOnChange={false}
           validationSchema={validationSchemaForReservation}

@@ -1,30 +1,78 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {NativeBaseProvider} from 'native-base';
-import {I18nextProvider} from 'react-i18next';
 import i18n from './src/i18n/i18n';
-
 import HomeScreen from './src/screens/home/homeScreen';
 import Profile from './src/screens/profile/profile';
 import MapScreen from './src/screens/location/setLocation';
 import OrderService from './src/screens/reservation/orderService';
 import AppearenceSettings from './src/screens/profile/appearenceSettings';
 import {useAppSelector} from './src/app/hooks';
-import {Provider} from 'react-redux';
-import regist from './src/app/regist';
-import {bgColorMain} from './src/screens/getStarted/started';
+import Started, {bgColorMain} from './src/screens/getStarted/started';
 import Notifications from './src/screens/home/notifications';
 import ChangePassword from './src/screens/profile/changePassword';
 import PersonalInformation from './src/screens/profile/personalInformation';
 import ApplyToBeWorker from './src/screens/profile/applyToBeWorker';
+import Login from './src/screens/login/login';
+import Register from './src/screens/register/register';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect, useState} from 'react';
+import VerifyOtp from './src/screens/otp/verifyOtp';
+import {
+  ParamListBase,
+  createNavigationContainerRef,
+} from '@react-navigation/native';
+import UpdateInformation from './src/screens/profile/updateInformation';
 
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
+
+export const navigationRef = createNavigationContainerRef<ParamListBase>();
+
+export function navigate<RouteName extends keyof ParamListBase>(
+  name: RouteName,
+  params?: ParamListBase[RouteName],
+) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name as any, params as any);
+  } else {
+    console.error('Attempted to navigate without a ready navigation stack.');
+  }
+}
+
+const AuthStackScreen = () => (
+  <AuthStack.Navigator initialRouteName="getStarted">
+    <AuthStack.Screen
+      name="getStarted"
+      component={Started}
+      options={{headerShown: false}}
+    />
+    <AuthStack.Screen
+      name="Login"
+      component={Login}
+      options={{headerShown: false}}
+    />
+    <AuthStack.Screen
+      name="resetPassword"
+      component={ChangePassword}
+      options={{headerShown: false}}
+    />
+    <AuthStack.Screen
+      name="OTP"
+      component={VerifyOtp}
+      options={{headerShown: false}}
+    />
+    <AuthStack.Screen
+      name="Register"
+      component={Register}
+      options={{headerShown: false}}
+    />
+  </AuthStack.Navigator>
+);
 
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
@@ -36,24 +84,30 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen
       name="AppearanceSettings"
       component={AppearenceSettings}
-      options={{headerShown: true, title:"3abbi hoon"}}
+      options={{headerShown: true, title: '3abbi hoon'}}
     />
 
     <ProfileStack.Screen
       name="changePassword"
       component={ChangePassword}
-      options={{headerShown: true, title:"3abbi hoon"}}
+      options={{headerShown: true, title: '3abbi hoon'}}
     />
 
     <ProfileStack.Screen
       name="personalInformation"
       component={PersonalInformation}
-      options={{headerShown: true, title:"3abbi hoon"}}
+      options={{headerShown: true, title: '3abbi hoon'}}
+    />
+
+    <ProfileStack.Screen
+      name="updateInfo"
+      component={UpdateInformation}
+      options={{headerShown: true, title: '3abbi hoon'}}
     />
     <ProfileStack.Screen
       name="applyToBeWorker"
       component={ApplyToBeWorker}
-      options={{headerShown: true, title:"3abbi hoon"}}
+      options={{headerShown: true, title: '3abbi hoon'}}
     />
     {/* Add more screens to Profile stack as needed */}
   </ProfileStack.Navigator>
@@ -71,12 +125,11 @@ const ReserveStackScreen = () => (
       component={OrderService}
       options={{headerShown: false}}
     />
-    {/* Add more screens to Reserve stack as needed */}
   </ReserveStack.Navigator>
 );
 
 const HomeStackScreen = () => (
-  <HomeStack.Navigator>
+  <HomeStack.Navigator initialRouteName="HomeScreen">
     <HomeStack.Screen
       name="HomeScreen"
       component={HomeScreen}
@@ -87,17 +140,11 @@ const HomeStackScreen = () => (
       component={Notifications}
       options={{headerShown: true}}
     />
-    {/* Add more screens to Reserve stack as needed */}
   </HomeStack.Navigator>
 );
-const AppLoader = () => {
-  const LanguageCheck = useAppSelector(state => state.language.isArabic);
+
+const MainStackScreen = () => {
   const LightModeCheck = useAppSelector(state => state.theme.lightMode);
-  if (LanguageCheck) {
-    i18n.changeLanguage('ar');
-  } else {
-    i18n.changeLanguage('en');
-  }
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -126,7 +173,7 @@ const AppLoader = () => {
         component={HomeStackScreen}
         options={{
           headerShown: false,
-          title:"3abbi this",
+          title: '3abbi this',
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />
@@ -135,7 +182,7 @@ const AppLoader = () => {
         component={ReserveStackScreen}
         options={{
           headerShown: false,
-          title:"3abbi this",
+          title: '3abbi this',
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />
@@ -144,12 +191,24 @@ const AppLoader = () => {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          title:"3abbi this",
+          title: '3abbi this',
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />
     </Tab.Navigator>
   );
+};
+const AppLoader = () => {
+  const LanguageCheck = useAppSelector(state => state.language.isArabic);
+  const userToken=useAppSelector(state =>state.user.token);
+
+  if (LanguageCheck) {
+    i18n.changeLanguage('ar');
+  } else {
+    i18n.changeLanguage('en');
+  }
+
+  return <>{userToken ? <MainStackScreen /> : <AuthStackScreen />}</>;
 };
 
 export default AppLoader;

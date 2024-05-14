@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './src/i18n/i18n';
 import regist from './src/app/regist';
-import AppLoader from './AppLoader';
+import AppLoader, { navigationRef } from './AppLoader';
 
 const App = () => {
   return (
     <Provider store={regist}>
       <NativeBaseProvider>
         <I18nextProvider i18n={i18n}>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <AppLoader />
           </NavigationContainer>
         </I18nextProvider>

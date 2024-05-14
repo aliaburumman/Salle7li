@@ -26,11 +26,14 @@ import Icon from 'react-native-vector-icons/Ionicons.js';
 
 import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
-import i18n from '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
+import {useGetWorkersQuery} from '../../data/home/home.ts';
+import { IGetWorkerResponse } from '../../data/home/index.ts';
 
 const HomeScreen = ({navigation}: any) => {
+  const {data, isLoading} = useGetWorkersQuery();
+  console.log('dataa', data);
   const themeCheck = useAppSelector(state => state.theme.lightMode);
   const [isAlertDialogPlumberVisible, setAlertIsDialogPlumberVisible] =
     useState(false);
@@ -42,11 +45,7 @@ const HomeScreen = ({navigation}: any) => {
     useState(false);
 
   const [isAlertDialogForWorker1, setIsDialogForWorker1] = useState(false);
-  const [isAlertDialogForWorker2, setIsDialogForWorker2] = useState(false);
-  const [isAlertDialogForWorker3, setIsDialogForWorker3] = useState(false);
-  const [isAlertDialogForWorker4, setIsDialogForWorker4] = useState(false);
-  const [isAlertDialogForWorker5, setIsDialogForWorker5] = useState(false);
-
+  const [activeWorker, setActiveWorker] = useState<IGetWorkerResponse>();
   const [isNewNotifications, setIsNewNotifications] = useState(true);
   const [notificationColor, setNotificationColor] = useState('#900');
   const [flashing, setFlashing] = useState(true);
@@ -196,41 +195,21 @@ const HomeScreen = ({navigation}: any) => {
             </View>
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
-                  onPress={() => {
-                    setIsDialogForWorker1(true);
-                  }}>
-                  <CardComp text={'Sweilem'} imageSrc={carpenter} />
-                </Button>
-                <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
-                  onPress={() => {
-                    setIsDialogForWorker2(true);
-                  }}>
-                  <CardComp text={t('Nawwaf')} imageSrc={blacksmith} />
-                </Button>
-                <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
-                  onPress={() => {
-                    setIsDialogForWorker3(true);
-                  }}>
-                  <CardComp text={t('Saleem')} imageSrc={blacksmith} />
-                </Button>
-                <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
-                  onPress={() => {
-                    setIsDialogForWorker4(true);
-                  }}>
-                  <CardComp text={t('Yasmine')} imageSrc={blacksmith} />
-                </Button>
-                <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
-                  onPress={() => {
-                    setIsDialogForWorker5(true);
-                  }}>
-                  <CardComp text={t('Leen')} imageSrc={blacksmith} />
-                </Button>
+                {data &&
+                  data.map((worker: any) => (
+                    <Button
+                      key={worker?.id}
+                      bgColor={!themeCheck ? bgColorMain : 'white'}
+                      onPress={() => {
+                        setIsDialogForWorker1(true);
+                        setActiveWorker(worker);
+                      }}>
+                      <CardComp
+                        text={worker?.firstName}
+                        imageSrc={worker?.imageSrc}
+                      />
+                    </Button>
+                  ))}
               </ScrollView>
             </View>
           </View>
@@ -246,7 +225,6 @@ const HomeScreen = ({navigation}: any) => {
         bodyTitle={t('plumdesc')}
         price={t('price')}
         time={t('time')}
-
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogElectricianVisible}
@@ -257,7 +235,6 @@ const HomeScreen = ({navigation}: any) => {
         bodyTitle={t('electdesc')}
         price={t('price')}
         time={t('time')}
-
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogBlackSmithVisible}
@@ -268,7 +245,6 @@ const HomeScreen = ({navigation}: any) => {
         bodyTitle={t('blacksmithsdesc')}
         price={t('price')}
         time={t('time')}
-
       />
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialogCarpenterVisible}
@@ -285,9 +261,13 @@ const HomeScreen = ({navigation}: any) => {
         closeAlertDialog={() => {
           setIsDialogForWorker1(false);
         }}
-        title={"etrokeh fadi"}
-        bodyTitle={"etrokeh fadi"}
-        rating='Rating: 4.8'
+        title={activeWorker ? activeWorker.firstName : 'Worker'}
+        bodyTitle={
+          activeWorker
+            ? `Description: ${activeWorker.description}`
+            : 'No description'
+        }
+        rating={activeWorker ? `Rating: ${activeWorker.rating}` : 'No rating'}
       />
     </View>
   );

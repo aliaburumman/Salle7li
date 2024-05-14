@@ -9,6 +9,7 @@ import {
   Animated,
   SafeAreaView,
 } from 'react-native';
+import Loading from '../../components/Loading/Loading';
 export const salle7liLogo = require('../../assets/Salle7liLogo.png');
 export const jordanFlag = require('../../assets/jordanFlag.png');
 export const homeImage = require('../../assets/Maintenance2.jpg');
