@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import {
   Box,
   HStack,
@@ -107,3 +108,48 @@ const InfoItem = ({checkTheme, label, value}: any) => {
 };
 
 export default PersonalInformation;
+=======
+import { HStack, Stack, Text, View } from 'native-base'
+import React from 'react'
+import { useAppSelector } from '../../app/hooks'
+import { bgColorMain } from '../getStarted/started'
+import {useTranslation} from 'react-i18next';
+import '../../i18n/i18n.ts';
+
+const PersonalInformation = () => {
+    const {t} = useTranslation();
+    const LanguageCheck = useAppSelector(state => state.language.isArabic);
+    const themeCheck=useAppSelector(state=>state.theme.lightMode)
+  return (
+<Stack flex={1} bgColor={themeCheck?"white":bgColorMain}  justifyContent={'space-around'} >
+  <HStack justifyContent={'space-around'}>
+    <Text color={themeCheck?bgColorMain:'white'}>{t('fname')}</Text>
+    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
+
+  </HStack>
+  <HStack justifyContent={'space-around'}>
+    <Text color={themeCheck?bgColorMain:'white'}>{t('lname')}</Text>
+    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
+
+  </HStack>
+  <HStack justifyContent={'space-around'}>
+    <Text color={themeCheck?bgColorMain:'white'}>{t('email')}</Text>
+    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
+
+  </HStack>
+  <HStack justifyContent={'space-around'}>
+    <Text color={themeCheck?bgColorMain:'white'}>{t('num')}</Text>
+    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
+
+  </HStack>
+  <HStack justifyContent={'space-around'}>
+    <Text color={themeCheck?bgColorMain:'white'}>{t('city')}</Text>
+    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
+
+  </HStack>
+</Stack>
+  )
+}
+
+export default PersonalInformation
+>>>>>>> Stashed changes

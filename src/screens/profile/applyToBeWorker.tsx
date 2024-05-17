@@ -4,10 +4,10 @@ import {Box, Button, HStack, Text, View} from 'native-base';
 import {useAppSelector} from '../../app/hooks';
 import {bgColorMain} from '../getStarted/started';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { t } from 'i18next';
 
 const ApplyToBeWorker = () => {
   const themeCheck = useAppSelector(state => state.theme.lightMode);
-
   const copyToClipboard = (text: string) => {
     Clipboard.setString(text);
     Alert.alert('Copied!', `Copied ${text} to clipboard.`);
@@ -19,11 +19,11 @@ const ApplyToBeWorker = () => {
       bgColor={themeCheck ? 'white' : bgColorMain}
       alignItems="center"
       justifyContent="space-evenly">
-        <Text color={'white'}  fontSize={'3xl'}>Contact Us Via:</Text>
+        <Text color={'white'}  fontSize={'3xl'}>{t('contact')}</Text>
         <View>
       <HStack space={3} alignItems={'center'} >
         <View>
-      <Text color={!themeCheck?'white':bgColorMain}>Email:</Text>
+      <Text color={!themeCheck?'white':bgColorMain}>{t('email')}</Text>
       </View>
       <View>
         <Text color={!themeCheck ? 'white' : bgColorMain}>
@@ -46,7 +46,7 @@ const ApplyToBeWorker = () => {
       </HStack>
       <HStack space={3} alignItems="center" marginTop={4}>
         <Text color={!themeCheck ? 'white' : bgColorMain}>
-          Phone:
+        {t('num')}
         </Text>
 
         <Text color={!themeCheck ? 'white' : bgColorMain}>

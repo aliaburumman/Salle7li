@@ -9,6 +9,7 @@ import {
   validationSchemaForChangePassword,
 } from '../login/type/changePassword';
 import { Image } from 'native-base';
+import { t } from 'i18next';
 
 const ChangePassword = () => {
   const themeCheck = useAppSelector(state => state.theme.lightMode);
@@ -18,7 +19,7 @@ const ChangePassword = () => {
       bgColor={themeCheck ? 'white' : bgColorMain}
       justifyContent={'space-evenly'}> 
         <Text color={!themeCheck ? 'white' : bgColorMain} alignSelf={'center'} fontSize={'2xl'}>
-        Please enter your email
+        {t('entemail')}
       </Text>
         <Formik
           initialValues={initialEmailForChangePassword}
@@ -37,7 +38,7 @@ const ChangePassword = () => {
               error={errors.email}
               width={410}
             />
-                        <Button width={'2/6'} alignSelf={'center'} bgColor={'red.500'} onPress={()=>handleSubmit()}>Confirm</Button>
+                        <Button width={'2/6'} alignSelf={'center'} bgColor={'red.500'} onPress={()=>handleSubmit()}>{t('confirm')}</Button>
 
             </View>
 

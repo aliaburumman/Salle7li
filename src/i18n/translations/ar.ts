@@ -29,7 +29,15 @@ const ar: typeof en = {
         appsett:'مظهر التطبيق',
         close: 'اغلاق',
         price:'١٠ دنانير',
-        time:'الساعة/'
+        time:'الساعة/',
+        fname:'الاسم',
+        lname:'العائلة',
+        email:'البريد الإلكتروني',
+        num:'رقم الهاتف',
+        city:'المنطقة',
+        confirm:'تم',
+        entemail:'ادخل البريد الإلكتروني',
+        contact: ' اتصل بنا على',
     },
     login: {
         title: 'تسجيل الدخول',
