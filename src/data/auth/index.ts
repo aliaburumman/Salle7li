@@ -7,7 +7,19 @@ export interface ISendOTPResponse {
     Email: string;
     Password:string;
   }
-  
+
+  export interface ISendOTPDataForResetPassword 
+  {
+    email:string;
+  }
+
+  export interface IResetPasswordData {
+    Password:string;
+  }
+  export interface IResetPasswordBeforeLoginData {
+    Email:string;
+    Password:string;
+  }
   export interface IVerifyOTPResponse {
     token: string;
     userId:number;

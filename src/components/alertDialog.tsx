@@ -36,7 +36,7 @@ const AlertDialogComponent: React.FC<Props> = ({
   title,
 }) => {
   const cancelRef = useRef(null);
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
   const {t, i18n} = useTranslation();
   return (
     <AlertDialog
@@ -44,7 +44,7 @@ const AlertDialogComponent: React.FC<Props> = ({
       onClose={closeAlertDialog}
       leastDestructiveRef={cancelRef}>
       <AlertDialog.Content
-        backgroundColor={!themeCheck ? 'white' : bgColorMain}
+        backgroundColor={themeCheck=='bright' ? 'white' : bgColorMain}
         width={350}
         height={350}
         borderRadius={16}
@@ -71,7 +71,7 @@ const AlertDialogComponent: React.FC<Props> = ({
           flexDirection="row"
           justifyContent="space-around"
           marginBottom={26}>
-          <Text color={themeCheck ? 'white' : bgColorMain}>{bodyTitle}</Text>
+          <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>{bodyTitle}</Text>
         </Box>
         <Box
           width="100%"
@@ -79,7 +79,7 @@ const AlertDialogComponent: React.FC<Props> = ({
           justifyContent="flex-end"
           marginRight={'5'}>
           <Text color={'green.400'}>{price}</Text>
-          <Text color={themeCheck ? 'white' : bgColorMain}>
+          <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
             {time ? time : rating}
           </Text>
         </Box>
@@ -88,7 +88,7 @@ const AlertDialogComponent: React.FC<Props> = ({
           <Button
             alignSelf={'center'}
             width={'5/6'}
-            bgColor={themeCheck ? 'white' : bgColorMain}
+            bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
             onPress={closeAlertDialog}>
             <Text color={'red.400'}>{t('close')}</Text>
           </Button>

@@ -7,6 +7,9 @@ import {
   IVerifyOTPResponse,
   ISignUpData,
   ISignUpResponse,
+  ISendOTPDataForResetPassword,
+  IResetPasswordData,
+  IResetPasswordBeforeLoginData,
 } from './index';
 
 export const AuthApi = createApi({
@@ -35,11 +38,36 @@ export const AuthApi = createApi({
         body
       }),
     }),
+
+    sendOtpForResetPassword: builder.mutation<ISignUpResponse, ISendOTPDataForResetPassword>({
+      query: body => ({
+        url: `/Auth/SendOtp?email=${body.email}`,
+        method: 'POST',
+        body
+      }),
+    }),
+    resetPassword: builder.mutation<ISignUpResponse, IResetPasswordData>({
+      query: body => ({
+        url: '/Auth/ResetPassword',
+        method: 'POST',
+        body
+      }),
+    }),
+    resetPasswordbeforeLogin: builder.mutation<ISignUpResponse, IResetPasswordBeforeLoginData>({
+      query: body => ({
+        url: `/Auth/ResetPasswordBeforeLogin?email=${body.Email}&newPassword=${body.Password}`,
+        method: 'POST',
+        body
+      }),
+    }),
   }),
 });
 
 export const {
   useSendOtpMutation,
   useVerifyOtpMutation,
+  useSendOtpForResetPasswordMutation,
+  useResetPasswordMutation,
+  useResetPasswordbeforeLoginMutation,
   useSignUpMutation,
 } = AuthApi;

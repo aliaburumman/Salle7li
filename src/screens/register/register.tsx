@@ -30,7 +30,7 @@ const Register = ({navigation}: any) => {
 
   const [signUp] = useSignUpMutation();
 
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
 
   useEffect(() => {
     let timer: any;
@@ -211,10 +211,7 @@ const Register = ({navigation}: any) => {
             </View>
 
             <View>
-              <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
-                {' '}
-                {t('order:selectWorker')}
-              </Text>
+              
               <Radio.Group
                 name="myRadioGroup"
                 accessibilityLabel="favorite number"

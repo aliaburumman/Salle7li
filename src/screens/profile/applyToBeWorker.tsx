@@ -7,7 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { t } from 'i18next';
 
 const ApplyToBeWorker = () => {
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
+
   const copyToClipboard = (text: string) => {
     Clipboard.setString(text);
     Alert.alert('Copied!', `Copied ${text} to clipboard.`);
@@ -16,7 +17,7 @@ const ApplyToBeWorker = () => {
   return (
     <View
       flex={1}
-      bgColor={themeCheck ? 'white' : bgColorMain}
+      bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
       alignItems="center"
       justifyContent="space-evenly">
         <Text color={'white'}  fontSize={'3xl'}>{t('contact')}</Text>
@@ -26,39 +27,39 @@ const ApplyToBeWorker = () => {
       <Text color={!themeCheck?'white':bgColorMain}>{t('email')}</Text>
       </View>
       <View>
-        <Text color={!themeCheck ? 'white' : bgColorMain}>
+        <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
         Salle7li@gmail.com
         </Text>
         </View>
         <View>
         <Button
           onPress={() => copyToClipboard('Salle7li@gmail.com')}
-          bgColor={!themeCheck ? 'white' : bgColorMain}
+          bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
           size="sm">
           <Icon
             name="copy"
             size={30}
-            color={themeCheck ? 'white' : bgColorMain}
+            color={themeCheck=='bright' ? 'white' : bgColorMain}
           />
           
         </Button>
         </View>
       </HStack>
       <HStack space={3} alignItems="center" marginTop={4}>
-        <Text color={!themeCheck ? 'white' : bgColorMain}>
+        <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
         {t('num')}
         </Text>
 
-        <Text color={!themeCheck ? 'white' : bgColorMain}>
+        <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
           0790927552
         </Text>
         <Button
           onPress={() => copyToClipboard('0790927552')}
-          bgColor={!themeCheck ? 'white' : bgColorMain}
+          bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
           size="sm">
           <Icon
             name="copy"
-            color={themeCheck ? 'white' : bgColorMain}
+            color={themeCheck=='bright' ? 'white' : bgColorMain}
             size={30}
           />
         </Button>

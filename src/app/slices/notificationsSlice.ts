@@ -1,21 +1,22 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-type initialType={
-    isRead:boolean,
-}
-const initialValue:initialType = {
-    isRead :false,
-}
-const notificationsSlice = createSlice({
-    name: "arabic",
-    initialState: initialValue,
-    reducers: {
-implementRead:(state:initialType,action:PayloadAction<boolean>)=>{
-            state.isRead = action.payload;
+// In your notificationsSlice.js or a relevant slice file
+import { createSlice } from '@reduxjs/toolkit';
 
-
-}
+export const notificationsSlice = createSlice({
+  name: 'notifications',
+  initialState: {
+    isRead: false,
+    visited: false
+  },
+  reducers: {
+    implementRead: (state, action) => {
+      state.isRead = action.payload;
+    },
+    setVisited: state => {
+      state.visited = true;
     }
-})
-export default notificationsSlice.reducer;
-export const {implementRead} = notificationsSlice.actions;
+  },
+});
 
+export const { implementRead, setVisited } = notificationsSlice.actions;
+
+export default notificationsSlice.reducer;

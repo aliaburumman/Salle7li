@@ -1,17 +1,18 @@
-import {Button, Image, Text, View} from 'native-base';
+
 import React, {useEffect, useState} from 'react';
 import {useAppSelector} from '../../app/hooks';
 import {bgColorMain, salle7liLogo} from '../getStarted/started';
 import {useVerifyOtpMutation} from '../../data/auth/auth';
-import OtpInput from '../../inputs/otpInput';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loading from '../../components/Loading/Loading';
 import { navigate } from '../../../AppLoader';
 import { useDispatch } from 'react-redux';
-import { login, setTokens } from '../../app/slices/slice';
+import { login, logout, setTokens } from '../../app/slices/slice';
+import { Button, Image, Text, View } from 'native-base';
+import Loading from '../../components/Loading/Loading';
+import OtpInput from '../../inputs/otpInput';
+import { useAppDispatch } from '../../app/regist';
 
 const VerifyOtp = ({navigation, route}: any) => {
-  const {customerEmail} = route.params;
+  const {customerEmail,isResetPassword} = route.params;
   const [code, setCode] = useState<string>('');
   const [remainingTime, setRemainingTime] = useState(35);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,8 +63,12 @@ const VerifyOtp = ({navigation, route}: any) => {
   const navigateToHome = () => {
     navigate('HomeScreen');
   };
+  const navigateToResetPassword = (customerEmail:string) => {
 
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+    navigation.navigate('setNewPassword',{email:customerEmail});
+  };
+
+  const themeCheck = useAppSelector(state => state.user.theme);
   const [verifyOtp] = useVerifyOtpMutation();
 
   const dispatch =useDispatch();
@@ -82,13 +87,21 @@ const VerifyOtp = ({navigation, route}: any) => {
         }).unwrap();
         console.log('Response received:', response);
         if (response.success && response) {
+          if(!isResetPassword){
           dispatch(login(response.userId));
           dispatch(setTokens(response.token));
           
           navigateToHome();
-        } else {
-          console.error('Mutation unsuccessful');
+          }
+          else{
+            dispatch(logout())
+            navigateToResetPassword(customerEmail);
+          }
         }
+          
+         else {
+          console.error('Mutation unsuccessful');
+         }
       } catch (error: unknown) {
         console.error('Error:', error);
         showError(error);
@@ -107,7 +120,7 @@ const VerifyOtp = ({navigation, route}: any) => {
     <View
       flex={1}
       alignItems={'center'}
-      bgColor={themeCheck ? 'white' : bgColorMain}>
+      bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
       <View flex={1} justifyContent={'space-evenly'}>
         <View alignItems={'center'}>
           <Image source={salle7liLogo} width={140} height={170} />
@@ -125,7 +138,8 @@ const VerifyOtp = ({navigation, route}: any) => {
             <OtpInput
               value={code?.toString()}
               handleChange={value => setCode(value)}
-              width={150}
+              width={45}
+              keyboardType='decimal-pad'
               max={4}
             />
             <Button bgColor={'red.500'} onPress={() => onPressHandler()}>

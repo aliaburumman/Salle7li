@@ -12,6 +12,15 @@ export const HomeApi = createApi({
       providesTags: ['home'],
     }),
 
+    getWorkersByTime: builder.query<IGetWorkerResponse,{start:string,end:string}>({
+      query: (query) => `/GetWorker/${query.start}&${query.end}`,
+      providesTags: ['home'],
+    }),
+
+    getWorker: builder.query<IGetWorkerResponse,{workerId:number}>({
+      query: (query) => `/GetWorker/${query.workerId}`,
+      providesTags: ['home'],
+    }),
    
     updateProfile: builder.mutation<IGetEditUserResponse[], IGetEditUser>({
       query: body => ({
@@ -28,5 +37,7 @@ export const HomeApi = createApi({
 
 export const {
   useGetWorkersQuery,
+  useGetWorkersByTimeQuery,
+  useGetWorkerQuery,
   useUpdateProfileMutation,
 } = HomeApi;

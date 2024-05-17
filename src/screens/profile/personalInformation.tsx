@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import {
   Box,
   HStack,
@@ -14,9 +13,11 @@ import {useAppSelector} from '../../app/hooks';
 import {useGetUserProfileQuery} from '../../data/profile/profile';
 import Loading from '../../components/Loading/Loading';
 import {bgColorMain, salle7liLogo} from '../getStarted/started';
+import { t } from 'i18next';
+
 
 const PersonalInformation = ({navigation}: any) => {
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
   const user = useAppSelector(state => state.user.userId);
   const {data, isLoading, error} = useGetUserProfileQuery({userId: user});
   if (isLoading) return <Loading />;
@@ -24,7 +25,7 @@ const PersonalInformation = ({navigation}: any) => {
   return (
     <VStack
       flex={1}
-      bgColor={!themeCheck ? bgColorMain : 'white'}
+      bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
       space={4}
       px={4}
       py={2}
@@ -33,41 +34,41 @@ const PersonalInformation = ({navigation}: any) => {
         <>
           <InfoItem
             icon="person"
-            label="First Name"
-            checkTheme
+            label={t("fname")}
+            checkTheme='bright'
             value={data.firstName}
           />
           <InfoItem
             icon="person-outline"
-            label="Last Name"
-            checkTheme
+            label={t("lname")}
+            checkTheme='bright'
             value={data.lastName}
           />
-          <InfoItem icon="mail" label="Email" checkTheme value={data.email} />
+          <InfoItem icon="mail" label={t("email")} checkTheme='bright' value={data.email} />
           <InfoItem
             icon="phone"
-            label="Phone Number"
-            checkTheme
+            label={t("num")}
+            checkTheme='bright'
             value={data.phoneNumber}
           />
           <InfoItem
             icon="gender"
-            label="Gender"
-            checkTheme
+            label={t("login:selectGender")}
+            checkTheme='bright'
             value={data.gender}
           />
           <InfoItem
             icon="location-city"
-            label="City"
-            checkTheme
+            label={t("city")}
+            checkTheme='bright'
             value={data.city}
           />
         </>
       )}
       <Button
-        bgColor={!themeCheck ? 'white' : bgColorMain}
+        bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
         onPress={() => navigation.navigate('updateInfo', {userData: data})}>
-        <Text color={'red.600'}>Change Info</Text>
+        <Text color={'red.600'}>{t("changeInfo")}</Text>
       </Button>
       <Image
         source={salle7liLogo}
@@ -97,7 +98,7 @@ const InfoItem = ({checkTheme, label, value}: any) => {
       <Text
         fontSize="sm"
         fontWeight="bold"
-        color={!checkTheme ? bgColorMain : 'white'}>
+        color={checkTheme=='bright' ? bgColorMain : 'white'}>
         {label}:
       </Text>
       <Text color={'red.500'} flex={1} textAlign="right">
@@ -108,48 +109,3 @@ const InfoItem = ({checkTheme, label, value}: any) => {
 };
 
 export default PersonalInformation;
-=======
-import { HStack, Stack, Text, View } from 'native-base'
-import React from 'react'
-import { useAppSelector } from '../../app/hooks'
-import { bgColorMain } from '../getStarted/started'
-import {useTranslation} from 'react-i18next';
-import '../../i18n/i18n.ts';
-
-const PersonalInformation = () => {
-    const {t} = useTranslation();
-    const LanguageCheck = useAppSelector(state => state.language.isArabic);
-    const themeCheck=useAppSelector(state=>state.theme.lightMode)
-  return (
-<Stack flex={1} bgColor={themeCheck?"white":bgColorMain}  justifyContent={'space-around'} >
-  <HStack justifyContent={'space-around'}>
-    <Text color={themeCheck?bgColorMain:'white'}>{t('fname')}</Text>
-    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
-
-  </HStack>
-  <HStack justifyContent={'space-around'}>
-    <Text color={themeCheck?bgColorMain:'white'}>{t('lname')}</Text>
-    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
-
-  </HStack>
-  <HStack justifyContent={'space-around'}>
-    <Text color={themeCheck?bgColorMain:'white'}>{t('email')}</Text>
-    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
-
-  </HStack>
-  <HStack justifyContent={'space-around'}>
-    <Text color={themeCheck?bgColorMain:'white'}>{t('num')}</Text>
-    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
-
-  </HStack>
-  <HStack justifyContent={'space-around'}>
-    <Text color={themeCheck?bgColorMain:'white'}>{t('city')}</Text>
-    <Text color={themeCheck?bgColorMain:'white'}>Etrokeh fadi</Text>
-
-  </HStack>
-</Stack>
-  )
-}
-
-export default PersonalInformation
->>>>>>> Stashed changes

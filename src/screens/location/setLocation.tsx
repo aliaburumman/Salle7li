@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Text, View} from 'native-base';
 import MapView, {Marker} from 'react-native-maps';
-import {StyleSheet, PermissionsAndroid} from 'react-native';
+import {StyleSheet, PermissionsAndroid, Dimensions} from 'react-native';
 import Geolocation, {
   GeolocationResponse,
 } from '@react-native-community/geolocation';
+import { useTranslation } from 'react-i18next';
 
+const { width, height } = Dimensions.get('window');
 const MapScreen = ({navigation}: any) => {
   const [markerCoords, setMarkerCoords] = useState({
     latitude: 31.9454,
     longitude: 35.9284,
   });
   const [location, setLocation] = useState<GeolocationResponse>();
-
+const {t}=useTranslation();
   const requestLocationPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -71,6 +73,7 @@ const MapScreen = ({navigation}: any) => {
   }, [markerCoords]);
 
   return (
+    <View style={{ width: width, height: height }}>
     <View style={styles.container}>
       <MapView
         style={styles.map}
@@ -96,7 +99,7 @@ const MapScreen = ({navigation}: any) => {
                 latitude: markerCoords.latitude,
               });
             }}>
-            <Text>Procced</Text>
+            <Text>{t("common:Procced")}</Text>
           </Button>
         </View>
       )}
@@ -108,6 +111,7 @@ const MapScreen = ({navigation}: any) => {
           </>
         )}
       </View>
+    </View>
     </View>
   );
 };

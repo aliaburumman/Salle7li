@@ -22,9 +22,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
-import { useAppSelector } from '../../app/hooks.ts';
+import {useAppSelector} from '../../app/hooks.ts';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -68,43 +68,51 @@ const OrderService = ({navigation, route}: any) => {
   const now = new Date();
   const minSelectableTime = new Date(now);
   minSelectableTime.setHours(now.getHours());
-  const { t } = useTranslation();
-  const themeCheck = useAppSelector(state=>state.theme.lightMode)
+  const {t} = useTranslation();
+  const themeCheck = useAppSelector(state => state.user.theme);
 
   return (
-    <View flex={1} bgColor={themeCheck?'white':bgColorMain}>
+    <View flex={1} bgColor={themeCheck=='dark' ? 'white' : bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Formik
-            initialValues={{
-              ...initialValuesForReservation,
-              location: {
-                longitude: longitude || null,
-                latitude: latitude || null,
-              },
+          initialValues={{
+            ...initialValuesForReservation,
+            location: {
+              longitude: longitude || null,
+              latitude: latitude || null,
+            },
+          }}
+          onSubmit={(values, { setSubmitting }) => {
 
-            }}
-            onSubmit={values => navigation.navigate('ChooseWorker')}
+            navigation.navigate('chooseWorker', {values: values}),
+              setSubmitting(false);
+          }}
           validateOnChange={false}
-          validationSchema={validationSchemaForReservation}
-          >
+          validationSchema={validationSchemaForReservation}>
           {({handleChange, handleSubmit, values, errors}) => (
             <Stack space={2}>
               <View alignItems={'center'}>
-                <Text color={!themeCheck?'white':bgColorMain} fontSize={'4xl'}>
+                <Text
+                  color={themeCheck=='bright' ? 'white' : bgColorMain}
+                  fontSize={'4xl'}>
                   {t('order:title')}
                 </Text>
               </View>
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}> {t('order:selectService')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {' '}
+                  {t('order:selectService')}
+                </Text>
                 <View alignItems={'center'}>
                   <Select
                     width="5/6"
-                    bgColor={!themeCheck?'white':bgColorMain}
+                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
                     borderRadius={'lg'}
                     accessibilityLabel="Choose"
                     placeholder={t('order:selectService')}
-                    placeholderTextColor={themeCheck?'white':bgColorMain}
+                    placeholderTextColor={themeCheck=='bright' ? 'white' : bgColorMain}
                     padding={'4'}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     onValueChange={value => handleChange('service')(value)}
                     selectedValue={values.service}
                     _selectedItem={{
@@ -115,7 +123,6 @@ const OrderService = ({navigation, route}: any) => {
                     <Select.Item label={t('plumber')} value="plumber" />
                     <Select.Item label={t('electrician')} value="electrician" />
                     <Select.Item label={t('carpenter')} value="carpenter" />
-                   
                   </Select>
                   {errors.service && (
                     <Text color={'red.500'}>{errors.service}</Text>
@@ -124,16 +131,20 @@ const OrderService = ({navigation, route}: any) => {
               </View>
 
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectDate')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {t('order:selectDate')}
+                </Text>
                 <Button
                   onPress={openPickerDate}
                   width={'5/6'}
                   alignSelf={'center'}
                   padding={'5'}
-                  bgColor={!themeCheck?'white':bgColorMain}
+                  bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
                   borderRadius={'lg'}>
-                  <Text color={themeCheck?'white':bgColorMain}>
-                  {values.date ? dayjs(values.date).format('YYYY-MM-DD') : t('order:selectDate')}
+                  <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
+                    {values.date
+                      ? dayjs(values.date).format('YYYY-MM-DD')
+                      : t('order:selectDate')}
                   </Text>
                 </Button>
                 {openDatePicker && (
@@ -157,15 +168,17 @@ const OrderService = ({navigation, route}: any) => {
                 )}
               </View>
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectTime')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {t('order:selectTime')}
+                </Text>
                 <View flexDirection={'row'} justifyContent={'space-evenly'}>
                   <Button
                     onPress={openPickerTime}
                     width={'2/6'}
                     padding={'5'}
-                    bgColor={!themeCheck?'white':bgColorMain}
+                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
                     borderRadius={'lg'}>
-                    <Text color={themeCheck?'white':bgColorMain}>
+                    <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                       {values.startTime
                         ? dayjs.utc(values.startTime).local().format('hh:mm A')
                         : t('order:start')}
@@ -191,10 +204,10 @@ const OrderService = ({navigation, route}: any) => {
                         );
                         if (selectedTime) {
                           const time = dayjs
-                           .utc(selectedTime)
-                             .local()
+                            .utc(selectedTime)
+                            .local()
                             .toISOString();
-                          handleChange(t('order:start'))(time);
+                          handleChange('startTime')(time);
                           closePickerTime();
                         } else {
                           closePickerTime();
@@ -207,9 +220,9 @@ const OrderService = ({navigation, route}: any) => {
                     onPress={openPickerTime2}
                     width={'2/6'}
                     padding={'5'}
-                    bgColor={!themeCheck?'white':bgColorMain}
+                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
                     borderRadius={'lg'}>
-                    <Text color={themeCheck?'white':bgColorMain}>
+                    <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                       {values.endTime
                         ? dayjs.utc(values.endTime).local().format('hh:mm A')
                         : t('order:end')}
@@ -224,9 +237,8 @@ const OrderService = ({navigation, route}: any) => {
                       display="spinner"
                       onChange={(event, selectedTime) => {
                         if (selectedTime) {
-                         
                           const time = dayjs
-                            .utc(selectedTime) 
+                            .utc(selectedTime)
                             .local()
                             .toISOString();
                           handleChange('endTime')(time);
@@ -240,15 +252,21 @@ const OrderService = ({navigation, route}: any) => {
                 </View>
                 <View flexDirection={'row'} justifyContent={'space-evenly'}>
                   {errors.startTime && (
-                    <Text color={'red.500'} fontSize={'11'}>{errors.startTime}</Text>
+                    <Text color={'red.500'} fontSize={'11'}>
+                      {errors.startTime}
+                    </Text>
                   )}
                   {errors.endTime && (
-                    <Text color={'red.500'} fontSize={'11'}>{errors.endTime}</Text>
+                    <Text color={'red.500'} fontSize={'11'}>
+                      {errors.endTime}
+                    </Text>
                   )}
                 </View>
               </View>
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectWorker')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {t('order:selectWorker')}
+                </Text>
                 <Radio.Group
                   name="myRadioGroup"
                   accessibilityLabel="favorite number"
@@ -259,44 +277,63 @@ const OrderService = ({navigation, route}: any) => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('male')} </Text>
+                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                        {' '}
+                        {t('male')}{' '}
+                      </Text>
                     </Radio>
                     <Radio value="female" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('female')}</Text>
+                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                        {' '}
+                        {t('female')}
+                      </Text>
                     </Radio>
                     <Radio value="any" colorScheme={'yellow'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('any')} </Text>
+                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                        {' '}
+                        {t('any')}{' '}
+                      </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
 
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}>{t('order:selectPayement')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {t('order:selectPayement')}
+                </Text>
                 <Radio.Group
-  name="paymentMethod"
-  accessibilityLabel="paymentMethod"
-  defaultValue="cash"
-  value={values.paymentMethod}
-  onChange={nextValue => {
-    handleChange('paymentMethod')(nextValue);
-  }}>
+                  name="paymentMethod"
+                  accessibilityLabel="paymentMethod"
+                  defaultValue="cash"
+                  value={values.paymentMethod}
+                  onChange={nextValue => {
+                    handleChange('paymentMethod')(nextValue);
+                  }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="cash" colorScheme={'darkBlue'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('cash')} </Text>
+                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                        {' '}
+                        {t('cash')}{' '}
+                      </Text>
                     </Radio>
                     <Radio value="visa" colorScheme={'pink'} my={1}>
-                      <Text color={!themeCheck?'white':bgColorMain}> {t('visa')} </Text>
+                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                        {' '}
+                        {t('visa')}{' '}
+                      </Text>
                     </Radio>
                   </Stack>
                 </Radio.Group>
               </View>
               {values.paymentMethod === 'visa' && (
                 <View>
-                  <Text color={!themeCheck?'white':bgColorMain}>{t('order:cardOpt')}</Text>
+                  <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                    {t('order:cardOpt')}
+                  </Text>
                   <View
                     borderWidth={'2'}
-                    borderColor={!themeCheck?'white':bgColorMain}
+                    borderColor={themeCheck=='bright' ? 'white' : bgColorMain}
                     borderRadius={'2xl'}
                     padding={'4'}>
                     <View
@@ -305,8 +342,10 @@ const OrderService = ({navigation, route}: any) => {
                         justifyContent: 'space-between',
                         marginBottom: 10,
                       }}>
-                      <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
-                      {t('order:cardNum')}
+                      <Text
+                        color={themeCheck=='bright' ? 'white' : bgColorMain}
+                        style={{marginBottom: 5}}>
+                        {t('order:cardNum')}
                       </Text>
                       <TextModifiedInput
                         handleChange={handleChange('visaDetails.cardNumber')}
@@ -323,8 +362,10 @@ const OrderService = ({navigation, route}: any) => {
                         justifyContent: 'space-between',
                       }}>
                       <View style={{flex: 1, marginRight: 10}}>
-                        <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
-                        {t('order:cardName')}
+                        <Text
+                          color={themeCheck=='bright' ? 'white' : bgColorMain}
+                          style={{marginBottom: 5}}>
+                          {t('order:cardName')}
                         </Text>
                         <TextModifiedInput
                           handleChange={handleChange(
@@ -336,8 +377,10 @@ const OrderService = ({navigation, route}: any) => {
                         />
                       </View>
                       <View style={{flex: 1}}>
-                        <Text color={!themeCheck?'white':bgColorMain} style={{marginBottom: 5}}>
-                        {t('order:cvv')}
+                        <Text
+                          color={themeCheck=='bright' ? 'white' : bgColorMain}
+                          style={{marginBottom: 5}}>
+                          {t('order:cvv')}
                         </Text>
                         <TextModifiedInput
                           handleChange={handleChange('visaDetails.cvv')}
@@ -346,6 +389,7 @@ const OrderService = ({navigation, route}: any) => {
                           placeholder="CVV"
                           keyboardType="numeric"
                           max={3}
+
                         />
                       </View>
                     </View>
@@ -365,24 +409,34 @@ const OrderService = ({navigation, route}: any) => {
               )}
 
               <View>
-                <Text color={!themeCheck?'white':bgColorMain}>{t('order:probDet')}</Text>
+                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  {t('order:probDet')}
+                </Text>
                 <View alignSelf={'center'}>
                   <TextModifiedInput
                     handleChange={handleChange('problemDetails')}
                     width={330}
                     multiLine
+
                     height={100}
                   />
                 </View>
-                {errors.problemDetails&&<Text color={'red.500'} alignSelf={'center'}>{errors.problemDetails}</Text>}
+                {errors.problemDetails && (
+                  <Text color={'red.500'} alignSelf={'center'}>
+                    {errors.problemDetails}
+                  </Text>
+                )}
               </View>
               <Box alignItems="center">
                 <Button
-                  onPress={()=>handleSubmit()}
-                  backgroundColor={!themeCheck?'white':bgColorMain}
+                  onPress={() => handleSubmit()}
+                  bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
                   padding={4}
                   borderRadius={'lg'}>
-                  <Text style={{color: themeCheck?'white':bgColorMain}}> {t('order:button')} </Text>
+                  <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
+                    {' '}
+                    {t('order:button')}{' '}
+                  </Text>
                 </Button>
               </Box>
             </Stack>

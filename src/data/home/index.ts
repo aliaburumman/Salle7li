@@ -1,5 +1,5 @@
 export interface IGetWorkerResponse {
-    map(arg0: (worker: any) => import("react").JSX.Element): any;
+    [x: string]: any;
     description: any;
     id?: string
     firstName: string;

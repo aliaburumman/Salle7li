@@ -4,11 +4,11 @@ import { bgColorMain } from '../../screens/getStarted/started';
 import { useAppSelector } from '../../app/hooks';
 
 const Loading = () => {
-  const themeCheck = useAppSelector(state=> state.theme.lightMode);
+  const themeCheck = useAppSelector(state=> state.user.theme);
   return (
     <Box
       flex={1}
-      backgroundColor={themeCheck?"white":bgColorMain}
+      backgroundColor={themeCheck=='dark'?"white":bgColorMain}
       justifyContent="center"
       alignItems="center">
       <Spinner size="sm" color={'red.500'} />

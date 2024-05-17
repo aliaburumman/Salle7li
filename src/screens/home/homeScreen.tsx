@@ -18,6 +18,7 @@ import {
   homeImage,
   plumber,
   salle7liLogo,
+  wroker,
 } from '../getStarted/started';
 import {ImageBackground} from 'react-native';
 import CardComp from '../../components/card';
@@ -29,12 +30,11 @@ import '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
 import {useGetWorkersQuery} from '../../data/home/home.ts';
-import { IGetWorkerResponse } from '../../data/home/index.ts';
+import {IGetWorkerResponse} from '../../data/home/index.ts';
 
 const HomeScreen = ({navigation}: any) => {
   const {data, isLoading} = useGetWorkersQuery();
-  console.log('dataa', data);
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
   const [isAlertDialogPlumberVisible, setAlertIsDialogPlumberVisible] =
     useState(false);
   const [isAlertDialogCarpenterVisible, setAlertIsDialogCarpenterVisible] =
@@ -75,8 +75,9 @@ const HomeScreen = ({navigation}: any) => {
       }
     };
   }, []);
+
   return (
-    <View bgColor={themeCheck ? 'white' : bgColorMain} flex={1}>
+    <View bgColor={themeCheck == 'dark' ? 'white' : bgColorMain} flex={1}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View flex={1} flexDirection={'column'}>
           <View>
@@ -130,11 +131,13 @@ const HomeScreen = ({navigation}: any) => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={themeCheck ? bgColorMain : 'white'} fontSize={'2xl'}>
+              <Text
+                color={themeCheck == 'dark' ? bgColorMain : 'white'}
+                fontSize={'2xl'}>
                 {t('homeScreen:services')}
               </Text>
               <View
-                bgColor={themeCheck ? bgColorMain : 'white'}
+                bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -145,21 +148,21 @@ const HomeScreen = ({navigation}: any) => {
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogPlumberVisible(true);
                   }}>
                   <CardComp text={t('plumber')} imageSrc={plumber} />
                 </Button>
                 <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogElectricianVisible(true);
                   }}>
                   <CardComp text={t('electrician')} imageSrc={electrician} />
                 </Button>
                 <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogBlackSmithVisible(true);
                   }}>
@@ -181,11 +184,11 @@ const HomeScreen = ({navigation}: any) => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={themeCheck ? bgColorMain : 'white'} fontSize={'2xl'}>
+              <Text color={themeCheck=='dark' ? bgColorMain : 'white'} fontSize={'2xl'}>
                 Our Top Rated Workers
               </Text>
               <View
-                bgColor={themeCheck ? bgColorMain : 'white'}
+                bgColor={themeCheck=='dark' ? bgColorMain : 'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -196,17 +199,18 @@ const HomeScreen = ({navigation}: any) => {
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {data &&
-                  data.map((worker: any) => (
+                  data.map((worker: any, index) => (
                     <Button
                       key={worker?.id}
-                      bgColor={!themeCheck ? bgColorMain : 'white'}
+                      bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
                       onPress={() => {
                         setIsDialogForWorker1(true);
                         setActiveWorker(worker);
                       }}>
                       <CardComp
                         text={worker?.firstName}
-                        imageSrc={worker?.imageSrc}
+                        imageSrc={wroker[index % wroker.length]}
+                        rating={worker?.rating}
                       />
                     </Button>
                   ))}

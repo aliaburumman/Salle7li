@@ -12,7 +12,6 @@ import {
   ScrollView,
   Stack,
   Text,
-  ThreeDotsIcon,
   View,
 } from 'native-base';
 import {
@@ -20,46 +19,44 @@ import {
   profilePicture,
   salle7liLogo,
 } from '../getStarted/started.tsx';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import Icon from 'react-native-vector-icons/FontAwesome.js';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../../components/Loading/Loading.tsx';
-import {navigate} from '../../../AppLoader.tsx';
 import {useGetUserProfileQuery} from '../../data/profile/profile.ts';
 import { logout } from '../../app/slices/slice.ts';
 import { useAppDispatch } from '../../app/regist.ts';
 
 function Profile({navigation}: any) {
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
   const user = useAppSelector(state => state.user.userId);
   const [isAlertDialog, setIsAlertDialog] = useState(false);
   const [ifLoading, setIfLoading] = useState(false);
   const {data, isLoading} = useGetUserProfileQuery({userId: user});
   const dispatch =useAppDispatch();
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
   if (isLoading || ifLoading) {
     return <Loading />;
   }
   return (
     <View
-      bgColor={themeCheck ? 'white' : bgColorMain}
+      bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
       flex={1}
       flexDirection={'column'}
       justifyContent={'space-evenly'}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View alignItems={'center'} width={'full'} justifyContent={'center'}>
           <Text
-            color={!themeCheck ? 'white' : bgColorMain}
+            color={themeCheck=='bright' ? 'white' : bgColorMain}
             fontWeight={'bold'}
             fontSize={'3xl'}>
             {t('profile:profile')}
           </Text>
           <View
-            bgColor={!themeCheck ? 'white' : bgColorMain}
+            bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
             paddingTop={'5'}
             paddingBottom={'5'}
             width={'full'}
@@ -80,7 +77,7 @@ function Profile({navigation}: any) {
               />
             </View>
             <View justifyContent={'space-evenly'}>
-              <Text color={themeCheck ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                 {data?.firstName} {data?.lastName}
               </Text>
               <View flexDirection={'row'}>
@@ -92,7 +89,7 @@ function Profile({navigation}: any) {
                     <Icon
                       key={i}
                       name="star"
-                      color={themeCheck ? 'white' : bgColorMain}
+                      color={themeCheck=='dark' ? 'white' : bgColorMain}
                       style={{marginRight: 6}}
                     />
                   ),
@@ -104,12 +101,12 @@ function Profile({navigation}: any) {
           <Stack space={7} width={'5/6'} marginTop={'10'}>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
               onPress={() => navigation.navigate('personalInformation')}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {' '}
@@ -122,7 +119,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="info-circle"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -130,12 +127,12 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
               onPress={() => navigation.navigate('AppearanceSettings')}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('appsett')}
@@ -147,7 +144,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="exchange"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -155,11 +152,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}
                     onPress={() => {
@@ -174,7 +171,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="lock"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -182,11 +179,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:serviceHistory')}
@@ -198,7 +195,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="clock-o"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -206,11 +203,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:help')}
@@ -222,7 +219,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="question"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -230,14 +227,14 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
               onPress={() => {
                 navigation.navigate('applyToBeWorker');
               }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:applyWorker')}
@@ -249,7 +246,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="play"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -257,14 +254,14 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={!themeCheck ? 'white' : bgColorMain}
+              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
               onPress={() => {
                 setIsAlertDialog(true);
               }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:logout')}
@@ -276,7 +273,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="close"
-                    color={themeCheck ? 'white' : bgColorMain}
+                    color={themeCheck=='dark' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -290,7 +287,7 @@ function Profile({navigation}: any) {
       </ScrollView>
       <AlertDialogComponent
         isAlertDialogVisible={isAlertDialog}
-        approveAlertDialog={async () => {
+        approveAlertDialog={() => {
           setIfLoading(true);
           setIsAlertDialog(false);
           dispatch(logout())

@@ -1,7 +1,9 @@
 export type Locale = 'en' | 'ar';
+export type theme = 'dark' | 'bright';
 export const initialState: UserState = {
     language: 'en',
     isLoggedIn: false,
+    theme:'dark',
     userId:-1,
     phoneNumber: '',
     
@@ -13,6 +15,7 @@ export interface UserState {
     language: Locale;
     token?: string;
     isLoggedIn?: boolean;
+    theme?:theme;
     userId?:number;
     phoneNumber: string;
     
@@ -32,5 +35,6 @@ export const loggedOutState: UserState = {
     language: 'en',
     token:undefined,
     phoneNumber: '',
+
     
 };

@@ -37,7 +37,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
     }
   };
 
-  const themeCheck = useAppSelector(state => state.theme.lightMode);
+  const themeCheck = useAppSelector(state => state.user.theme);
 
   return (
     <View

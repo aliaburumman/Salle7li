@@ -28,6 +28,7 @@ const en = {
       close: 'Close',
       price:'10JOD',
       time:'/hour',
+      procced:"Procced",
       fname:'First Name',
       lname:'Last Name',
       email:'Email:',
@@ -36,6 +37,7 @@ const en = {
       confirm:'Confirm',
       entemail:'Please Enter Your E-mail',
       contact: 'Contact Us On:',
+      changeInfo:"Change Info",
     },
     login: {
       title: 'Log In',
@@ -43,10 +45,14 @@ const en = {
       buttonText: 'Join Salle7li',
       forgotPass:"Can't Remember your Current Password?", 
       resetPass: 'Reset Password',
-      noAccount:"Don't Have An Account? Create account",
+      noAccount:"Create account now!",
       needHelp: 'Need Help?',
       validEmail: 'Please enter a valid Email address',
       tryAgain: 'Something went wrong. Please try again!',
+      selectGender:"Gender",
+      or:"or",
+      email:"Email",
+      password:"Password"
     },
     verifyOtp: {
       codeSent: 'Code has been sent to ',

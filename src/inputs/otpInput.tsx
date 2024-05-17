@@ -24,12 +24,13 @@ const OtpInput = (props: Iprops) => {
           
           style={{
             width: props.width,
-            padding: 10,
+           
             color:themeCheck?'white':bgColorMain,
             backgroundColor:!themeCheck?'white':bgColorMain,
             borderRadius:10,
             marginRight:props.marginRight? props.marginRight:0,
-            height:props.height?props.height:60
+            height:props.height?props.height:60,
+            // paddingHorizontal:100
            
           }}
           onChangeText={props.handleChange}
@@ -39,6 +40,7 @@ const OtpInput = (props: Iprops) => {
           placeholderTextColor="grey"
           multiline={props.multiLine?true:false}
           maxLength={props.max?props.max:undefined}
+          
         
         />
         <Text style={{color:'red',fontSize:12}}>{props.error}</Text>

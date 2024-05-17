@@ -10,12 +10,16 @@ import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
 import {useSendOtpMutation} from '../../data/auth/auth.ts';
 import Loading from '../../components/Loading/Loading.tsx';
+import { useAppSelector } from '../../app/hooks.ts';
 
 const Login = ({navigation}: any) => {
   const {t} = useTranslation();
   const [sendOtp] = useSendOtpMutation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const language = useAppSelector(state=>state.user.language);
+
 
   useEffect(() => {
     let timer: any;
@@ -26,7 +30,6 @@ const Login = ({navigation}: any) => {
     }
     return () => clearTimeout(timer);
   }, [errorMessage]);
-
 
   const showError = (error: unknown) => {
     let message = 'An unexpected error occurred';
@@ -56,17 +59,17 @@ const Login = ({navigation}: any) => {
         initialValues={LoginRequest}
         onSubmit={async (values, {setSubmitting, setErrors}) => {
           console.log('Submit started');
-          console.log("response",values);
+          console.log('response', values);
           try {
             setIsLoading(true);
             const response = await sendOtp({
               Email: values.email,
               Password: values.password,
             }).unwrap();
-            
+
             if (response && response.success) {
               console.log('Navigation to OTP');
-              navigation.navigate('OTP', {customerEmail: values.email});
+              navigation.navigate('OTP', {customerEmail: values.email,isResetPassword:false});
             } else {
               console.error('Mutation unsuccessful');
               showError('Login failed. Please check your details.');
@@ -118,14 +121,14 @@ const Login = ({navigation}: any) => {
               </View>
               <TextModifiedInput
                 handleChange={value => handleChange('email')(value)}
-                placeholder="Email"
+                placeholder={t('login:email')}
                 value={values.email}
                 error={errors.email}
                 width={330}
               />
               <PasswordInput
                 handleChange={value => handleChange('password')(value)}
-                placeholder="Password"
+                placeholder={t('login:password')}
                 value={values.password}
                 error={errors.password}
               />
@@ -144,6 +147,7 @@ const Login = ({navigation}: any) => {
                   onPress={() => navigation.navigate('resetPassword')}
                   bgColor={'red.500'}
                   width={'1/3'}
+                  marginTop={'4'}
                   alignSelf={'center'}>
                   {t('login:resetPass')}
                 </Button>
@@ -168,12 +172,17 @@ const Login = ({navigation}: any) => {
                   </Text>
                 </Pressable>
               </View>
-              <View style={{marginTop: 50, width: 250, borderRadius: 20}}>
+              <View style={{marginTop: 25, width: 250, borderRadius: 20}}>
                 <Button
                   onPress={() => navigation.navigate('Register')}
                   bgColor={bgColorMain}
-                  alignSelf={'center'}>
-                  <Text style={{fontSize: 15,color:'white'}}>{t('login:noAccount')}</Text>
+                  width={'full'}>
+                  <View style={{alignSelf:'center'}}>
+                    <Text>{t('login:or')}</Text>
+                  </View>
+                  <Text style={{fontSize: 20, color: '#96C8E9'}}>
+                    {t('login:noAccount')}
+                  </Text>
                 </Button>
               </View>
             </View>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { KeyboardTypeOptions, Pressable, Text, TextInput, View } from "react-native";
+import { I18nManager, KeyboardTypeOptions, Pressable, Text, TextInput, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons.js';
 import { bgColorMain } from "../screens/getStarted/started";
+import { useAppSelector } from "../app/hooks";
 export type Iprops = {
   handleChange: (text: string) => void;
   value?: string;
@@ -12,11 +13,10 @@ export type Iprops = {
 
 const PasswordInput = (props: Iprops) => {
   const [visible, setVisible] = useState(false);
-
+const language = useAppSelector(state=>state.user.language);
   return (
-    <View style={{ position: "relative" }}>
+    <View >
       <View style={{ 
-        position: "relative", 
         borderWidth: 1, 
         borderColor: "black", 
         borderRadius: 10 ,
@@ -32,6 +32,7 @@ const PasswordInput = (props: Iprops) => {
             paddingLeft: 10,
             paddingTop:15,
             color:'darkblue',
+            textAlign: I18nManager.isRTL ? 'right' : 'left',
            
           }}
           onChangeText={props.handleChange}
@@ -40,15 +41,18 @@ const PasswordInput = (props: Iprops) => {
           keyboardType={props.keyboardType}
           placeholderTextColor="grey"
         />
-      </View>
-      <Pressable
+        <View style={{width:30,alignSelf: 'flex-end'}}>
+        <Pressable
         onPress={() => {
           setVisible(!visible);
         }}
-        style={{ position: "absolute", top: 20, right: 7, zIndex: 10 }}
+        style={{ position: "relative", bottom: 38,  zIndex: 10}}
       >
         <Icon name={!visible?"eye":"eye-off"} color={bgColorMain} size={25}/>
       </Pressable>
+      </View>
+      </View>
+      
       <Text style={{color:'red',fontSize:12}}>{props.error}</Text>
     </View>
   );

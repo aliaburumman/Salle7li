@@ -30,6 +30,7 @@ const ar: typeof en = {
         close: 'اغلاق',
         price:'١٠ دنانير',
         time:'الساعة/',
+        procced:"استمرار",
         fname:'الاسم',
         lname:'العائلة',
         email:'البريد الإلكتروني',
@@ -38,6 +39,7 @@ const ar: typeof en = {
         confirm:'تم',
         entemail:'ادخل البريد الإلكتروني',
         contact: ' اتصل بنا على',
+        changeInfo:"تغيير المعلومات",
     },
     login: {
         title: 'تسجيل الدخول',
@@ -45,10 +47,14 @@ const ar: typeof en = {
         buttonText: 'انضم إلى صلحلي',
         forgotPass: "هل نسيت كلمة السر؟",
         resetPass: 'إعادة تعيين كلمة السر',
-        noAccount: "ليس لديك حساب؟ ليس لديك حساب؟ انشئ حساب",
+        noAccount: " انشئ حساب الأن!",
         needHelp: 'تحتاج مساعدة؟',
         validEmail: 'الرجاء إدخال بريد إلكتروني صحيح',
+        selectGender:"الجنس",
         tryAgain: "!حدث خطأ ما. الرجاء المحاولة مرة أخرى",
+        or:"أو",
+        email:"البريد الالكتروني",
+      password:"كلمة المرور"
     },
     verifyOtp: {
         codeSent: 'تم إرسال الرمز إلى ',
