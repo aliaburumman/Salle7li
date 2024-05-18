@@ -32,12 +32,15 @@ import SetNewPassword from './src/screens/resetPassword/setNewPassword';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Locale } from './src/data/user';
 import { setLanguage } from './src/app/slices/slice';
+import { t } from 'i18next';
+
 
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
+
 
 export const navigationRef = createNavigationContainerRef<ParamListBase>();
 
@@ -99,42 +102,42 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen
       name="AppearanceSettings"
       component={AppearenceSettings}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('appearance')}}
     />
 
     <ProfileStack.Screen
       name="changePassword"
       component={ChangePassword}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('profile:changePass')}}
     />
 
 <ProfileStack.Screen
       name="OTP"
       component={VerifyOtp}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('otp')}}
     />
 
 <ProfileStack.Screen
       name="setNewPassword"
       component={SetNewPassword}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('newPass')}}
     />
 
     <ProfileStack.Screen
       name="personalInformation"
       component={PersonalInformation}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('profile:personalInfo')}}
     />
 
     <ProfileStack.Screen
       name="updateInfo"
       component={UpdateInformation}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('update')}}
     />
     <ProfileStack.Screen
       name="applyToBeWorker"
       component={ApplyToBeWorker}
-      options={{headerShown: true, title: '3abbi hoon'}}
+      options={{headerShown: true, title: t('profile:applyWorker')}}
     />
     {/* Add more screens to Profile stack as needed */}
   </ProfileStack.Navigator>
@@ -212,7 +215,7 @@ const MainStackScreen = () => {
         component={HomeStackScreen}
         options={{
           headerShown: false,
-          title: '3abbi this',
+          title: t('home'),
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />
@@ -221,7 +224,7 @@ const MainStackScreen = () => {
         component={ReserveStackScreen}
         options={{
           headerShown: false,
-          title: '3abbi this',
+          title: t('reserve'),
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />
@@ -230,7 +233,7 @@ const MainStackScreen = () => {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          title: '3abbi this',
+          title:  t('profile'),
           tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
         }}
       />

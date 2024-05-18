@@ -121,13 +121,13 @@ const SetNewPassword = ({navigation,route}:any) => {
                   </View>
                   <PasswordInput
                     handleChange={value => handleChange('password')(value)}
-                    placeholder="password"
+                    placeholder={t('login:password')}
                     value={values.password}
                     error={errors.password} 
                   />
                   <PasswordInput
                     handleChange={value => handleChange('confirmPassword')(value)}
-                    placeholder="confirmPassword"
+                    placeholder={t('login:confPass')}
                     value={values.confirmPassword}
                     error={errors.confirmPassword}
                   />

@@ -3,21 +3,22 @@ import { Box, HStack, Stack, Text, View } from 'native-base';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { implementRead, setVisited } from '../../app/slices/notificationsSlice';
 import { bgColorMain } from '../getStarted/started';
+import { t } from 'i18next';
 
 const Notifications = () => {
   
   const notifications = [
     {
       id: 1,
-      title: 'System Update',
-      message: 'Your system will restart at 2:00 AM for updates.',
-      time: 'Just now',
+      title: t('notification:notif1'),
+      message: t('notification:notif1desc'),
+      time: t('notification:time1'),
     },
     {
       id: 2,
-      title: 'Welcome!',
-      message: 'Thank you for joining our platform.',
-      time: 'Yesterday',
+      title: t('notification:notif2'),
+      message: t('notification:notif2desc'),
+      time: t('notification:time2'),
     },
   ];
 

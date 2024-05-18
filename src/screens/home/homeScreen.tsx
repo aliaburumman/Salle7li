@@ -185,7 +185,7 @@ const HomeScreen = ({navigation}: any) => {
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
               <Text color={themeCheck=='dark' ? bgColorMain : 'white'} fontSize={'2xl'}>
-                Our Top Rated Workers
+                {t('topWorker')}
               </Text>
               <View
                 bgColor={themeCheck=='dark' ? bgColorMain : 'white'}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 import { View, Text } from 'react-native';
-
+import { t } from 'i18next';
 export type Iprops = {
     handleChange: (text: string) => void;
     value?: string;
@@ -27,7 +27,7 @@ const Dropdown = (props:Iprops) => {
 
   return (
     <View>
-      <Text>Select an option:</Text>
+      <Text>{t('selectOpt')}</Text>
       <RNPickerSelect
         placeholder={props.placeholder}
         items={props.options}

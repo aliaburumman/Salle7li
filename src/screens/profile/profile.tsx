@@ -298,8 +298,8 @@ function Profile({navigation}: any) {
         closeAlertDialog={() => {
           setIsAlertDialog(false);
         }}
-        title={'Log out'}
-        bodyTitle={'Are you sure you want to log out?'}
+        title={t('profile:logout')}
+        bodyTitle={t('logoutDesc')}
       />
     </View>
   );

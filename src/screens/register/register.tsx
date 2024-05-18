@@ -139,7 +139,7 @@ const Register = ({navigation}: any) => {
             <View style={{flexDirection: 'row'}}>
               <TextModifiedInput
                 handleChange={handleChange('firstName')}
-                placeholder="First Name"
+                placeholder= {t('fname')}
                 value={values.firstName}
                 width={160}
                 marginRight={10}
@@ -148,7 +148,7 @@ const Register = ({navigation}: any) => {
 
               <TextModifiedInput
                 handleChange={handleChange('lastName')}
-                placeholder="Last Name"
+                placeholder={t('lname')}
                 value={values.lastName}
                 width={160}
                 error={errors.lastName}
@@ -156,20 +156,20 @@ const Register = ({navigation}: any) => {
             </View>
             <TextModifiedInput
               handleChange={handleChange('email')}
-              placeholder="Email"
+              placeholder={t('email')}
               value={values.email}
               error={errors.email}
               width={330}
             />
             <PasswordInput
               handleChange={handleChange('password')}
-              placeholder="Password"
+              placeholder={t('login:password')}
               value={values.password}
               error={errors.password}
             />
             <PasswordInput
               handleChange={handleChange('confirmPassword')}
-              placeholder="Confirm Password"
+              placeholder= {t('login:confPass')}
               value={values.confirmPassword}
               error={errors.confirmPassword}
             />
@@ -178,7 +178,7 @@ const Register = ({navigation}: any) => {
               handleChange={handleChange('phoneNumber')}
               keyboardType="numeric"
               error={errors.phoneNumber}
-              placeholder="Phone Number"
+              placeholder= {t('num')}
               value={values.phoneNumber}
             />
             <View style={{marginBottom: 30}}>
@@ -187,7 +187,7 @@ const Register = ({navigation}: any) => {
                 bgColor={'white'}
                 borderRadius={'lg'}
                 accessibilityLabel="Choose a city"
-                placeholder="Choose a city"
+                placeholder= {t('city')}
                 padding={'4'}
                 onValueChange={value => handleChange('city')(value)}
                 selectedValue={values.city}

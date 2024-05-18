@@ -97,7 +97,7 @@ const AlertDialogComponent: React.FC<Props> = ({
             width={'5/6'}
             bgColor={'red.400'}
             onPress={approveAlertDialog}>
-            <Text color={'white'}>{t('3abbi hon')}</Text>
+            <Text color={'white'}>{t('yes')}</Text>
           </Button>}
           </Stack>
         </Box>

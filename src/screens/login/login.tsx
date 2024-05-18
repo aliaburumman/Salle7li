@@ -5,7 +5,7 @@ import {Formik} from 'formik';
 import PasswordInput from '../../inputs/passwordInput';
 import TextModifiedInput from '../../inputs/textInput';
 import {LoginRequest, validationSchema} from './type/loginType';
-import {Button, ScrollView} from 'native-base';
+import {Button, Center, ScrollView} from 'native-base';
 import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
 import {useSendOtpMutation} from '../../data/auth/auth.ts';
@@ -146,9 +146,9 @@ const Login = ({navigation}: any) => {
                 <Button
                   onPress={() => navigation.navigate('resetPassword')}
                   bgColor={'red.500'}
-                  width={'1/3'}
-                  marginTop={'4'}
-                  alignSelf={'center'}>
+                  marginTop={'4'} 
+                  alignSelf={'center'}
+                  justifyContent={'center'}>
                   {t('login:resetPass')}
                 </Button>
               </View>
@@ -168,7 +168,7 @@ const Login = ({navigation}: any) => {
                       color: 'darkblue',
                       fontSize: 18,
                     }}>
-                    {t('login:buttonText')}
+                    {t('login:title')}
                   </Text>
                 </Pressable>
               </View>

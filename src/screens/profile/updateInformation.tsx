@@ -46,7 +46,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
       alignItems={'center'}
       bgColor={!themeCheck ? bgColorMain : 'white'}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text color={'red.500'}>3abbi hon</Text>
+        <Text color={'red.500'}>{t('fname')}</Text>
         <TextModifiedInput
           value={formData.firstName}
           width={320}
@@ -57,7 +57,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
             }))
           }
         />
-        <Text color={'red.500'}>3abbi hon</Text>
+        <Text color={'red.500'}>{t('lname')}</Text>
         <TextModifiedInput
           value={formData.lastName}
           width={320}
@@ -68,7 +68,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
             }))
           }
         />
-        <Text color={'red.500'}>3abbi hon</Text>
+        <Text color={'red.500'}>{t('email')}</Text>
         <TextModifiedInput
           value={formData.email}
           width={320}
@@ -80,14 +80,14 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
           }
         />
 
-        <Text color={'red.500'}>3abbi hon</Text>
+        <Text color={'red.500'}>{t('city')}</Text>
         <View style={{marginBottom: 30}}>
           <Select
             minWidth="330"
             bgColor={'white'}
             borderRadius={'lg'}
             accessibilityLabel="Choose a city"
-            placeholder="Choose a city"
+            placeholder={t('chooseCity')}
             padding={'4'}
             onValueChange={text =>
               setFormData((prevFormData: IGetEditUser) => ({
@@ -117,7 +117,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
         <View>
           <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
             {' '}
-            3abbi hoon
+            {t('login:selectGender')}
           </Text>
           <Radio.Group
             name="myRadioGroup"
@@ -148,7 +148,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
         </View>
 
         <Button onPress={handleSubmit} marginTop={'7'} bgColor={'red.500'}>
-          <Text>3abbi hon</Text>
+          <Text>{t('submitChange')}</Text>
         </Button>
         <Image
           source={salle7liLogo}
