@@ -148,7 +148,7 @@ const SetNewPassword = ({navigation,route}:any) => {
                           color: 'darkblue',
                           fontSize: 18,
                         }}>
-                        {t('bext')}
+                        {t('submit')}
                       </Text>
                     </Pressable>
                   </View>

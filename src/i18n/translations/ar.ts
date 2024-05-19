@@ -51,6 +51,7 @@ const ar: typeof en = {
         chooseCity:'اختر المنطقة',
         submitChange:'تأكيد التغييرات',
         yes:'نعم',
+        submit:'تم',
     },
     login: {
         title: 'تسجيل الدخول',

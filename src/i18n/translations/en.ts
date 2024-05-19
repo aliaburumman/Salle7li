@@ -49,6 +49,8 @@ const en = {
       chooseCity:'Choose a City',
       submitChange:'Submit Changes',
       yes:'Yes',
+      submit:'Submit',
+
     },
     login: {
       title: 'Log In',
