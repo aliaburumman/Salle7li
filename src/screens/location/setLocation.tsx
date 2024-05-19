@@ -99,7 +99,7 @@ const {t}=useTranslation();
                 latitude: markerCoords.latitude,
               });
             }}>
-            <Text>{t("common:Procced")}</Text>
+            <Text>{t("common:procced")}</Text>
           </Button>
         </View>
       )}
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 45,
     alignSelf: 'flex-start',
     margin: 10,
     padding: 10,

@@ -34,7 +34,6 @@ import { Locale } from './src/data/user';
 import { setLanguage } from './src/app/slices/slice';
 import { t } from 'i18next';
 
-
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
@@ -204,19 +203,19 @@ const MainStackScreen = () => {
             <Icon
               name={iconName ? iconName : ''}
               size={size}
-              color={LightModeCheck=='dark' ? 'white' : color}
+              color={LightModeCheck=='dark' ? bgColorMain : color}
             />
           );
         },
-        tabBarStyle: {backgroundColor: LightModeCheck=='dark' ? bgColorMain : 'white'},
+        tabBarStyle: {backgroundColor: LightModeCheck=='bright' ? bgColorMain : 'white'},
       })}>
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
         options={{
           headerShown: false,
-          title: t('home'),
-          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+          title: t('common:home'),
+          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
         }}
       />
       <Tab.Screen
@@ -224,8 +223,8 @@ const MainStackScreen = () => {
         component={ReserveStackScreen}
         options={{
           headerShown: false,
-          title: t('reserve'),
-          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+          title: t('common:reserve'),
+          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
         }}
       />
       <Tab.Screen
@@ -233,8 +232,8 @@ const MainStackScreen = () => {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          title:  t('profile'),
-          tabBarActiveTintColor: LightModeCheck ? 'white' : bgColorMain,
+          title:  t('common:profile'),
+          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
         }}
       />
     </Tab.Navigator>

@@ -13,14 +13,14 @@ export type Iprops = {
 
 const PasswordInput = (props: Iprops) => {
   const [visible, setVisible] = useState(false);
-const language = useAppSelector(state=>state.user.language);
+const themeCheck = useAppSelector(state=>state.user.theme) || 'dark';
   return (
     <View >
       <View style={{ 
         borderWidth: 1, 
         borderColor: "black", 
         borderRadius: 10 ,
-        backgroundColor:"white",
+        backgroundColor:themeCheck=='bright'?bgColorMain:'white',
         width:330,
         height:60
         
@@ -31,7 +31,7 @@ const language = useAppSelector(state=>state.user.language);
             width: 250,
             paddingLeft: 10,
             paddingTop:15,
-            color:'darkblue',
+            color:themeCheck=='dark'?bgColorMain:'white',
             textAlign: I18nManager.isRTL ? 'right' : 'left',
            
           }}
@@ -39,7 +39,7 @@ const language = useAppSelector(state=>state.user.language);
           value={props.value}
           placeholder={props.placeholder}
           keyboardType={props.keyboardType}
-          placeholderTextColor="grey"
+          placeholderTextColor={themeCheck=='dark'?bgColorMain:'white'}
         />
         <View style={{width:30,alignSelf: 'flex-end'}}>
         <Pressable
@@ -48,7 +48,7 @@ const language = useAppSelector(state=>state.user.language);
         }}
         style={{ position: "relative", bottom: 38,  zIndex: 10}}
       >
-        <Icon name={!visible?"eye":"eye-off"} color={bgColorMain} size={25}/>
+        <Icon name={!visible?"eye":"eye-off"} color={themeCheck=='bright'?bgColorMain:'white'} size={25}/>
       </Pressable>
       </View>
       </View>

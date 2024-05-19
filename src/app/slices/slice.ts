@@ -19,10 +19,14 @@ export const userSlice = createSlice({
     setTheme: (state,action:PayloadAction<theme>) =>
       {
         state.theme=action.payload;
+      },
+      setGender:(state,action:PayloadAction<string>) =>
+      {
+        state.gender=action.payload;
       }
   },
 });
 
-export const {setTokens, logout, login,setLanguage,setTheme} = userSlice.actions;
+export const {setTokens, logout, login,setLanguage,setTheme,setGender} = userSlice.actions;
 
 export default userSlice.reducer;

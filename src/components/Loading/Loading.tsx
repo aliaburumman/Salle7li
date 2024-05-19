@@ -8,7 +8,7 @@ const Loading = () => {
   return (
     <Box
       flex={1}
-      backgroundColor={themeCheck=='dark'?"white":bgColorMain}
+      backgroundColor={themeCheck=='bright'?"white":bgColorMain}
       justifyContent="center"
       alignItems="center">
       <Spinner size="sm" color={'red.500'} />

@@ -15,8 +15,8 @@ const AppearanceSettings = () => {
   const themeCheck = useAppSelector(state => state.user.theme);
   const dispatch = useAppDispatch();
 
-  const bgColor = themeCheck ? 'white' : bgColorMain;
-  const textColor = themeCheck ? bgColorMain : 'white';
+  const bgColor = themeCheck=='bright' ? 'white' : bgColorMain;
+  const textColor = themeCheck=='bright' ? bgColorMain : 'white';
 
   const onChangeLanguage = async () => {
     const newLang = language === 'en' ? 'ar' : 'en';
@@ -48,12 +48,12 @@ const AppearanceSettings = () => {
           onChange={value => onChangeLanguage()}>
           <Stack direction="row" space={6} alignItems="center">
             <Radio value="English" colorScheme="blue">
-              <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                 {t('english')}{' '}
               </Text>
             </Radio>
             <Radio value="Arabic" colorScheme="blue">
-              <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                 {' '}
                 {t('arabic')}
               </Text>
@@ -62,23 +62,23 @@ const AppearanceSettings = () => {
         </Radio.Group>
       </Box>
       <Box>
-        <Heading color={themeCheck=='bright' ? 'white' : bgColorMain} fontSize="md">
+        <Heading color={themeCheck=='dark' ? 'white' : bgColorMain} fontSize="md">
           {t('appearance')}
         </Heading>
         <Radio.Group
           name="themeGroup"
           accessibilityLabel="theme selection"
-          defaultValue={themeCheck=='dark' ? 'Light' : 'Dark'}
+          defaultValue={themeCheck=='bright' ? 'Light' : 'Dark'}
           onChange={value => onChangetheme()}>
           <Stack direction="row" space={6} alignItems="center">
             <Radio value="Dark" colorScheme="blue">
-              <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                 {' '}
                 {t('dark')}
               </Text>
             </Radio>
             <Radio value="Light" colorScheme="blue">
-              <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
                 {t('light')}
               </Text>
             </Radio>

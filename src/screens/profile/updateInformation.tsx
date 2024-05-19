@@ -44,7 +44,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
       flex={1}
       justifyContent={'center'}
       alignItems={'center'}
-      bgColor={!themeCheck ? bgColorMain : 'white'}>
+      bgColor={themeCheck=='dark' ? bgColorMain : 'white'}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text color={'red.500'}>{t('fname')}</Text>
         <TextModifiedInput
@@ -115,7 +115,7 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
         </View>
 
         <View>
-          <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
+          <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
             {' '}
             {t('login:selectGender')}
           </Text>
@@ -132,13 +132,13 @@ const UpdateInformation = ({route, navigation:{goBack}}: any) => {
             }>
             <Stack direction="row" alignSelf={'center'} space={4}>
               <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
+                <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
                   {' '}
                   {t('male')}{' '}
                 </Text>
               </Radio>
               <Radio value="female" colorScheme={'pink'} my={1}>
-                <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
+                <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
                   {' '}
                   {t('female')}
                 </Text>

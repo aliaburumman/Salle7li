@@ -23,7 +23,8 @@ export interface ISendOTPResponse {
   export interface IVerifyOTPResponse {
     token: string;
     userId:number;
-    success?:boolean
+    success?:boolean;
+    gender?:string;
     
   }
   

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CheckIcon,
+  Checkbox,
   Radio,
   ScrollView,
   Select,
@@ -35,30 +36,16 @@ export interface CurrentLocationCoords {
 
 const OrderService = ({navigation, route}: any) => {
   const {longitude, latitude} = route.params;
+  const [selectedDate, setSelectedDate] = useState(null);
   const [openDatePicker, setOpenDatePicker] = useState(false);
-  const [openTimePicker, setOpenTimePicker] = useState(false);
-  const [openTimePicker2, setOpenTimePicker2] = useState(false);
-
+  const [serviceDuration, setServiceDuration] = useState('2');
+  const genderCheck = useAppSelector(state => state.user.gender);
   const openPickerDate = () => {
     setOpenDatePicker(true);
   };
 
   const closePickerDate = () => {
     setOpenDatePicker(false);
-  };
-  const openPickerTime = () => {
-    setOpenTimePicker(true);
-  };
-
-  const closePickerTime = () => {
-    setOpenTimePicker(false);
-  };
-  const openPickerTime2 = () => {
-    setOpenTimePicker2(true);
-  };
-
-  const closePickerTime2 = () => {
-    setOpenTimePicker2(false);
   };
 
   const maxSelectableDate = new Date();
@@ -67,12 +54,43 @@ const OrderService = ({navigation, route}: any) => {
   minSelectableDate.setDate(minSelectableDate.getDate());
   const now = new Date();
   const minSelectableTime = new Date(now);
+  const getCurrentTime = () => {
+    return dayjs().utc().add(13, 'hour');
+  };
   minSelectableTime.setHours(now.getHours());
   const {t} = useTranslation();
+
   const themeCheck = useAppSelector(state => state.user.theme);
+  const getCurrentTimeLocal = () => {
+    return dayjs().utc().add(3, 'hour');
+  };
+  const disableTimeSlot = timeSlot => {
+    if (!selectedDate) return false;
+
+    const date = dayjs(selectedDate);
+    const today = getCurrentTimeLocal();
+    console.log('today', today);
+    if (!date.isSame(today, 'day')) {
+      return false;
+    }
+
+    const [startHour] = timeSlot.split('-')[0].split(' ');
+    console.log('start', startHour);
+    const slotDateTime = today
+      .hour(parseInt(startHour, 10))
+      .minute(0)
+      .second(0)
+      .millisecond(0);
+    console.log('slot', slotDateTime, '----', slotDateTime.subtract(1, 'hour'));
+
+    return (
+      today.isAfter(slotDateTime) ||
+      today.isAfter(slotDateTime.subtract(1, 'hour'))
+    );
+  };
 
   return (
-    <View flex={1} bgColor={themeCheck=='dark' ? 'white' : bgColorMain}>
+    <View flex={1} bgColor={themeCheck == 'bright' ? 'white' : bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Formik
           initialValues={{
@@ -82,37 +100,38 @@ const OrderService = ({navigation, route}: any) => {
               latitude: latitude || null,
             },
           }}
-          onSubmit={(values, { setSubmitting }) => {
-
+          onSubmit={(values, {setSubmitting}) => {
             navigation.navigate('chooseWorker', {values: values}),
               setSubmitting(false);
           }}
           validateOnChange={false}
           validationSchema={validationSchemaForReservation}>
-          {({handleChange, handleSubmit, values, errors}) => (
+          {({handleChange, handleSubmit, setFieldValue, values, errors}) => (
             <Stack space={2}>
               <View alignItems={'center'}>
                 <Text
-                  color={themeCheck=='bright' ? 'white' : bgColorMain}
+                  color={themeCheck == 'dark' ? 'white' : bgColorMain}
                   fontSize={'4xl'}>
                   {t('order:title')}
                 </Text>
               </View>
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                   {' '}
                   {t('order:selectService')}
                 </Text>
                 <View alignItems={'center'}>
                   <Select
                     width="5/6"
-                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+                    bgColor={themeCheck == 'dark' ? 'white' : bgColorMain}
                     borderRadius={'lg'}
                     accessibilityLabel="Choose"
                     placeholder={t('order:selectService')}
-                    placeholderTextColor={themeCheck=='bright' ? 'white' : bgColorMain}
+                    placeholderTextColor={
+                      themeCheck == 'bright' ? 'white' : bgColorMain
+                    }
                     padding={'4'}
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck == 'bright' ? 'white' : bgColorMain}
                     onValueChange={value => handleChange('service')(value)}
                     selectedValue={values.service}
                     _selectedItem={{
@@ -131,7 +150,7 @@ const OrderService = ({navigation, route}: any) => {
               </View>
 
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                   {t('order:selectDate')}
                 </Text>
                 <Button
@@ -139,9 +158,9 @@ const OrderService = ({navigation, route}: any) => {
                   width={'5/6'}
                   alignSelf={'center'}
                   padding={'5'}
-                  bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+                  bgColor={themeCheck == 'dark' ? 'white' : bgColorMain}
                   borderRadius={'lg'}>
-                  <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
+                  <Text color={themeCheck == 'bright' ? 'white' : bgColorMain}>
                     {values.date
                       ? dayjs(values.date).format('YYYY-MM-DD')
                       : t('order:selectDate')}
@@ -155,141 +174,282 @@ const OrderService = ({navigation, route}: any) => {
                     maximumDate={maxSelectableDate}
                     minimumDate={minSelectableDate}
                     onChange={(event, selectedDate) => {
-                      const date = dayjs(selectedDate).toISOString();
-                      handleChange('date')(date);
+                      const dateValue = selectedDate
+                        ? dayjs(selectedDate).toISOString()
+                        : null;
+                      if (dateValue) {
+                        setFieldValue('date', dateValue); 
+                        setSelectedDate(dateValue);
+                      }
                       closePickerDate();
                     }}
                   />
                 )}
                 {errors.date && (
                   <Text color={'red.500'} alignSelf={'center'}>
-                    {errors.date}
+                    {errors?.date}
                   </Text>
                 )}
               </View>
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
-                  {t('order:selectTime')}
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
+                  {t('order:selectDuration')}
                 </Text>
-                <View flexDirection={'row'} justifyContent={'space-evenly'}>
-                  <Button
-                    onPress={openPickerTime}
-                    width={'2/6'}
-                    padding={'5'}
-                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
-                    borderRadius={'lg'}>
-                    <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
-                      {values.startTime
-                        ? dayjs.utc(values.startTime).local().format('hh:mm A')
-                        : t('order:start')}
-                    </Text>
-                  </Button>
-                  {openTimePicker && (
-                    <RNDateTimePicker
-                      value={
-                        values.startTime
-                          ? new Date(values.startTime)
-                          : new Date()
-                      }
-                      mode="time"
-                      display="spinner"
-                      minimumDate={minSelectableTime}
-                      onChange={(event, selectedTime) => {
-                        console.log(
-                          'now:',
-                          dayjs(minSelectableTime).format('hh:mm A'),
-                          '  ',
-                          'selected Time',
-                          selectedTime?.getHours(),
-                        );
-                        if (selectedTime) {
-                          const time = dayjs
-                            .utc(selectedTime)
-                            .local()
-                            .toISOString();
-                          handleChange('startTime')(time);
-                          closePickerTime();
-                        } else {
-                          closePickerTime();
-                        }
-                      }}
-                    />
-                  )}
-
-                  <Button
-                    onPress={openPickerTime2}
-                    width={'2/6'}
-                    padding={'5'}
-                    bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
-                    borderRadius={'lg'}>
-                    <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
-                      {values.endTime
-                        ? dayjs.utc(values.endTime).local().format('hh:mm A')
-                        : t('order:end')}
-                    </Text>
-                  </Button>
-                  {openTimePicker2 && (
-                    <RNDateTimePicker
-                      value={
-                        values.endTime ? new Date(values.endTime) : new Date()
-                      }
-                      mode="time"
-                      display="spinner"
-                      onChange={(event, selectedTime) => {
-                        if (selectedTime) {
-                          const time = dayjs
-                            .utc(selectedTime)
-                            .local()
-                            .toISOString();
-                          handleChange('endTime')(time);
-                          closePickerTime2();
-                        } else {
-                          closePickerTime2();
-                        }
-                      }}
-                    />
-                  )}
-                </View>
-                <View flexDirection={'row'} justifyContent={'space-evenly'}>
-                  {errors.startTime && (
-                    <Text color={'red.500'} fontSize={'11'}>
-                      {errors.startTime}
-                    </Text>
-                  )}
-                  {errors.endTime && (
-                    <Text color={'red.500'} fontSize={'11'}>
-                      {errors.endTime}
-                    </Text>
-                  )}
+                <View alignItems={'center'}>
+                  <Select
+                    width="5/6"
+                    bgColor={themeCheck == 'dark' ? 'white' : bgColorMain}
+                    borderRadius={'lg'}
+                    accessibilityLabel="Choose Service Duration"
+                    placeholder={t('order:selectDuration')}
+                    placeholderTextColor={
+                      themeCheck == 'bright' ? 'white' : bgColorMain
+                    }
+                    padding={'4'}
+                    color={themeCheck == 'bright' ? 'white' : bgColorMain}
+                    selectedValue={serviceDuration}
+                    onValueChange={itemValue => setServiceDuration(itemValue)}
+                    _selectedItem={{
+                      bg: 'blue.200',
+                      endIcon: <CheckIcon size={5} />,
+                    }}>
+                    <Select.Item label="2 hours" value="2" />
+                    <Select.Item label="4 hours" value="4" />
+                  </Select>
                 </View>
               </View>
+              {selectedDate && (
+                <View>
+                  <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
+                    {t('order:selectTime')}
+                  </Text>
+                  {serviceDuration == '2' ? (
+                    <Radio.Group
+                      name="myRadioGroup1"
+                      accessibilityLabel="favorite number"
+                      defaultValue=""
+                      value={values.availabilityTime}
+                      onChange={nextValue => {
+                        handleChange('availabilityTime')(nextValue);
+                      }}>
+                      <Stack direction="row" alignSelf={'center'} space={4}>
+                        <Radio
+                          value="8AM-10AM"
+                          isDisabled={disableTimeSlot('8AM-10PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            8 AM - 10 AM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="10AM-12PM"
+                          isDisabled={disableTimeSlot('10AM-12PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            10 AM - 12 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="12PM-2PM"
+                          isDisabled={disableTimeSlot('12PM-2PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            12 PM - 2 PM
+                          </Text>
+                        </Radio>
+                      </Stack>
+                      <Stack direction="row" alignSelf={'center'} space={4}>
+                        <Radio
+                          value="2PM-4PM"
+                          isDisabled={disableTimeSlot('2PM-4PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            2 PM - 4 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="4PM-6PM"
+                          isDisabled={disableTimeSlot('4PM-6PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            4 PM - 6 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="6PM-8PM"
+                          isDisabled={disableTimeSlot('6PM-8PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            6 PM - 8 PM
+                          </Text>
+                        </Radio>
+                      </Stack>
+                      <Stack direction="row" alignSelf={'center'} space={4}>
+                        <Radio
+                          value="8PM-10PM"
+                          isDisabled={disableTimeSlot('8PM-10PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            8 PM - 10 PM
+                          </Text>
+                        </Radio>
+                      </Stack>
+                    </Radio.Group>
+                  ) : (
+                    <Radio.Group
+                      name="myRadioGroup2"
+                      accessibilityLabel="favorite number"
+                      defaultValue=""
+                      value={values.availabilityTime}
+                      onChange={nextValue => {
+                        handleChange('availabilityTime')(nextValue);
+                      }}>
+                      <Stack direction="row" alignSelf={'center'} space={4}>
+                        <Radio
+                          value="8AM-12PM"
+                          isDisabled={disableTimeSlot('8AM-12PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            8 AM - 12 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="12PM-4PM"
+                          isDisabled={disableTimeSlot('12PM-4PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            12 PM - 4 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="4PM-8PM"
+                          isDisabled={disableTimeSlot('4PM-8PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            4 PM - 8 PM
+                          </Text>
+                        </Radio>
+                      </Stack>
+                      <Stack direction="row" alignSelf={'center'} space={4}>
+                        <Radio
+                          value="10AM-2PM"
+                          isDisabled={disableTimeSlot('10AM-2PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            10 AM - 2 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="2PM-6PM"
+                          isDisabled={disableTimeSlot('2PM-6PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            2 PM - 6 PM
+                          </Text>
+                        </Radio>
+                        <Radio
+                          value="6PM-10PM"
+                          isDisabled={disableTimeSlot('6PM-10PM')}
+                          colorScheme={'darkBlue'}
+                          my={4}>
+                          <Text
+                            color={
+                              themeCheck == 'dark' ? 'white' : bgColorMain
+                            }>
+                            6 PM - 10 PM
+                          </Text>
+                        </Radio>
+                      </Stack>
+                    </Radio.Group>
+                  )}
+                </View>
+              )}
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                   {t('order:selectWorker')}
                 </Text>
                 <Radio.Group
-                  name="myRadioGroup"
+                  name="myRadioGroup3"
                   accessibilityLabel="favorite number"
-                  defaultValue="any"
+                  defaultValue="male"
                   value={values.workerGender}
                   onChange={nextValue => {
                     handleChange('workerGender')(nextValue);
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                      <Text
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                         {' '}
                         {t('male')}{' '}
                       </Text>
                     </Radio>
-                    <Radio value="female" colorScheme={'pink'} my={1}>
-                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                    <Radio
+                      value="female"
+                      isDisabled={genderCheck == 'male'}
+                      colorScheme={'pink'}
+                      my={1}>
+                      <Text
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                         {' '}
                         {t('female')}
                       </Text>
                     </Radio>
-                    <Radio value="any" colorScheme={'yellow'} my={1}>
-                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                    <Radio
+                      value="any"
+                      isDisabled={genderCheck == 'male'}
+                      colorScheme={'yellow'}
+                      my={1}>
+                      <Text
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                         {' '}
                         {t('any')}{' '}
                       </Text>
@@ -299,7 +459,7 @@ const OrderService = ({navigation, route}: any) => {
               </View>
 
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                   {t('order:selectPayement')}
                 </Text>
                 <Radio.Group
@@ -312,13 +472,15 @@ const OrderService = ({navigation, route}: any) => {
                   }}>
                   <Stack direction="row" alignSelf={'center'} space={4}>
                     <Radio value="cash" colorScheme={'darkBlue'} my={1}>
-                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                      <Text
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                         {' '}
                         {t('cash')}{' '}
                       </Text>
                     </Radio>
                     <Radio value="visa" colorScheme={'pink'} my={1}>
-                      <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                      <Text
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                         {' '}
                         {t('visa')}{' '}
                       </Text>
@@ -328,12 +490,12 @@ const OrderService = ({navigation, route}: any) => {
               </View>
               {values.paymentMethod === 'visa' && (
                 <View>
-                  <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                  <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                     {t('order:cardOpt')}
                   </Text>
                   <View
                     borderWidth={'2'}
-                    borderColor={themeCheck=='bright' ? 'white' : bgColorMain}
+                    borderColor={themeCheck == 'dark' ? 'white' : bgColorMain}
                     borderRadius={'2xl'}
                     padding={'4'}>
                     <View
@@ -343,7 +505,7 @@ const OrderService = ({navigation, route}: any) => {
                         marginBottom: 10,
                       }}>
                       <Text
-                        color={themeCheck=='bright' ? 'white' : bgColorMain}
+                        color={themeCheck == 'dark' ? 'white' : bgColorMain}
                         style={{marginBottom: 5}}>
                         {t('order:cardNum')}
                       </Text>
@@ -363,7 +525,7 @@ const OrderService = ({navigation, route}: any) => {
                       }}>
                       <View style={{flex: 1, marginRight: 10}}>
                         <Text
-                          color={themeCheck=='bright' ? 'white' : bgColorMain}
+                          color={themeCheck == 'dark' ? 'white' : bgColorMain}
                           style={{marginBottom: 5}}>
                           {t('order:cardName')}
                         </Text>
@@ -378,7 +540,7 @@ const OrderService = ({navigation, route}: any) => {
                       </View>
                       <View style={{flex: 1}}>
                         <Text
-                          color={themeCheck=='bright' ? 'white' : bgColorMain}
+                          color={themeCheck == 'dark' ? 'white' : bgColorMain}
                           style={{marginBottom: 5}}>
                           {t('order:cvv')}
                         </Text>
@@ -389,7 +551,6 @@ const OrderService = ({navigation, route}: any) => {
                           placeholder="CVV"
                           keyboardType="numeric"
                           max={3}
-
                         />
                       </View>
                     </View>
@@ -409,7 +570,7 @@ const OrderService = ({navigation, route}: any) => {
               )}
 
               <View>
-                <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
+                <Text color={themeCheck == 'dark' ? 'white' : bgColorMain}>
                   {t('order:probDet')}
                 </Text>
                 <View alignSelf={'center'}>
@@ -417,7 +578,6 @@ const OrderService = ({navigation, route}: any) => {
                     handleChange={handleChange('problemDetails')}
                     width={330}
                     multiLine
-
                     height={100}
                   />
                 </View>
@@ -430,10 +590,13 @@ const OrderService = ({navigation, route}: any) => {
               <Box alignItems="center">
                 <Button
                   onPress={() => handleSubmit()}
-                  bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+                  bgColor={themeCheck == 'dark' ? 'white' : bgColorMain}
                   padding={4}
                   borderRadius={'lg'}>
-                  <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
+                  <Text
+                    style={{
+                      color: themeCheck == 'bright' ? 'white' : bgColorMain,
+                    }}>
                     {' '}
                     {t('order:button')}{' '}
                   </Text>

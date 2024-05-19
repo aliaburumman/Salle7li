@@ -91,7 +91,7 @@ const en = {
       start:'Start Time',
       end:'End Time',
       servtime:'Service Time:',
-      pay:'Payement Method:',
+      pay:'Payment Method:',
       service:'Service',
       workDet:'Worker Details:',
       orderDet:'Order Details',

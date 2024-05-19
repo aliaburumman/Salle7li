@@ -5,7 +5,7 @@ import {bgColorMain, salle7liLogo} from '../getStarted/started';
 import {useVerifyOtpMutation} from '../../data/auth/auth';
 import { navigate } from '../../../AppLoader';
 import { useDispatch } from 'react-redux';
-import { login, logout, setTokens } from '../../app/slices/slice';
+import { login, logout, setGender, setTokens } from '../../app/slices/slice';
 import { Button, Image, Text, View } from 'native-base';
 import Loading from '../../components/Loading/Loading';
 import OtpInput from '../../inputs/otpInput';
@@ -89,6 +89,7 @@ const VerifyOtp = ({navigation, route}: any) => {
         if (response.success && response) {
           if(!isResetPassword){
           dispatch(login(response.userId));
+          dispatch(setGender(response.gender))
           dispatch(setTokens(response.token));
           
           navigateToHome();
@@ -131,7 +132,7 @@ const VerifyOtp = ({navigation, route}: any) => {
         <View>
           <View alignItems={'center'}>
             <Text
-              color={themeCheck ? bgColorMain : 'white'}
+              color={themeCheck=='bright' ? bgColorMain : 'white'}
               marginBottom={'15'}>
               Enter the OTP that has been sent to your email!{' '}
             </Text>

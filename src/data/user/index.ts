@@ -6,6 +6,7 @@ export const initialState: UserState = {
     theme:'dark',
     userId:-1,
     phoneNumber: '',
+    gender:'',
     
 };
 
@@ -17,6 +18,7 @@ export interface UserState {
     isLoggedIn?: boolean;
     theme?:theme;
     userId?:number;
+    gender?:string;
     phoneNumber: string;
     
 }
@@ -35,6 +37,8 @@ export const loggedOutState: UserState = {
     language: 'en',
     token:undefined,
     phoneNumber: '',
+    theme:'dark',
+    gender:''
 
     
 };

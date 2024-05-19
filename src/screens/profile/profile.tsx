@@ -43,20 +43,20 @@ function Profile({navigation}: any) {
   }
   return (
     <View
-      bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
+      bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
       flex={1}
       flexDirection={'column'}
       justifyContent={'space-evenly'}>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View alignItems={'center'} width={'full'} justifyContent={'center'}>
           <Text
-            color={themeCheck=='bright' ? 'white' : bgColorMain}
+            color={themeCheck=='dark' ? 'white' : bgColorMain}
             fontWeight={'bold'}
             fontSize={'3xl'}>
             {t('profile:profile')}
           </Text>
           <View
-            bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+            bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
             paddingTop={'5'}
             paddingBottom={'5'}
             width={'full'}
@@ -77,7 +77,7 @@ function Profile({navigation}: any) {
               />
             </View>
             <View justifyContent={'space-evenly'}>
-              <Text color={themeCheck=='dark' ? 'white' : bgColorMain}>
+              <Text color={themeCheck=='bright' ? 'white' : bgColorMain}>
                 {data?.firstName} {data?.lastName}
               </Text>
               <View flexDirection={'row'}>
@@ -89,7 +89,7 @@ function Profile({navigation}: any) {
                     <Icon
                       key={i}
                       name="star"
-                      color={themeCheck=='dark' ? 'white' : bgColorMain}
+                      color={themeCheck=='bright' ? 'white' : bgColorMain}
                       style={{marginRight: 6}}
                     />
                   ),
@@ -101,12 +101,12 @@ function Profile({navigation}: any) {
           <Stack space={7} width={'5/6'} marginTop={'10'}>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
               onPress={() => navigation.navigate('personalInformation')}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {' '}
@@ -119,7 +119,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="info-circle"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -127,12 +127,12 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
               onPress={() => navigation.navigate('AppearanceSettings')}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('appsett')}
@@ -144,7 +144,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="exchange"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -152,11 +152,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}
                     onPress={() => {
@@ -171,7 +171,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="lock"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -179,11 +179,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:serviceHistory')}
@@ -195,7 +195,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="clock-o"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -203,11 +203,11 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}>
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:help')}
@@ -219,7 +219,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="question"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -227,14 +227,14 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
               onPress={() => {
                 navigation.navigate('applyToBeWorker');
               }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:applyWorker')}
@@ -246,7 +246,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="play"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>
@@ -254,14 +254,14 @@ function Profile({navigation}: any) {
             </Button>
             <Button
               borderRadius={'3xl'}
-              bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+              bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
               onPress={() => {
                 setIsAlertDialog(true);
               }}>
               <View flexDirection={'row'} justifyContent={'space-between'}>
                 <View width={'5/6'}>
                   <Text
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     alignSelf={'center'}
                     paddingLeft={'10'}>
                     {t('profile:logout')}
@@ -273,7 +273,7 @@ function Profile({navigation}: any) {
                   width={'1/6'}>
                   <Icon
                     name="close"
-                    color={themeCheck=='dark' ? 'white' : bgColorMain}
+                    color={themeCheck=='bright' ? 'white' : bgColorMain}
                     size={20}
                   />
                 </View>

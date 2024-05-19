@@ -16,7 +16,7 @@ export type Iprops = {
 };
 
 const OtpInput = (props: Iprops) => {
-  const themeCheck = useAppSelector(state=>state.theme.lightMode)
+  const themeCheck = useAppSelector(state=>state.user.theme)
 
   return (
     <View>
@@ -25,8 +25,8 @@ const OtpInput = (props: Iprops) => {
           style={{
             width: props.width,
            
-            color:themeCheck?'white':bgColorMain,
-            backgroundColor:!themeCheck?'white':bgColorMain,
+            color:themeCheck=='bright'?'white':bgColorMain,
+            backgroundColor:themeCheck=='dark'?'white':bgColorMain,
             borderRadius:10,
             marginRight:props.marginRight? props.marginRight:0,
             height:props.height?props.height:60,
@@ -37,7 +37,7 @@ const OtpInput = (props: Iprops) => {
           value={props.value}
           placeholder={props.placeholder}
           keyboardType={props.keyboardType}
-          placeholderTextColor="grey"
+          placeholderTextColor={themeCheck=='dark'?bgColorMain:'white'}
           multiline={props.multiLine?true:false}
           maxLength={props.max?props.max:undefined}
           

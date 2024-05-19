@@ -17,7 +17,8 @@ export type Iprops = {
 };
 
 const TextModifiedInput = (props: Iprops) => {
-  const themeCheck = useAppSelector(state=>state.user.theme)
+  const themeCheck = useAppSelector(state=>state.user.theme) || 'dark';
+console.log("adsas",themeCheck);
 
   return (
     <View>

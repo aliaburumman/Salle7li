@@ -1,6 +1,6 @@
 import {Text, View, Button, ScrollView} from 'native-base';
 import {bgColorMain, salle7liLogo, wroker} from '../getStarted/started';
-import {useGetWorkersByTimeQuery} from '../../data/home/home';
+import {useGetWorkersByTimeQuery, useGetWorkersQuery} from '../../data/home/home';
 import Loading from '../../components/Loading/Loading';
 import dayjs from 'dayjs';
 import CardComp from '../../components/card';
@@ -31,12 +31,7 @@ const ChooseWorker = ({navigation, route}: any) => {
     '2024-05-13',
   );
 
-  const {data, isLoading, error} = useGetWorkersByTimeQuery({
-    start: dayjs(specificStartDate)
-      .format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-      .toString(),
-    end: dayjs(specificEndDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]').toString(),
-  });
+  const {data, isLoading, error} = useGetWorkersQuery();
   console.log('Route values:', data);
 
   if (isLoading) return <Loading />;

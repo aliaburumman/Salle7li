@@ -77,7 +77,7 @@ const HomeScreen = ({navigation}: any) => {
   }, []);
 
   return (
-    <View bgColor={themeCheck == 'dark' ? 'white' : bgColorMain} flex={1}>
+    <View bgColor={themeCheck == 'dark' ? bgColorMain : 'white'} flex={1}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View flex={1} flexDirection={'column'}>
           <View>
@@ -132,12 +132,12 @@ const HomeScreen = ({navigation}: any) => {
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
               <Text
-                color={themeCheck == 'dark' ? bgColorMain : 'white'}
+                color={themeCheck == 'bright' ? bgColorMain : 'white'}
                 fontSize={'2xl'}>
                 {t('homeScreen:services')}
               </Text>
               <View
-                bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
+                bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -148,28 +148,28 @@ const HomeScreen = ({navigation}: any) => {
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <Button
-                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogPlumberVisible(true);
                   }}>
                   <CardComp text={t('plumber')} imageSrc={plumber} />
                 </Button>
                 <Button
-                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogElectricianVisible(true);
                   }}>
                   <CardComp text={t('electrician')} imageSrc={electrician} />
                 </Button>
                 <Button
-                  bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogBlackSmithVisible(true);
                   }}>
                   <CardComp text={t('blacksmiths')} imageSrc={blacksmith} />
                 </Button>
                 <Button
-                  bgColor={!themeCheck ? bgColorMain : 'white'}
+                  bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                   onPress={() => {
                     setAlertIsDialogCarpenterVisible(true);
                   }}>
@@ -184,11 +184,11 @@ const HomeScreen = ({navigation}: any) => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={themeCheck=='dark' ? bgColorMain : 'white'} fontSize={'2xl'}>
+              <Text color={themeCheck=='bright' ? bgColorMain : 'white'} fontSize={'2xl'}>
                 {t('topWorker')}
               </Text>
               <View
-                bgColor={themeCheck=='dark' ? bgColorMain : 'white'}
+                bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -202,7 +202,7 @@ const HomeScreen = ({navigation}: any) => {
                   data.map((worker: any, index) => (
                     <Button
                       key={worker?.id}
-                      bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
+                      bgColor={themeCheck=='dark' ? bgColorMain : 'white'}
                       onPress={() => {
                         setIsDialogForWorker1(true);
                         setActiveWorker(worker);

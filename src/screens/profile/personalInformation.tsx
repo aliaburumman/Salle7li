@@ -25,7 +25,7 @@ const PersonalInformation = ({navigation}: any) => {
   return (
     <VStack
       flex={1}
-      bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
+      bgColor={themeCheck=='dark' ? bgColorMain : 'white'}
       space={4}
       px={4}
       py={2}
@@ -66,7 +66,7 @@ const PersonalInformation = ({navigation}: any) => {
         </>
       )}
       <Button
-        bgColor={themeCheck=='bright' ? 'white' : bgColorMain}
+        bgColor={themeCheck=='dark' ? 'white' : bgColorMain}
         onPress={() => navigation.navigate('updateInfo', {userData: data})}>
         <Text color={'red.600'}>{t("changeInfo")}</Text>
       </Button>
@@ -98,7 +98,7 @@ const InfoItem = ({checkTheme, label, value}: any) => {
       <Text
         fontSize="sm"
         fontWeight="bold"
-        color={checkTheme=='bright' ? bgColorMain : 'white'}>
+        color={checkTheme=='dark' ? bgColorMain : 'white'}>
         {label}:
       </Text>
       <Text color={'red.500'} flex={1} textAlign="right">

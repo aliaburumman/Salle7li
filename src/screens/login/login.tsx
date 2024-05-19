@@ -18,7 +18,9 @@ const Login = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const language = useAppSelector(state=>state.user.language);
+  const themeCheck = useAppSelector(state => state.user.theme);
+  
+    console.log(themeCheck)
 
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const Login = ({navigation}: any) => {
         flex: 1,
         flexDirection: 'column',
 
-        backgroundColor: bgColorMain,
+        backgroundColor: themeCheck=='dark'?bgColorMain:'white',
       }}>
       <Formik
         initialValues={LoginRequest}
@@ -103,7 +105,7 @@ const Login = ({navigation}: any) => {
                     fontWeight: 'bold',
                     textAlign: 'center',
                     marginBottom: 30,
-                    color: 'white',
+                    color: themeCheck=='bright'?bgColorMain:'white',
                     fontSize: 25,
                   }}>
                   {t('login:title')}
@@ -114,7 +116,7 @@ const Login = ({navigation}: any) => {
                     textAlign: 'center',
                     marginBottom: 30,
                     marginTop: 30,
-                    color: 'white',
+                    color: themeCheck=='bright'?bgColorMain:'white' ,
                   }}>
                   {t('login:description')}
                 </Text>
@@ -138,7 +140,7 @@ const Login = ({navigation}: any) => {
                     textAlign: 'center',
 
                     marginTop: 30,
-                    color: 'white',
+                    color: themeCheck=='bright'?bgColorMain:'white',
                     fontSize: 18,
                   }}>
                   {t('login:forgotPass')}
@@ -156,7 +158,7 @@ const Login = ({navigation}: any) => {
               <View
                 style={{
                   marginTop: 50,
-                  backgroundColor: 'white',
+                  backgroundColor: themeCheck=='bright'?bgColorMain:'white',
                   width: 250,
                   padding: 15,
                   borderRadius: 20,
@@ -165,7 +167,7 @@ const Login = ({navigation}: any) => {
                   <Text
                     style={{
                       textAlign: 'center',
-                      color: 'darkblue',
+                      color: themeCheck=='dark'?bgColorMain:'white',
                       fontSize: 18,
                     }}>
                     {t('login:title')}
@@ -175,10 +177,10 @@ const Login = ({navigation}: any) => {
               <View style={{marginTop: 25, width: 250, borderRadius: 20}}>
                 <Button
                   onPress={() => navigation.navigate('Register')}
-                  bgColor={bgColorMain}
+                  bgColor={themeCheck=='dark'?bgColorMain:'white'}
                   width={'full'}>
                   <View style={{alignSelf:'center'}}>
-                    <Text>{t('login:or')}</Text>
+                    <Text style={{color:themeCheck=='bright'?bgColorMain:'white'}}>{t('login:or')}</Text>
                   </View>
                   <Text style={{fontSize: 20, color: '#96C8E9'}}>
                     {t('login:noAccount')}

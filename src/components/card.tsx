@@ -24,7 +24,7 @@ const CardComp = (props: Iprops) => {
           borderColor: 'gray',
           borderRadius: 15,
           padding: 15,
-          backgroundColor: themeCheck=='dark' ? bgColorMain : 'white',
+          backgroundColor: themeCheck=='bright' ? bgColorMain : 'white',
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.5,
@@ -54,14 +54,14 @@ const CardComp = (props: Iprops) => {
               <Icon
                 key={i}
                 name="star"
-                color={themeCheck=='dark' ? 'white' : bgColorMain}
+                color={themeCheck=='bright' ? 'white' : bgColorMain}
                 style={{marginRight: 6}}
               />
             ),
           )}
         </View>
         <Text
-          color={themeCheck=='dark' ? 'white' : bgColorMain}
+          color={themeCheck=='bright' ? 'white' : bgColorMain}
           fontWeight={'bold'}
           textAlign={'center'}
           width={'full'}>
