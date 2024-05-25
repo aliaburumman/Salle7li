@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import {
   bgColorMain,
+  empty,
   profilePicture,
   salle7liLogo,
 } from '../getStarted/started.tsx';
@@ -70,7 +71,7 @@ function Profile({navigation}: any) {
               borderWidth={2}
               borderColor={'black'}>
               <Image
-                source={profilePicture}
+                source={user==4?profilePicture:empty}
                 width={'100%'}
                 height={'100%'}
                 resizeMode={'cover'}

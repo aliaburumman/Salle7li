@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {useAppSelector} from '../../app/hooks';
 import {bgColorMain, salle7liLogo} from '../getStarted/started';
-import {useVerifyOtpMutation} from '../../data/auth/auth';
+import {useResendOtpMutation, useVerifyOtpMutation} from '../../data/auth/auth';
 import { navigate } from '../../../AppLoader';
 import { useDispatch } from 'react-redux';
 import { login, logout, setGender, setTokens } from '../../app/slices/slice';
@@ -21,15 +21,6 @@ const VerifyOtp = ({navigation, route}: any) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    let timer: any;
-    if (errorMessage) {
-      timer = setTimeout(() => {
-        setErrorMessage('');
-      }, 5000);
-    }
-    return () => clearTimeout(timer);
-  }, [errorMessage]);
-  useEffect(() => {
     if (reset) {
       setRemainingTime(35);
       setReset(false);
@@ -42,10 +33,19 @@ const VerifyOtp = ({navigation, route}: any) => {
         return prev - 1;
       });
     }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
+    return () => clearInterval(timer);
   }, [reset]);
+
+  const handleResendOtp = async () => {
+    try {
+      const response = await resendOtp({ Email: customerEmail }).unwrap();
+      console.log('OTP resent successfully:', response);
+      setReset(true); 
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+      showError(error);
+    }
+  };
 
   const showError = (error: unknown) => {
     let message = 'An unexpected error occurred';
@@ -70,6 +70,7 @@ const VerifyOtp = ({navigation, route}: any) => {
 
   const themeCheck = useAppSelector(state => state.user.theme);
   const [verifyOtp] = useVerifyOtpMutation();
+const [resendOtp]=useResendOtpMutation();
 
   const dispatch =useDispatch();
 
@@ -95,7 +96,7 @@ const VerifyOtp = ({navigation, route}: any) => {
           navigateToHome();
           }
           else{
-            dispatch(logout())
+            
             navigateToResetPassword(customerEmail);
           }
         }
@@ -147,6 +148,16 @@ const VerifyOtp = ({navigation, route}: any) => {
               Verify OTP
             </Button>
           </View>
+          {remainingTime>0&&<Text alignSelf={'center'} color={themeCheck=='dark'?'white':bgColorMain}>{`Time remaining: ${remainingTime} seconds`}</Text>}
+          <Button
+          marginTop={'5'}
+
+          bgColor={'blue.400'}
+          onPress={handleResendOtp}
+          isDisabled={remainingTime > 0}
+        >
+          Resend OTP
+        </Button>
         </View>
       </View>
       {errorMessage && (

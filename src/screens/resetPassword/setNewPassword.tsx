@@ -9,10 +9,12 @@ import { useTranslation } from 'react-i18next';
 import Loading from '../../components/Loading/Loading';
 import { useResetPasswordbeforeLoginMutation } from '../../data/auth/auth';
 import { ResetPasswordRequest, validationSchemaForResetPassword } from '../login/type/changePassword';
+import { logout } from '../../app/slices/slice';
+import { useAppDispatch } from '../../app/hooks';
 
 const SetNewPassword = ({navigation,route}:any) => {
   const {email}= route.params;
-  console.log("abood ", email);
+const dispatch=useAppDispatch();
 
     const {t} = useTranslation();
   const [resetPass] = useResetPasswordbeforeLoginMutation();
@@ -69,6 +71,7 @@ const SetNewPassword = ({navigation,route}:any) => {
                 }).unwrap();
     
                 if (response && response.success) {
+                  dispatch(logout())
                   navigation.navigate("Login")
                 } else {
                   console.error('Mutation unsuccessful');
@@ -106,18 +109,10 @@ const SetNewPassword = ({navigation,route}:any) => {
                         color: 'white',
                         fontSize: 25,
                       }}>
-                      {t('login:title')}
+                      {t('Set your new password')}
                     </Text>
     
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        marginBottom: 30,
-                        marginTop: 30,
-                        color: 'white',
-                      }}>
-                      {t('login:description')}
-                    </Text>
+                  
                   </View>
                   <PasswordInput
                     handleChange={value => handleChange('password')(value)}
@@ -148,7 +143,7 @@ const SetNewPassword = ({navigation,route}:any) => {
                           color: 'darkblue',
                           fontSize: 18,
                         }}>
-                        {t('bext')}
+                        {t('submit')}
                       </Text>
                     </Pressable>
                   </View>

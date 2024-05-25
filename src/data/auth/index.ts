@@ -32,6 +32,11 @@ export interface ISendOTPResponse {
     Otp: string;
     Email: string;
   }
+
+  export interface IResendOTPData {
+    
+    Email: string;
+  }
   
   export interface ISignUpData {
     Email: string;

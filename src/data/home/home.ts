@@ -1,21 +1,17 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { IGetEditUser, IGetEditUserResponse, IGetWorkerResponse, } from './index';
+import { ICreateOrder, IGetCheckPromoCodeResponse, IGetEditUser, IGetEditUserResponse, IGetWorkerResponse, } from './index';
 import customFetchBase from '../middleware';
 
 export const HomeApi = createApi({
   baseQuery: customFetchBase,
   reducerPath: 'homeApi',
-  tagTypes: ['home'],
+  tagTypes: ['home','order'],
   endpoints: builder => ({
     getWorkers: builder.query<IGetWorkerResponse,void>({
       query: () => `/GetWorkers`,
       providesTags: ['home'],
     }),
 
-    getWorkersByTime: builder.query<IGetWorkerResponse,{start:string,end:string}>({
-      query: (query) => `/GetWorker/${query.start}&${query.end}`,
-      providesTags: ['home'],
-    }),
 
     getWorker: builder.query<IGetWorkerResponse,{workerId:number}>({
       query: (query) => `/GetWorker/${query.workerId}`,
@@ -30,6 +26,22 @@ export const HomeApi = createApi({
       }),
       invalidatesTags: ['home'],
     }),
+    createOrder:builder.mutation<IGetEditUserResponse, ICreateOrder>({
+      query: body => ({
+        url: '/OrderEF/CreateOrder',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['order'],
+    }),
+
+    checkPromoCode:builder.mutation<IGetCheckPromoCodeResponse, {promoCode:string}>({
+      query: body => ({
+        url: `/OrderEF/CheckPromoCode/${body.promoCode}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['order'],
+    }),
 
     
   }),
@@ -37,7 +49,8 @@ export const HomeApi = createApi({
 
 export const {
   useGetWorkersQuery,
-  useGetWorkersByTimeQuery,
   useGetWorkerQuery,
+  useCheckPromoCodeMutation,
+  useCreateOrderMutation,
   useUpdateProfileMutation,
 } = HomeApi;

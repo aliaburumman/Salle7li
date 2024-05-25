@@ -89,6 +89,7 @@ const Register = ({navigation}: any) => {
           } catch (error: unknown) {
             // console.error('Error:', error);
             showError(error);
+            setIsChecked(false);
           } finally {
             setIsLoadinggg(false);
             setSubmitting(false);
@@ -222,13 +223,13 @@ const Register = ({navigation}: any) => {
                 }}>
                 <Stack direction="row" alignSelf={'center'} space={4}>
                   <Radio value="male" colorScheme={'darkBlue'} my={1}>
-                    <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
+                    <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
                       {' '}
                       {t('male')}{' '}
                     </Text>
                   </Radio>
                   <Radio value="female" colorScheme={'pink'} my={1}>
-                    <Text style={{color: !themeCheck ? 'white' : bgColorMain}}>
+                    <Text style={{color: themeCheck=='dark' ? 'white' : bgColorMain}}>
                       {' '}
                       {t('female')}
                     </Text>
@@ -243,7 +244,7 @@ const Register = ({navigation}: any) => {
                 accessibilityLabel="Agreement"
                 colorScheme="danger"
                 onChange={() => setIsChecked(!checked)}>
-                <Text> {t('signup:checkBox')} </Text>
+                <Text style={{color:themeCheck=='dark'?'white':bgColorMain}}> {t('signup:checkBox')} </Text>
               </Checkbox>
             </HStack>
 

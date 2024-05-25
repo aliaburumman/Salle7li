@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppLanguage } from '../../constants/storageKeys';
 export const salle7liLogo = require('../../assets/Salle7liLogo.png');
 export const jordanFlag = require('../../assets/jordanFlag.png');
+export const empty = require('../../assets/empty.png');
 export const homeImage = require('../../assets/Maintenance2.jpg');
 export const electrician = require('../../assets/electrician.jpg');
 export const plumber = require('../../assets/plumber.jpg');
@@ -35,7 +36,7 @@ export const ghita = require('../../components/Loading/photos/ghita.jpg');
 export const maria = require('../../components/Loading/photos/maria.jpg');
 export const bgColorMain = '#0b104a';
 
-export const wroker = [tema, maria, ziq, ahmad, abd];
+export const wroker = [ahmad, maria, ziq, tema, abd];
 const Started = ({navigation}: any) => {
   const fadeInAnim = useRef(new Animated.Value(0)).current;
   const fadeOutAnim = useRef(new Animated.Value(1)).current;

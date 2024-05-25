@@ -54,41 +54,107 @@ const OrderService = ({navigation, route}: any) => {
   minSelectableDate.setDate(minSelectableDate.getDate());
   const now = new Date();
   const minSelectableTime = new Date(now);
-  const getCurrentTime = () => {
-    return dayjs().utc().add(13, 'hour');
-  };
+
   minSelectableTime.setHours(now.getHours());
   const {t} = useTranslation();
 
   const themeCheck = useAppSelector(state => state.user.theme);
-  const getCurrentTimeLocal = () => {
-    return dayjs().utc().add(3, 'hour');
+
+  const timeNow = dayjs().utc().add(3, 'hour').format('HH:mm');
+  const eightAM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(8, 'hour')
+    .format('HH:mm');
+  const tenAM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(10, 'hour')
+    .format('HH:mm');
+  const twelvePM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(12, 'hour')
+    .format('HH:mm');
+  const twoPM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(14, 'hour')
+    .format('HH:mm');
+  const fourPM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(16, 'hour')
+    .format('HH:mm');
+  const sixPM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(18, 'hour')
+    .format('HH:mm');
+  const eightPM = dayjs()
+    .utc()
+    .add(3, 'hour')
+    .startOf('day')
+    .add(20, 'hour')
+    .format('HH:mm');
+
+  const disableTimeSlot = (time: String) => {
+    if (
+      dayjs.utc().add(3, 'hour').format('YYYY-MM-DD') ==
+      dayjs(selectedDate).format('YYYY-MM-DD')
+    )
+      if (time == '8To10' || time == '8To12') {
+        if (eightAM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '10To12' || time == '10To14') {
+        if (tenAM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '12To14' || time == '12To16') {
+        if (twelvePM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '14To16' || time == '14To18') {
+        if (twoPM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '16To18' || time == '16To20') {
+        if (fourPM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '18To20' || time == '18To22') {
+        if (sixPM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if (time == '20To22') {
+        if (eightPM > timeNow) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return true;
+      }
   };
-  const disableTimeSlot = timeSlot => {
-    if (!selectedDate) return false;
-
-    const date = dayjs(selectedDate);
-    const today = getCurrentTimeLocal();
-    console.log('today', today);
-    if (!date.isSame(today, 'day')) {
-      return false;
-    }
-
-    const [startHour] = timeSlot.split('-')[0].split(' ');
-    console.log('start', startHour);
-    const slotDateTime = today
-      .hour(parseInt(startHour, 10))
-      .minute(0)
-      .second(0)
-      .millisecond(0);
-    console.log('slot', slotDateTime, '----', slotDateTime.subtract(1, 'hour'));
-
-    return (
-      today.isAfter(slotDateTime) ||
-      today.isAfter(slotDateTime.subtract(1, 'hour'))
-    );
-  };
-
   return (
     <View flex={1} bgColor={themeCheck == 'bright' ? 'white' : bgColorMain}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -101,6 +167,7 @@ const OrderService = ({navigation, route}: any) => {
             },
           }}
           onSubmit={(values, {setSubmitting}) => {
+            console.log(values.availabilityTime);
             navigation.navigate('chooseWorker', {values: values}),
               setSubmitting(false);
           }}
@@ -178,7 +245,7 @@ const OrderService = ({navigation, route}: any) => {
                         ? dayjs(selectedDate).toISOString()
                         : null;
                       if (dateValue) {
-                        setFieldValue('date', dateValue); 
+                        setFieldValue('date', dateValue);
                         setSelectedDate(dateValue);
                       }
                       closePickerDate();
@@ -234,8 +301,8 @@ const OrderService = ({navigation, route}: any) => {
                       }}>
                       <Stack direction="row" alignSelf={'center'} space={4}>
                         <Radio
-                          value="8AM-10AM"
-                          isDisabled={disableTimeSlot('8AM-10PM')}
+                          value="8To10"
+                          isDisabled={disableTimeSlot('8To10')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -246,8 +313,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="10AM-12PM"
-                          isDisabled={disableTimeSlot('10AM-12PM')}
+                          value="10To12"
+                          isDisabled={disableTimeSlot('10To12')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -258,8 +325,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="12PM-2PM"
-                          isDisabled={disableTimeSlot('12PM-2PM')}
+                          value="12To2"
+                          isDisabled={disableTimeSlot('12To2')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -272,8 +339,8 @@ const OrderService = ({navigation, route}: any) => {
                       </Stack>
                       <Stack direction="row" alignSelf={'center'} space={4}>
                         <Radio
-                          value="2PM-4PM"
-                          isDisabled={disableTimeSlot('2PM-4PM')}
+                          value="14To16"
+                          isDisabled={disableTimeSlot('14To16')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -284,8 +351,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="4PM-6PM"
-                          isDisabled={disableTimeSlot('4PM-6PM')}
+                          value="16To18"
+                          isDisabled={disableTimeSlot('16To18')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -296,8 +363,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="6PM-8PM"
-                          isDisabled={disableTimeSlot('6PM-8PM')}
+                          value="18To20"
+                          isDisabled={disableTimeSlot('18To20')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -310,8 +377,8 @@ const OrderService = ({navigation, route}: any) => {
                       </Stack>
                       <Stack direction="row" alignSelf={'center'} space={4}>
                         <Radio
-                          value="8PM-10PM"
-                          isDisabled={disableTimeSlot('8PM-10PM')}
+                          value="20To22"
+                          isDisabled={disableTimeSlot('20To22')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -334,8 +401,8 @@ const OrderService = ({navigation, route}: any) => {
                       }}>
                       <Stack direction="row" alignSelf={'center'} space={4}>
                         <Radio
-                          value="8AM-12PM"
-                          isDisabled={disableTimeSlot('8AM-12PM')}
+                          value="8To12"
+                          isDisabled={disableTimeSlot('8To12')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -346,8 +413,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="12PM-4PM"
-                          isDisabled={disableTimeSlot('12PM-4PM')}
+                          value="12To16"
+                          isDisabled={disableTimeSlot('12To16')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -358,8 +425,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="4PM-8PM"
-                          isDisabled={disableTimeSlot('4PM-8PM')}
+                          value="16To20"
+                          isDisabled={disableTimeSlot('16To20')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -372,8 +439,8 @@ const OrderService = ({navigation, route}: any) => {
                       </Stack>
                       <Stack direction="row" alignSelf={'center'} space={4}>
                         <Radio
-                          value="10AM-2PM"
-                          isDisabled={disableTimeSlot('10AM-2PM')}
+                          value="10To14"
+                          isDisabled={disableTimeSlot('10To14')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -384,8 +451,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="2PM-6PM"
-                          isDisabled={disableTimeSlot('2PM-6PM')}
+                          value="14To18"
+                          isDisabled={disableTimeSlot('14To18')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -396,8 +463,8 @@ const OrderService = ({navigation, route}: any) => {
                           </Text>
                         </Radio>
                         <Radio
-                          value="6PM-10PM"
-                          isDisabled={disableTimeSlot('6PM-10PM')}
+                          value="18To22"
+                          isDisabled={disableTimeSlot('18To22')}
                           colorScheme={'darkBlue'}
                           my={4}>
                           <Text
@@ -410,6 +477,11 @@ const OrderService = ({navigation, route}: any) => {
                       </Stack>
                     </Radio.Group>
                   )}
+                  {errors.availabilityTime && (
+                  <Text color={'red.500'} alignSelf={'center'}>
+                    {errors?. availabilityTime}
+                  </Text>
+                )}
                 </View>
               )}
               <View>

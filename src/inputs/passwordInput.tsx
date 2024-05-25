@@ -48,7 +48,7 @@ const themeCheck = useAppSelector(state=>state.user.theme) || 'dark';
         }}
         style={{ position: "relative", bottom: 38,  zIndex: 10}}
       >
-        <Icon name={!visible?"eye":"eye-off"} color={themeCheck=='bright'?bgColorMain:'white'} size={25}/>
+        <Icon name={!visible?"eye":"eye-off"} color={themeCheck=='dark'?bgColorMain:'white'} size={25}/>
       </Pressable>
       </View>
       </View>

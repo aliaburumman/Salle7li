@@ -12,12 +12,14 @@ import {Image} from 'native-base';
 import Loading from '../../components/Loading/Loading';
 import { useSendOtpForResetPasswordMutation } from '../../data/auth/auth';
 import { t } from 'i18next';
+import { useGetUserProfileQuery } from '../../data/profile/profile';
 
 const ChangePassword = ({navigation}: any) => {
   const themeCheck = useAppSelector(state => state.user.theme);
+  const user = useAppSelector(state=>state.user.userId);
   const [sendOtp] = useSendOtpForResetPasswordMutation();
   const [errorMessage, setErrorMessage] = useState('');
-
+ const {data , isLoading:userDataLoading }=useGetUserProfileQuery({userId:user});
 
 
   const showError = (error: unknown) => {
@@ -36,7 +38,7 @@ const ChangePassword = ({navigation}: any) => {
 
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  if (isLoading) {
+  if (isLoading || userDataLoading) {
     return <Loading />;
   }
   return (
@@ -53,6 +55,7 @@ const ChangePassword = ({navigation}: any) => {
       <Formik
         initialValues={initialEmailForChangePassword}
         onSubmit={async (values, {setSubmitting, setErrors}) => {
+          if(values.email==data.email){
           try {
             setIsLoading(true);
             console.log("values",values.email)
@@ -76,18 +79,24 @@ const ChangePassword = ({navigation}: any) => {
             setSubmitting(false);
             console.log('Submit finished');
           }
-        }}
+        } else{
+          showError("The inserted email is not the same as the user email");
+        }
+      }
+      }
         validateOnChange={false}
         validationSchema={validationSchemaForChangePassword}>
         {({handleChange, handleBlur, handleSubmit, values, errors}) => (
           <View alignContent={'center'}>
+            <View alignSelf={'center'}>
             <TextModifiedInput
               handleChange={values => {
                 handleChange('email')(values);
               }}
               error={errors.email}
-              width={410}
+              width={280}
             />
+            </View>
             <Button
               width={'2/6'}
               alignSelf={'center'}

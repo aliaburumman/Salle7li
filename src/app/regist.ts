@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {userSlice} from './slices/slice';
 import { HomeApi } from '../data/home/home';
+import { WorkerApi } from '../screens/reservation/workerTime';
 
 const createDebugger = require('redux-flipper').default;
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   [AuthApi.reducerPath]: AuthApi.reducer,
   [HomeApi.reducerPath]: HomeApi.reducer,
   [ProfileApi.reducerPath]: ProfileApi.reducer,
+  [WorkerApi.reducerPath]: WorkerApi.reducer,
 });
 
 const persistConfig = {
@@ -37,10 +39,10 @@ const regist = configureStore({
     __DEV__
       ? getDefaultMiddleware({
           serializableCheck: false,
-        }).concat([AuthApi.middleware, ProfileApi.middleware,HomeApi.middleware, createDebugger()])
+        }).concat([AuthApi.middleware, ProfileApi.middleware,HomeApi.middleware,WorkerApi.middleware, createDebugger()])
       : getDefaultMiddleware({
           serializableCheck: false,
-        }).concat([AuthApi.middleware, ProfileApi.middleware,HomeApi.middleware]),
+        }).concat([AuthApi.middleware, ProfileApi.middleware,HomeApi.middleware,WorkerApi.middleware]),
 });
 
 export default regist;

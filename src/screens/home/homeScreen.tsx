@@ -31,6 +31,7 @@ import {useAppSelector} from '../../app/hooks.ts';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
 import {useGetWorkersQuery} from '../../data/home/home.ts';
 import {IGetWorkerResponse} from '../../data/home/index.ts';
+import Loading from '../../components/Loading/Loading.tsx';
 
 const HomeScreen = ({navigation}: any) => {
   const {data, isLoading} = useGetWorkersQuery();
@@ -75,6 +76,11 @@ const HomeScreen = ({navigation}: any) => {
       }
     };
   }, []);
+
+  if(isLoading)
+    {
+      return <Loading/>;
+    }
 
   return (
     <View bgColor={themeCheck == 'dark' ? bgColorMain : 'white'} flex={1}>
@@ -184,11 +190,13 @@ const HomeScreen = ({navigation}: any) => {
               flexDirection={'row'}
               paddingLeft={'1.5'}
               paddingRight={'1.5'}>
-              <Text color={themeCheck=='bright' ? bgColorMain : 'white'} fontSize={'2xl'}>
+              <Text
+                color={themeCheck == 'bright' ? bgColorMain : 'white'}
+                fontSize={'2xl'}>
                 {t('topWorker')}
               </Text>
               <View
-                bgColor={themeCheck=='bright' ? bgColorMain : 'white'}
+                bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
                 height={'1'}
                 flex={1}
                 alignSelf={'center'}
@@ -199,10 +207,11 @@ const HomeScreen = ({navigation}: any) => {
             <View flexDirection={'row'} marginTop={'5'}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {data &&
-                  data.map((worker: any, index) => (
+                  data.$values &&
+                  data.$values.map((worker: any, index) => (
                     <Button
                       key={worker?.id}
-                      bgColor={themeCheck=='dark' ? bgColorMain : 'white'}
+                      bgColor={themeCheck == 'dark' ? bgColorMain : 'white'}
                       onPress={() => {
                         setIsDialogForWorker1(true);
                         setActiveWorker(worker);
