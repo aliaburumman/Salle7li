@@ -16,7 +16,7 @@ import PersonalInformation from './src/screens/profile/personalInformation';
 import ApplyToBeWorker from './src/screens/profile/applyToBeWorker';
 import Login from './src/screens/login/login';
 import Register from './src/screens/register/register';
-import { ZohoSalesIQ } from 'react-native-zohosalesiq-mobilisten';
+import {ZohoSalesIQ} from 'react-native-zohosalesiq-mobilisten';
 import {useCallback, useEffect} from 'react';
 import VerifyOtp from './src/screens/otp/verifyOtp';
 import {
@@ -24,22 +24,28 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import UpdateInformation from './src/screens/profile/updateInformation';
-import { AppLanguage, ZohoAndroidAccessKey, ZohoAppKey, ZohoIOSAccessKey } from './src/constants/storageKeys';
-import { I18nManager, Platform } from 'react-native';
+import {
+  AppLanguage,
+  ZohoAndroidAccessKey,
+  ZohoAppKey,
+  ZohoIOSAccessKey,
+} from './src/constants/storageKeys';
+import {I18nManager, Platform} from 'react-native';
 import ChooseWorker from './src/screens/reservation/chooseWorker';
 import OrderSummary from './src/screens/reservation/orderSummary';
 import SetNewPassword from './src/screens/resetPassword/setNewPassword';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Locale } from './src/data/user';
-import { setLanguage } from './src/app/slices/slice';
-import { t } from 'i18next';
+import {Locale} from './src/data/user';
+import {setLanguage} from './src/app/slices/slice';
+import {t} from 'i18next';
+import ServiceHistory from './src/screens/profile/serviceHistory';
+import OrderConfirmation from './src/screens/reservation/orderConfirmation';
 
 const Tab = createBottomTabNavigator();
 const ProfileStack = createNativeStackNavigator();
 const ReserveStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const AuthStack = createNativeStackNavigator();
-
 
 export const navigationRef = createNavigationContainerRef<ParamListBase>();
 
@@ -72,7 +78,7 @@ const AuthStackScreen = () => (
       options={{headerShown: false}}
     />
 
-<AuthStack.Screen
+    <AuthStack.Screen
       name="setNewPassword"
       component={SetNewPassword}
       options={{headerShown: false}}
@@ -110,13 +116,13 @@ const ProfileStackScreen = () => (
       options={{headerShown: true, title: t('profile:changePass')}}
     />
 
-<ProfileStack.Screen
+    <ProfileStack.Screen
       name="OTP"
       component={VerifyOtp}
       options={{headerShown: true, title: t('otp')}}
     />
 
-<ProfileStack.Screen
+    <ProfileStack.Screen
       name="setNewPassword"
       component={SetNewPassword}
       options={{headerShown: true, title: t('newPass')}}
@@ -138,6 +144,11 @@ const ProfileStackScreen = () => (
       component={ApplyToBeWorker}
       options={{headerShown: true, title: t('profile:applyWorker')}}
     />
+    <ProfileStack.Screen
+      name="ServiceHistory"
+      component={ServiceHistory}
+      options={{headerShown: true, title: t('profile:serviceHistory')}}
+    />
     {/* Add more screens to Profile stack as needed */}
   </ProfileStack.Navigator>
 );
@@ -155,17 +166,25 @@ const ReserveStackScreen = () => (
       options={{headerShown: false}}
     />
 
-<ReserveStack.Screen
+    <ReserveStack.Screen
       name="chooseWorker"
       component={ChooseWorker}
       options={{headerShown: false}}
     />
 
-<ReserveStack.Screen
+    <ReserveStack.Screen
       name="orderSummary"
       component={OrderSummary}
       options={{headerShown: false}}
     />
+
+<ReserveStack.Screen
+      name="OrderConfirmation"
+      component={OrderConfirmation}
+      options={{headerShown: false}}
+    />
+    
+    
   </ReserveStack.Navigator>
 );
 
@@ -203,11 +222,13 @@ const MainStackScreen = () => {
             <Icon
               name={iconName ? iconName : ''}
               size={size}
-              color={LightModeCheck=='dark' ? bgColorMain : color}
+              color={LightModeCheck == 'dark' ? bgColorMain : color}
             />
           );
         },
-        tabBarStyle: {backgroundColor: LightModeCheck=='bright' ? bgColorMain : 'white'},
+        tabBarStyle: {
+          backgroundColor: LightModeCheck == 'bright' ? bgColorMain : 'white',
+        },
       })}>
       <Tab.Screen
         name="Home"
@@ -215,7 +236,8 @@ const MainStackScreen = () => {
         options={{
           headerShown: false,
           title: t('common:home'),
-          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
+          tabBarActiveTintColor:
+            LightModeCheck == 'bright' ? 'white' : bgColorMain,
         }}
       />
       <Tab.Screen
@@ -224,7 +246,8 @@ const MainStackScreen = () => {
         options={{
           headerShown: false,
           title: t('common:reserve'),
-          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
+          tabBarActiveTintColor:
+            LightModeCheck == 'bright' ? 'white' : bgColorMain,
         }}
       />
       <Tab.Screen
@@ -232,58 +255,59 @@ const MainStackScreen = () => {
         component={ProfileStackScreen}
         options={{
           headerShown: false,
-          title:  t('common:profile'),
-          tabBarActiveTintColor: LightModeCheck=='bright' ? 'white' : bgColorMain,
+          title: t('common:profile'),
+          tabBarActiveTintColor:
+            LightModeCheck == 'bright' ? 'white' : bgColorMain,
         }}
       />
     </Tab.Navigator>
   );
 };
 
-
-
-
 const AppLoader = () => {
   const Language = useAppSelector(state => state.user.language);
-  const userToken=useAppSelector(state =>state.user.token);
-const dispatch=useAppDispatch();
+  const userToken = useAppSelector(state => state.user.token);
+  const dispatch = useAppDispatch();
   const getLang = useCallback(async () => {
     let lang = await AsyncStorage.getItem(AppLanguage);
     if (lang != null) {
-        i18n.changeLanguage(lang).then();
-        if (lang === 'en') {
-            I18nManager.forceRTL(false);
-        }
-
-        dispatch(setLanguage(lang as Locale));
-    } else {
-        i18n.changeLanguage('en').then();
-    }
-}, [dispatch]);
-
-
-useEffect(() => {
-  getLang().then();
-}, [getLang]);
-
-const initializeZoho = () => {
-  ZohoSalesIQ.setThemeColorforiOS('red');
-  ZohoSalesIQ.initWithCallback(ZohoAppKey, Platform.OS === 'ios' ? ZohoIOSAccessKey : ZohoAndroidAccessKey, (success) => {
-    console.log("aloooooooo",success)
-      if (success) {
-          ZohoSalesIQ.setLauncherVisibility(true);
-          ZohoSalesIQ.setLanguage(Language);
+      i18n.changeLanguage(lang).then();
+      if (lang === 'en') {
+        I18nManager.forceRTL(false);
       }
-  });
-}
 
+      dispatch(setLanguage(lang as Locale));
+    } else {
+      i18n.changeLanguage('en').then();
+    }
+  }, [dispatch]);
 
-useEffect(() => {
-  setTimeout(() => {
-      initializeZoho()
-  }, 3000)
-}, [Language]);
-  
+  useEffect(() => {
+    getLang().then();
+  }, [getLang]);
+
+  const initializeZoho = () => {
+    ZohoSalesIQ.setThemeColorforiOS('red');
+    ZohoSalesIQ.initWithCallback(
+      ZohoAppKey,
+      Platform.OS === 'ios' ? ZohoIOSAccessKey : ZohoAndroidAccessKey,
+      success => {
+        console.log('checkZoho', success);
+        if (success) {
+          console.log('trueZoho', success);
+          ZohoSalesIQ.setLauncherVisibility(true);
+          ZohoSalesIQ.Launcher.show(ZohoSalesIQ.Launcher.VisibilityMode.ALWAYS);
+          ZohoSalesIQ.setLanguage(Language);
+        }
+      },
+    );
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      initializeZoho();
+    }, 3000);
+  }, [Language]);
 
   return <>{userToken ? <MainStackScreen /> : <AuthStackScreen />}</>;
 };

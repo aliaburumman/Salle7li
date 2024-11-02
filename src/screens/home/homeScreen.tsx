@@ -18,6 +18,7 @@ import {
   homeImage,
   plumber,
   salle7liLogo,
+  w0rker,
   wroker,
 } from '../getStarted/started';
 import {ImageBackground} from 'react-native';
@@ -29,12 +30,14 @@ import {useTranslation} from 'react-i18next';
 import '../../i18n/i18n.ts';
 import {useAppSelector} from '../../app/hooks.ts';
 import AlertDialogComponent from '../../components/alertDialog.tsx';
-import {useGetWorkersQuery} from '../../data/home/home.ts';
+import {useGetFiveStarsWorkersQuery} from '../../data/home/home.ts';
 import {IGetWorkerResponse} from '../../data/home/index.ts';
 import Loading from '../../components/Loading/Loading.tsx';
+import EmptyView from '../../components/emptyView/index.tsx';
+import RateWorker from '../../components/RateWorker/rateWorker.tsx';
 
 const HomeScreen = ({navigation}: any) => {
-  const {data, isLoading} = useGetWorkersQuery();
+  const {data, isLoading} = useGetFiveStarsWorkersQuery();
   const themeCheck = useAppSelector(state => state.user.theme);
   const [isAlertDialogPlumberVisible, setAlertIsDialogPlumberVisible] =
     useState(false);
@@ -77,10 +80,9 @@ const HomeScreen = ({navigation}: any) => {
     };
   }, []);
 
-  if(isLoading)
-    {
-      return <Loading/>;
-    }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <View bgColor={themeCheck == 'dark' ? bgColorMain : 'white'} flex={1}>
@@ -218,12 +220,39 @@ const HomeScreen = ({navigation}: any) => {
                       }}>
                       <CardComp
                         text={worker?.firstName}
-                        imageSrc={wroker[index % wroker.length]}
+                        imageSrc={
+                          worker?.gender == 'male'
+                            ? wroker[index % wroker.length]
+                            : w0rker[index % w0rker.length]
+                        }
                         rating={worker?.rating}
                       />
                     </Button>
                   ))}
               </ScrollView>
+            </View>
+          </View>
+          <View marginTop={'10'} justifyContent={'space-evenly'}>
+            <View
+              flexDirection={'row'}
+              paddingLeft={'1.5'}
+              paddingRight={'1.5'}>
+              <Text
+                color={themeCheck == 'bright' ? bgColorMain : 'white'}
+                fontSize={'2xl'}>
+                {t('packageOffers')}
+              </Text>
+              <View
+                bgColor={themeCheck == 'bright' ? bgColorMain : 'white'}
+                height={'1'}
+                flex={1}
+                alignSelf={'center'}
+                marginLeft={'2'}
+                borderRadius={'full'}
+              />
+            </View>
+            <View flexDirection={'row'} marginTop={'5'}>
+              <EmptyView description={t('noPackageOffers')} />
             </View>
           </View>
         </View>
@@ -277,11 +306,14 @@ const HomeScreen = ({navigation}: any) => {
         title={activeWorker ? activeWorker.firstName : 'Worker'}
         bodyTitle={
           activeWorker
-            ? `Description: ${activeWorker.description}`
-            : 'No description'
+            ? `${activeWorker.jobTitle} \n ${activeWorker.city}\n`
+            : 'No description available'
         }
-        rating={activeWorker ? `Rating: ${activeWorker.rating}` : 'No rating'}
+        rating={activeWorker ? `${t("rating")}: ${activeWorker.rating}` : 'No rating'}
       />
+      {Boolean(false) && (
+        <RateWorker />
+      )}
     </View>
   );
 };

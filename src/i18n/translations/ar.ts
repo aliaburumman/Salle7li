@@ -51,6 +51,13 @@ const ar: typeof en = {
         chooseCity:'اختر المنطقة',
         submitChange:'تأكيد التغييرات',
         yes:'نعم',
+        noPackageOffers: "لا يوجد اي عروض على الحزم",
+        packageOffers: 'عروض الباقات',
+        rating :"تقييم",
+        rateWorker:'قيم العامل على اخر طلب لك',
+        question:"كيف كان العامل؟",
+        askForRating:"الرجاء التقييم",
+
     },
     login: {
         title: 'تسجيل الدخول',

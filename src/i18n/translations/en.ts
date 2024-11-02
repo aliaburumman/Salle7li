@@ -48,6 +48,13 @@ const en = {
       selectOpt:'Select An Option',
       chooseCity:'Choose a City',
       submitChange:'Submit Changes',
+      noPackageOffers: "You don't have any package offers",
+      packageOffers: 'Package Offers',
+      rating :"Rating",
+      rateWorker:'Rate Your Worker on the Latest Order',
+      question:"How was your Worker?",
+      askForRating:"Please Rate",
+
       yes:'Yes',
     },
     login: {
@@ -77,10 +84,10 @@ const en = {
     },
     order:{
       title:'Order Service',
-      selectService:'Service',
-      selectDuration:'Duration',
+      selectService:'Service:',
+      selectDuration:'Duration:',
       selectTime:'Availability Time:',
-      selectDate:'Date',
+      selectDate:'Date:',
       selectWorker:'Worker Gender:',
       selectPayement:'Payment Method:',
       cardOpt:'Visa Card Details:',

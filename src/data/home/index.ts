@@ -14,6 +14,14 @@ export interface IGetWorkerResponse {
     endTime:string;
 
 }
+
+export interface IGETOrderHistoryResponse {
+    [x: string]: any;
+    serviceType:string;
+    dateOfService: string;
+    worker_id?:number;
+    user_id?:number;
+}
 export interface IGetEditUser {
     id?: string
     firstName: string;
@@ -34,9 +42,10 @@ export interface ICreateOrder {
     availability_18_20:boolean;
     availability_20_22:boolean;
     promoCode: string;
-    worker_id:number;
-    user_id:number;
+    worker_id?:number;
+    user_id?:number;
     amount:number;
+    isCompleted:boolean;
 
 }
 

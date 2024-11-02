@@ -36,7 +36,8 @@ export const ghita = require('../../components/Loading/photos/ghita.jpg');
 export const maria = require('../../components/Loading/photos/maria.jpg');
 export const bgColorMain = '#0b104a';
 
-export const wroker = [ahmad, maria, ziq, tema, abd];
+export const wroker = [ahmad,waleed, ziq,brother, abd];
+export const w0rker= [maria,rania,ghita,tema]
 const Started = ({navigation}: any) => {
   const fadeInAnim = useRef(new Animated.Value(0)).current;
   const fadeOutAnim = useRef(new Animated.Value(1)).current;

@@ -109,14 +109,15 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
     implementation ('com.google.android.gms:play-services-location:21.0.1')
- implementation project(':react-native-zohosalesiq-mobilisten')
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
     }
 }
-
+dependencies {
+implementation 'com.zoho.salesiq:mobilisten:7.1.1'
+}
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
